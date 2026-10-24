@@ -1,0 +1,271 @@
+/* Personal counterparties — aligned with project Counterparties */
+
+.cp-page {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.cp-header {
+  margin-bottom: 14px;
+}
+
+.cp-header h2 {
+  margin: 0 0 4px;
+}
+
+.cp-alert {
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin-bottom: 12px;
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+
+.cp-alert--amber {
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  color: #92400e;
+}
+
+.cp-alert--emerald {
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  color: #065f46;
+}
+
+.cp-alert--info {
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  color: #1e40af;
+}
+
+.cp-search {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.cp-search input {
+  flex: 1;
+  min-width: 200px;
+  min-height: 40px;
+  border: 1px solid var(--border, #e5e7eb);
+  border-radius: 10px;
+  padding: 8px 12px;
+  font: inherit;
+}
+
+.cp-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.cp-actions {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+  margin-bottom: 14px;
+}
+
+.cp-actions .btn-primary,
+.cp-actions .btn-secondary,
+.cp-actions .cp-action-link {
+  flex: 0 0 auto;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cp-action-link {
+  border-radius: 10px;
+  padding: 10px 14px;
+  border: 1px solid #c7d2fe;
+  background: #eef2ff;
+  color: #3730a3;
+  font-weight: 700;
+  text-decoration: none;
+  font: inherit;
+}
+
+.cp-count {
+  font-size: 0.78rem;
+  color: #6b7280;
+  margin-bottom: 8px;
+}
+
+.cp-cards {
+  display: none;
+}
+
+.cp-table-wrap {
+  overflow-x: auto;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.cp-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 760px;
+}
+
+.cp-table th,
+.cp-table td {
+  border-bottom: 1px solid #eee;
+  padding: 10px 12px;
+  text-align: right;
+  vertical-align: top;
+  font-size: 0.9rem;
+}
+
+.cp-table thead th {
+  background: #f8fafc;
+  font-weight: 700;
+}
+
+.cp-table tbody tr:hover {
+  background: #f9fafb;
+}
+
+.cp-name-link {
+  color: #111827;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.cp-name-link:hover {
+  color: #2563eb;
+  text-decoration: underline;
+}
+
+.cp-balance-line {
+  margin-bottom: 6px;
+}
+
+.cp-balance-line:last-child {
+  margin-bottom: 0;
+}
+
+.cp-balance-line__account {
+  font-size: 0.72rem;
+  color: #475569;
+  margin-bottom: 2px;
+}
+
+.cp-talab {
+  color: #047857;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.cp-baqi {
+  color: #be123c;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.cp-settled {
+  color: #64748b;
+  font-size: 0.78rem;
+}
+
+.cp-row-actions {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.cp-icon-btn {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  border: 1px solid #93c5fd;
+  background: #eff6ff;
+  color: #1d4ed8;
+  text-decoration: none;
+}
+
+.cp-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: end;
+  margin-bottom: 14px;
+  padding: 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.cp-filters .form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 150px;
+}
+
+.cp-filters label {
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+.cp-filters input,
+.cp-filters select {
+  min-height: 36px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 6px 10px;
+  font: inherit;
+  background-color: #fff;
+}
+
+.cp-filters select {
+  padding-inline-end: 1.75rem;
+}
+
+.cp-summary {
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: #fff;
+  padding: 12px;
+  margin-bottom: 14px;
+  display: grid;
+  gap: 10px;
+}
+
+.cp-summary__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 0.88rem;
+}
+
+.cp-details-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: #fff;
+  padding: 14px;
+  margin-bottom: 14px;
+}
+
+.cp-details-grid {
+  display: grid;
+  gap: 8px;
+  font-size: 0.9rem;
+}
+
+.cp-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}

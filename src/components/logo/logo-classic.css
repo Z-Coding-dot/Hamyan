@@ -1,0 +1,241 @@
+/* Archived CSS-accurate logo (from project/public/css/logo.css). */
+
+.ishanch-logo-classic {
+  position: relative;
+  overflow: hidden;
+  direction: ltr;
+}
+
+.ishanch-logo-classic__icon {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  animation: ishanch-logo-classic-display 6s;
+  animation-fill-mode: forwards;
+}
+
+.ishanch-logo-classic[data-loop='true'] .ishanch-logo-classic__icon {
+  animation-iteration-count: infinite;
+}
+
+.ishanch-logo-classic__circle {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: #1463F3;
+  animation: ishanch-logo-classic-circlize 5s;
+  animation-fill-mode: forwards;
+}
+
+.ishanch-logo-classic[data-loop='true'] .ishanch-logo-classic__circle,
+.ishanch-logo-classic[data-loop='true'] .ishanch-logo-classic__first-t,
+.ishanch-logo-classic[data-loop='true'] .ishanch-logo-classic__sec-t,
+.ishanch-logo-classic[data-loop='true'] .ishanch-logo-classic__third-t,
+.ishanch-logo-classic[data-loop='true'] .ishanch-logo-classic__fourth-t,
+.ishanch-logo-classic[data-loop='true'] .ishanch-logo-classic__lineup,
+.ishanch-logo-classic[data-loop='true'] .ishanch-logo-classic__lineright,
+.ishanch-logo-classic[data-loop='true'] .ishanch-logo-classic__linedown {
+  animation-iteration-count: infinite;
+}
+
+@keyframes ishanch-logo-classic-display {
+  0%,
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes ishanch-logo-classic-circlize {
+  0% {
+    border-radius: 0%;
+    transform: scale(0.4);
+  }
+  25% {
+    border-radius: 0%;
+  }
+  50% {
+    border-radius: 0%;
+    border-bottom-right-radius: 25%;
+    border-top-left-radius: 25%;
+    border-bottom-left-radius: 0%;
+    border-top-right-radius: 0%;
+  }
+  75% {
+    border-bottom-right-radius: 25%;
+    border-top-left-radius: 25%;
+    border-bottom-left-radius: 50%;
+    border-top-right-radius: 50%;
+  }
+  100% {
+    border-radius: 50%;
+    transform: scale(1);
+  }
+}
+
+.ishanch-logo-classic__first-t,
+.ishanch-logo-classic__sec-t,
+.ishanch-logo-classic__third-t,
+.ishanch-logo-classic__fourth-t {
+  position: absolute;
+  width: 11.8%;
+  height: 12.1%;
+  background: #fff;
+}
+
+.ishanch-logo-classic__first-t {
+  margin-left: 33.5%;
+  margin-top: 20.3%;
+  animation: ishanch-logo-classic-turn 5s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes ishanch-logo-classic-turn {
+  0% {
+    margin-left: -133.5%;
+  }
+  50% {
+    margin-left: 70.5%;
+  }
+  100% {
+    margin-left: 33.5%;
+  }
+}
+
+.ishanch-logo-classic__sec-t {
+  margin-left: 33.5%;
+  margin-top: 44.6%;
+  animation: ishanch-logo-classic-sec-turn 5s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes ishanch-logo-classic-sec-turn {
+  0% {
+    width: 0.8%;
+    height: 0.1%;
+    transform: rotate(180deg);
+  }
+  100% {
+    width: 11.8%;
+    height: 12.1%;
+    transform: rotate(0deg);
+  }
+}
+
+.ishanch-logo-classic__third-t {
+  margin-left: 33.5%;
+  margin-top: 67%;
+  animation: ishanch-logo-classic-third-turn 5s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes ishanch-logo-classic-third-turn {
+  0% {
+    margin-left: -133.5%;
+  }
+  50% {
+    margin-left: 70.5%;
+  }
+  100% {
+    margin-left: 33.5%;
+  }
+}
+
+.ishanch-logo-classic__fourth-t {
+  margin-left: 65%;
+  margin-top: 44.6%;
+  animation: ishanch-logo-classic-fourth-turn 5s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes ishanch-logo-classic-fourth-turn {
+  0% {
+    margin-left: 165%;
+  }
+  50% {
+    margin-left: 5%;
+  }
+  100% {
+    margin-left: 65%;
+  }
+}
+
+.ishanch-logo-classic__lineup {
+  background: #fff;
+  width: 12.5%;
+  height: 150%;
+  position: absolute;
+  margin-top: -120%;
+  margin-left: 55%;
+  transform: rotate(-26deg);
+  animation: ishanch-logo-classic-goup 5s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes ishanch-logo-classic-goup {
+  0% {
+    margin-top: 0%;
+    transform: rotate(0deg);
+    height: 20%;
+    width: 0.5%;
+  }
+  100% {
+    margin-top: -120%;
+    transform: rotate(-26deg);
+    height: 150%;
+    width: 12.5%;
+  }
+}
+
+.ishanch-logo-classic__lineright {
+  background: #fff;
+  width: 300%;
+  height: 12.5%;
+  position: absolute;
+  margin-top: 44%;
+  margin-right: -100% !important;
+  animation: ishanch-logo-classic-goright 5s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes ishanch-logo-classic-goright {
+  0% {
+    margin-right: 0% !important;
+    width: 100%;
+    height: 0.5%;
+  }
+  100% {
+    margin-right: -100% !important;
+    width: 300%;
+    height: 12.5%;
+  }
+}
+
+.ishanch-logo-classic__linedown {
+  background: #fff;
+  width: 12.5%;
+  height: 200%;
+  position: absolute;
+  margin-bottom: -300%;
+  margin-left: 56%;
+  transform: rotate(16deg);
+  animation: ishanch-logo-classic-godown 5s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes ishanch-logo-classic-godown {
+  0% {
+    margin-bottom: 0%;
+    transform: rotate(0deg);
+    height: 20%;
+    width: 0.5%;
+  }
+  100% {
+    margin-bottom: -300%;
+    transform: rotate(16deg);
+    height: 200%;
+    width: 12.5%;
+  }
+}

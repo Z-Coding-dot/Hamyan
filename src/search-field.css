@@ -1,0 +1,146 @@
+.search-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  margin-bottom: 12px;
+  min-width: 0;
+}
+
+.search-field__label {
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.search-field__control {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 46px;
+  padding: 4px 10px;
+  border: 1px solid #e8d5c4;
+  border-radius: 14px;
+  background: #fffaf5;
+  box-shadow: 0 2px 6px rgba(92, 54, 24, 0.04);
+}
+
+.search-field__control.is-disabled {
+  opacity: 0.65;
+}
+
+.search-field__icon {
+  width: 30px;
+  height: 30px;
+  flex: 0 0 30px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #D7F7FC;
+  color: #0D2B7E;
+  font-size: 0.82rem;
+}
+
+.search-field__clear {
+  width: 28px;
+  height: 28px;
+  flex: 0 0 28px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: #6b7280;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-field__clear:hover {
+  background: rgba(92, 54, 24, 0.08);
+  color: #374151;
+}
+
+.search-field input.search-field__input,
+.form-grid .search-field input.search-field__input,
+.activity-filters .search-field input.search-field__input,
+.items-filters .search-field input.search-field__input,
+.cw-filters .search-field input.search-field__input,
+.cp-search .search-field input.search-field__input,
+.cp-filters .search-field input.search-field__input,
+.warehouse-inventory-filters .search-field input.search-field__input,
+.help-filter .search-field input.search-field__input,
+.quick-sale-field .search-field input.search-field__input,
+.companies-create-form .search-field input.search-field__input {
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  margin: 0;
+  padding: 10px 0;
+  border: 0;
+  border-radius: 0;
+  outline: none;
+  box-shadow: none;
+  background: transparent;
+  font: inherit;
+  font-size: 0.9rem;
+  color: inherit;
+}
+
+.search-field input.search-field__input::placeholder {
+  color: #6b7280;
+}
+
+.search-field input.search-field__input::-webkit-search-decoration,
+.search-field input.search-field__input::-webkit-search-cancel-button,
+.search-field input.search-field__input::-webkit-search-results-button,
+.search-field input.search-field__input::-webkit-search-results-decoration {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.activity-filters .search-field,
+.list-filters .search-field,
+.items-filters .search-field,
+.warehouse-inventory-filters .search-field,
+.cp-search .search-field,
+.cw-filters .search-field,
+.cp-filters .search-field,
+.help-filter .search-field,
+.form-grid .search-field {
+  margin-bottom: 0;
+}
+
+.activity-filters .search-field__label,
+.list-filters .search-field__label,
+.cp-filters .search-field__label {
+  font-weight: 400;
+  color: #4b5563;
+}
+
+.activity-filters .search-field__control,
+.list-filters .search-field__control,
+.items-filters .search-field__control,
+.warehouse-inventory-filters .search-field__control,
+.cp-search .search-field__control,
+.cw-filters .search-field__control,
+.cp-filters .search-field__control {
+  min-height: 40px;
+}
+
+.cp-search .search-field,
+.cp-filters .search-field {
+  flex: 1;
+  min-width: 200px;
+}
+
+.cw-filters .search-field {
+  flex: 1;
+  min-width: 180px;
+}
+
+.warehouse-inventory-filters .search-field {
+  margin: 0;
+  max-width: none;
+}

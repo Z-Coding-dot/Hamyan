@@ -1,0 +1,29 @@
+/* Primary */
+--primary: #1463F3;
+--primary-dark: #0D2B7E;
+--primary-light: #00B9FF;
+
+/* Background */
+--background: #F8FAFC;
+--surface: #FFFFFF;
+--surface-secondary: #EAF3FF;
+
+/* Text */
+--text-primary: #1E293B;
+--text-secondary: #64748B;
+--text-muted: #94A3B8;
+
+/* Financial */
+--income: #22C55E;
+--expense: #EF4444;
+--transfer: #00B9FF;
+--savings: #FBBF24;
+--warning: #F97316;
+
+/* Borders */
+--border: #E2E8F0;
+
+/* Dark Mode */
+--dark-background: #0B1220;
+--dark-surface: #172033;
+--dark-text: #F8FAFC;

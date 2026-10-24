@@ -1,0 +1,24 @@
+import { useTranslation } from 'react-i18next'
+
+import { usePageRefreshStore } from '@/store/usePageRefreshStore'
+
+/** Floating page reload under the header (start side: right in fa/ps, left in en). */
+export function PageRefresh() {
+  const { t } = useTranslation()
+  const onRefresh = usePageRefreshStore((s) => s.onRefresh)
+  const busy = usePageRefreshStore((s) => s.busy)
+
+  if (!onRefresh) return null
+
+  return (
+    <button
+      type="button"
+      className="hy-refresh hy-refresh--float"
+      onClick={onRefresh}
+      disabled={busy}
+      aria-label={t('desktop.refresh')}
+    >
+      <i className={`fa-solid fa-rotate${busy ? ' fa-spin' : ''}`} />
+    </button>
+  )
+}

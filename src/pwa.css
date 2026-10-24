@@ -1,0 +1,83 @@
+.pwa-bar {
+  position: fixed;
+  z-index: 6500;
+  inset-inline: 16px;
+  bottom: calc(16px + env(safe-area-inset-bottom));
+  margin-inline: auto;
+  max-width: 560px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 16px;
+  background: #061b78;
+  color: #fff;
+  box-shadow: 0 16px 40px rgba(6, 27, 120, 0.28);
+}
+
+.pwa-bar__logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: #fff;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.pwa-bar__copy {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.pwa-bar__copy strong {
+  font-size: 0.92rem;
+  font-weight: 800;
+}
+
+.pwa-bar__copy span {
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.pwa-bar__actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.pwa-bar__ghost,
+.pwa-bar__primary {
+  border: 0;
+  border-radius: 10px;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 8px 12px;
+}
+
+.pwa-bar__ghost {
+  background: transparent;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.pwa-bar__primary {
+  background: #13d7ea;
+  color: #061b78;
+}
+
+@media (max-width: 640px) {
+  .pwa-bar {
+    flex-wrap: wrap;
+  }
+
+  .pwa-bar__actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}

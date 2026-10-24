@@ -1,0 +1,351 @@
+/* User companies list — parity with project CompanyList / .list-comps */
+
+.list-comps {
+  margin: 0;
+  border: 1px solid #dddddd;
+  border-radius: 12px;
+  background: #fff;
+  overflow: hidden;
+  padding-bottom: 12px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.list-comps__header {
+  width: 100%;
+  text-align: center;
+  background: #dddddd;
+  padding: 12px 14px;
+  margin-bottom: 10px;
+}
+
+.list-comps__header h5 {
+  margin: 0;
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.list-comps__intro {
+  padding: 0 14px 8px;
+}
+
+.list-comps__intro h6 {
+  margin: 0 0 6px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.list-comps__intro p {
+  margin: 0;
+  font-size: 0.84rem;
+  line-height: 1.55;
+  color: #6b7280;
+}
+
+.list-comps__body {
+  padding: 6px 10px 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+}
+
+.list-comps__status,
+.list-comps__empty {
+  text-align: center;
+  padding: 18px 10px;
+  color: #6b7280;
+}
+
+.list-comps__empty h6 {
+  margin: 0;
+  font-size: 0.92rem;
+}
+
+.list-comps__tab {
+  margin: 0;
+  width: 100%;
+  max-width: 400px;
+}
+
+.list-comps__row {
+  position: relative;
+  width: 100%;
+  min-height: 54px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border: 1px solid #e6e4e3;
+  border-radius: 30px;
+  background: #e6e4e3;
+  color: #111827;
+  cursor: pointer;
+  font: inherit;
+  text-align: start;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.list-comps__row:hover {
+  background: #dbd6d4;
+  border-color: #d4d0ce;
+}
+
+.list-comps__parent-badge {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  max-width: 42%;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  color: #334155;
+  font-size: 0.62rem;
+  font-weight: 700;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.list-comps__parent-badge i {
+  font-size: 0.58rem;
+  color: #64748b;
+  flex-shrink: 0;
+}
+
+.list-comps__logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid #ebebeb;
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  background: #fafafa;
+}
+
+.list-comps__logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+}
+
+.list-comps__logo i {
+  font-size: 1.1rem;
+  color: #4b5563;
+}
+
+.list-comps__icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  font-size: 1.1rem;
+  color: #4b5563;
+  background: #f3f4f6;
+  border: 2px solid #ebebeb;
+}
+
+.list-comps__text {
+  min-width: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.list-comps__text strong {
+  font-size: 0.95rem;
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.list-comps__role {
+  color: #6b7280;
+  font-size: 0.75rem;
+}
+
+.list-comps__chevron {
+  color: #9ca3af;
+  font-size: 0.75rem;
+  flex-shrink: 0;
+}
+
+.page-card--flush {
+  padding: 0;
+  overflow: hidden;
+}
+
+.list-comps__more {
+  margin: 0;
+  padding: 10px 14px 14px;
+  text-align: center;
+  border-top: 1px solid #eeeeee;
+}
+
+/* Companies page */
+.companies-page__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.companies-page__header .btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.companies-page__actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.companies-page__actions .btn-secondary,
+.companies-page__actions .btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.companies-page__list {
+  margin-top: 4px;
+}
+
+.companies-create-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.companies-create-form .form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.companies-create-form .form-field label {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.companies-create-form .form-field input,
+.companies-create-form .form-field select {
+  width: 100%;
+  min-height: 42px;
+  padding: 8px 12px;
+  border: 1px solid var(--border, #e5e7eb);
+  border-radius: 10px;
+  background-color: #fff;
+  font: inherit;
+}
+
+.companies-create-form .form-field select {
+  padding-inline-end: 1.75rem;
+}
+
+.companies-create-form .form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.pharmacy-create-steps {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+}
+
+.pharmacy-create-steps span {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #D5E3F5;
+}
+
+.pharmacy-create-steps span.is-on {
+  background: #1463F3;
+}
+
+.pharmacy-create-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+  border: 1px solid #B9D4F8;
+  border-radius: 16px;
+  background: #F3F7FC;
+}
+
+.pharmacy-create-card label,
+.pharmacy-create-card__title {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #0D2B7E;
+}
+
+.pharmacy-create-card input {
+  width: 100%;
+  min-height: 42px;
+  padding: 8px 12px;
+  border: 1px solid #D5E3F5;
+  border-radius: 10px;
+  background: #fff;
+  font: inherit;
+}
+
+.pharmacy-mode-options {
+  display: grid;
+  gap: 8px;
+}
+
+.pharmacy-mode-option {
+  width: 100%;
+  text-align: right;
+  padding: 12px 14px;
+  border: 1px solid #D5E3F5;
+  border-radius: 12px;
+  background: #fff;
+  color: #1E293B;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.pharmacy-mode-option.is-selected {
+  border-color: #1463F3;
+  background: #E7F1FF;
+  color: #0D2B7E;
+}

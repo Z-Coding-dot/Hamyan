@@ -1,0 +1,23 @@
+User-agent: *
+Allow: /
+Allow: /login
+Allow: /register
+Allow: /help
+Allow: /c/
+
+Disallow: /business/
+Disallow: /wallet
+Disallow: /notifications
+Disallow: /settings
+Disallow: /profile
+Disallow: /companies
+Disallow: /premium
+Disallow: /dashboard
+Disallow: /accounts
+Disallow: /expenses
+Disallow: /expense-analysis
+Disallow: /counterparties
+Disallow: /forgot-password
+Disallow: /reset-password
+
+Sitemap: http://localhost:5177/sitemap.xml

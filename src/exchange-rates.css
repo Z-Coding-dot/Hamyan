@@ -1,0 +1,210 @@
+.xrates-page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.xrates-hero {
+  display: grid;
+  grid-template-columns: minmax(260px, 1fr) minmax(280px, 1fr);
+  gap: 14px;
+}
+
+.xrates-hero__text {
+  border-radius: 28px;
+  padding: 22px;
+  color: #fff;
+  background:
+    radial-gradient(circle at top right, rgba(245, 134, 52, 0.18), transparent 32%),
+    linear-gradient(135deg, #111111 0%, #292929 48%, #4b2c18 100%);
+  box-shadow: 0 20px 60px rgba(17, 17, 17, 0.16);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.xrates-hero__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  font-size: 12px;
+}
+
+.xrates-hero__text h2 {
+  margin: 0;
+  font-size: 28px;
+}
+
+.xrates-hero__text p {
+  margin: 0;
+  opacity: 0.85;
+  line-height: 1.9;
+  max-width: 640px;
+}
+
+.xrate-calculator {
+  border-radius: 28px;
+  border: 1px solid rgba(17, 17, 17, 0.1);
+  background: linear-gradient(180deg, #ffffff 0%, #fff8f2 100%);
+  box-shadow: 0 18px 35px rgba(17, 17, 17, 0.08);
+  padding: 16px;
+}
+
+.xrate-calculator__head h3 {
+  margin: 0 0 4px;
+  font-size: 16px;
+}
+
+.xrate-calculator__dirs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.xrate-calculator__display {
+  border-radius: 16px;
+  background: #111;
+  color: #fff;
+  padding: 12px 14px;
+  margin: 10px 0 12px;
+}
+
+.xrate-calculator__amount {
+  font-size: 1.45rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.xrate-calculator__result {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.xrate-keypad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.xrate-key {
+  border-radius: 14px;
+  border: 1px solid rgba(17, 17, 17, 0.14);
+  background: #fff;
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 10px 0;
+  cursor: pointer;
+}
+
+.xrate-key--accent {
+  background: linear-gradient(135deg, #1463F3 0%, #f2a86f 100%);
+  border-color: rgba(245, 134, 52, 0.7);
+  color: #111;
+}
+
+.xrate-key--wide {
+  grid-column: 1 / -1;
+}
+
+.xrates-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 14px;
+}
+
+.xrate-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  border-radius: 22px;
+  border: 1px solid rgba(17, 17, 17, 0.1);
+  background: linear-gradient(180deg, #ffffff 0%, #fff9f4 100%);
+  box-shadow: 0 16px 34px rgba(17, 17, 17, 0.06);
+  border-top: 5px solid #1463F3;
+  padding: 16px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.xrate-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 36px rgba(17, 17, 17, 0.1);
+  color: inherit;
+}
+
+.xrate-card--detail {
+  cursor: default;
+}
+
+.xrate-card--detail:hover {
+  transform: none;
+}
+
+.xrate-card__top {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.xrate-card__value {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #111;
+  line-height: 1.1;
+}
+
+.xrate-card__badge {
+  height: fit-content;
+  border-radius: 999px;
+  background: rgba(245, 134, 52, 0.12);
+  color: #7f3e13;
+  border: 1px solid rgba(245, 134, 52, 0.3);
+  font-weight: 700;
+  padding: 6px 10px;
+  font-size: 12px;
+}
+
+.xrate-card__samples {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.xrate-card__sample {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  border-radius: 12px;
+  padding: 8px 10px;
+  background: rgba(245, 134, 52, 0.09);
+  border: 1px solid rgba(245, 134, 52, 0.2);
+  font-size: 13px;
+}
+
+.xrate-card__sample strong {
+  color: #7f3e13;
+}
+
+.xrate-card__foot {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(17, 17, 17, 0.08);
+  font-size: 13px;
+}
+
+@media (max-width: 900px) {
+  .xrates-hero {
+    grid-template-columns: 1fr;
+  }
+
+  .xrate-calculator__dirs {
+    grid-template-columns: 1fr;
+  }
+}

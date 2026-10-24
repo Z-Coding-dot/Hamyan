@@ -1,0 +1,101 @@
+.bottom-bar {
+  width: 100%;
+  box-sizing: border-box;
+  border-top: 1px solid #eeeeee;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  box-shadow: 0 -1px 10px #dddddd;
+  backdrop-filter: blur(5px);
+  background-color: rgba(255, 255, 255, 0.82);
+  z-index: 40;
+}
+
+.bottom-bar-nav {
+  max-width: 800px;
+  width: 100%;
+  height: 55px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 5px;
+  margin: 0 auto;
+}
+
+.bottom-link {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  text-decoration: none !important;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #808080;
+  padding: 5px 10px;
+  position: relative;
+  min-width: 64px;
+}
+
+.bottom-link:hover {
+  color: var(--primary-hover);
+}
+
+.bottom-link.active-link {
+  color: var(--primary-hover);
+}
+
+.bottom-link .tab-icon i {
+  font-size: 22px;
+}
+
+.bottom-link .tab-text {
+  font-size: 11px;
+  position: relative;
+  margin-top: 1px;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+.bottom-link .tab-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  background: var(--primary-strong);
+  outline: 2px solid #ffffff;
+  position: absolute;
+  left: 18px;
+  top: 4px;
+}
+
+.app-frame--with-bottom-bar {
+  --bottom-bar-clearance: 72px;
+  position: relative;
+}
+
+.app-frame--with-bottom-bar > .bottom-bar {
+  grid-column: 1 / -1;
+}
+
+.app-frame > .sidebar-edge-toggle {
+  position: absolute;
+}
+
+.app-frame--with-bottom-bar .app-content {
+  padding-bottom: calc(var(--bottom-bar-clearance) + 24px);
+}
+
+/* Keep sidebar logout / last items above the bottom bar */
+.app-frame--with-bottom-bar .sidebar--desktop {
+  padding-bottom: calc(var(--bottom-bar-clearance) + 16px);
+}
+
+/* Floating sale actions sit above the bottom bar */
+.app-frame--with-bottom-bar .dashSaleButtonsWrap {
+  bottom: calc(var(--bottom-bar-clearance) + 12px);
+  z-index: 45;
+}

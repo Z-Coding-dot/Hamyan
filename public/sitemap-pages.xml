@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>http://localhost:5177/</loc>
+    <lastmod>2026-10-23</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="fa" href="http://localhost:5177/"/>
+    <xhtml:link rel="alternate" hreflang="ps" href="http://localhost:5177/?lang=ps"/>
+    <xhtml:link rel="alternate" hreflang="en" href="http://localhost:5177/?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="http://localhost:5177/"/>
+    <image:image>
+      <image:loc>http://localhost:5177/og-image.png</image:loc>
+      <image:title>همیان</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>http://localhost:5177/?lang=ps</loc>
+    <lastmod>2026-10-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>http://localhost:5177/?lang=en</loc>
+    <lastmod>2026-10-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>http://localhost:5177/login</loc>
+    <lastmod>2026-10-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="fa" href="http://localhost:5177/login"/>
+    <xhtml:link rel="alternate" hreflang="ps" href="http://localhost:5177/login?lang=ps"/>
+    <xhtml:link rel="alternate" hreflang="en" href="http://localhost:5177/login?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="http://localhost:5177/login"/>
+  </url>
+  <url>
+    <loc>http://localhost:5177/register</loc>
+    <lastmod>2026-10-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="fa" href="http://localhost:5177/register"/>
+    <xhtml:link rel="alternate" hreflang="ps" href="http://localhost:5177/register?lang=ps"/>
+    <xhtml:link rel="alternate" hreflang="en" href="http://localhost:5177/register?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="http://localhost:5177/register"/>
+  </url>
+  <url>
+    <loc>http://localhost:5177/help</loc>
+    <lastmod>2026-10-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="fa" href="http://localhost:5177/help"/>
+    <xhtml:link rel="alternate" hreflang="ps" href="http://localhost:5177/help?lang=ps"/>
+    <xhtml:link rel="alternate" hreflang="en" href="http://localhost:5177/help?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="http://localhost:5177/help"/>
+  </url>
+</urlset>

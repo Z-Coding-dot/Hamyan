@@ -1,0 +1,138 @@
+.electron-shell--workspace-switch .chrome-shell,
+.electron-shell--workspace-switch .app-shell-body {
+  transform: scale(0.93) translateZ(0);
+  filter: brightness(0.78);
+  transition:
+    transform 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.42s ease;
+  transform-origin: center center;
+  pointer-events: none;
+}
+
+.workspace-switch-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(10, 12, 16, 0.42);
+  backdrop-filter: blur(6px);
+  animation: workspace-switch-fade-in 0.28s ease;
+}
+
+.workspace-switch-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  animation: workspace-switch-rise 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.workspace-switch-hero {
+  position: relative;
+  width: 96px;
+  height: 96px;
+}
+
+.workspace-switch-thumb {
+  position: absolute;
+  inset: 14px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #ffffff, #f1f3f4);
+  box-shadow:
+    0 10px 28px rgba(0, 0, 0, 0.18),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.65);
+}
+
+.workspace-switch-hero--company .workspace-switch-thumb {
+  border-radius: 18px;
+}
+
+.workspace-switch-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.workspace-switch-thumb i {
+  font-size: 1.65rem;
+  color: #5f6368;
+}
+
+.workspace-switch-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  animation: workspace-switch-spin 0.95s linear infinite;
+}
+
+.workspace-switch-ring--outer {
+  background: conic-gradient(
+    from 0deg,
+    #1463F3 0deg,
+    #1463F3 70deg,
+    #ffc690 110deg,
+    transparent 110deg,
+    transparent 360deg
+  );
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 4px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 4px));
+}
+
+.workspace-switch-ring--inner {
+  inset: 4px;
+  opacity: 0.5;
+  animation-direction: reverse;
+  animation-duration: 1.35s;
+  background: conic-gradient(
+    from 180deg,
+    #D7F7FC 0deg,
+    transparent 0deg,
+    transparent 250deg,
+    #1463F3 250deg,
+    #ffc690 310deg,
+    transparent 310deg
+  );
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 3px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 3px));
+}
+
+.workspace-switch-label {
+  margin: 0;
+  max-width: min(320px, 88vw);
+  text-align: center;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #ffffff;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.35);
+}
+
+@keyframes workspace-switch-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes workspace-switch-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes workspace-switch-rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}

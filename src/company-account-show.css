@@ -1,0 +1,167 @@
+/* resources/js/Pages/Company/AccountShow.css */
+/* Matches the new compact account cards design */
+
+.acc-show-card{
+  border-radius: 16px;
+  border: 1px solid rgba(0,0,0,.07);
+  background: #fff;
+  box-shadow: 0 12px 28px rgba(16,16,16,.06);
+  padding: 14px;
+}
+
+.acc-show-top{
+  display:flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.acc-show-title{
+  font-weight: 900;
+  font-size: 15px;
+  color: #111;
+  display:flex;
+  align-items:center;
+  gap: 6px;
+}
+
+.acc-show-badges{
+  display:flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+/* Reuse badge look from Accounts.css */
+.acc2-badge{
+  font-size: 10px;
+  font-weight: 900;
+  padding: 3px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(0,0,0,.08);
+  background: rgba(0,0,0,.03);
+  color: rgba(0,0,0,.75);
+}
+
+.acc2-badge-capital{
+  background: rgba(16,185,129,.10);
+  border-color: rgba(16,185,129,.20);
+  color: #065f46;
+}
+.acc2-badge-sell{
+  background: rgba(59,130,246,.10);
+  border-color: rgba(59,130,246,.20);
+  color: #1e3a8a;
+}
+
+.acc2-status{
+  font-size: 10px;
+  font-weight: 900;
+  padding: 3px 9px;
+  border-radius: 999px;
+  border: 1px solid rgba(0,0,0,.10);
+}
+.acc2-status.on{
+  background: rgba(16,185,129,.10);
+  border-color: rgba(16,185,129,.20);
+  color: #065f46;
+}
+.acc2-status.off{
+  background: rgba(148,163,184,.18);
+  border-color: rgba(148,163,184,.26);
+  color: #334155;
+}
+
+.acc-show-amount{
+  margin-top: 10px;
+  font-size: 20px;
+  font-weight: 900;
+  color:#111;
+}
+.acc-show-cur{
+  font-size: 12px;
+  font-weight: 800;
+  opacity: .7;
+  margin-right: 6px;
+}
+
+.acc-show-grid{
+  margin-top: 12px;
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.acc-show-item{
+  border: 1px solid rgba(0,0,0,.06);
+  border-radius: 12px;
+  padding: 10px;
+  background: rgba(0,0,0,.02);
+}
+.acc-show-item .k{
+  font-size: 11px;
+  font-weight: 800;
+  opacity: .7;
+  margin-bottom: 4px;
+}
+.acc-show-item .v{
+  font-size: 13px;
+  font-weight: 900;
+  color:#111;
+}
+
+.acc-show-note{
+  margin-top: 12px;
+  font-size: 12px;
+  opacity: .7;
+}
+
+/* Transactions block */
+.acc-trans-wrap{
+  border: 1px solid rgba(0,0,0,.06);
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 10px 22px rgba(16,16,16,.04);
+  padding: 12px;
+}
+.acc-trans-head{
+  display:flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.acc-trans-empty{
+  border: 1px dashed rgba(0,0,0,.18);
+  border-radius: 12px;
+  padding: 12px;
+  text-align:center;
+  font-size: 12px;
+  opacity: .75;
+}
+
+/* Type accent background */
+.acc-t-cash{
+  background:
+    radial-gradient(160px 160px at 10% 15%, rgba(244, 155, 66, 0.20), transparent 55%),
+    linear-gradient(165deg, #fffaf4 0%, #ffffff 55%);
+}
+.acc-t-bank{
+  background:
+    radial-gradient(160px 160px at 10% 15%, rgba(199, 102, 33, 0.16), transparent 55%),
+    linear-gradient(165deg, #fff6eb 0%, #ffffff 55%);
+}
+.acc-t-etc{
+  background:
+    radial-gradient(160px 160px at 10% 15%, rgba(245, 134, 52, 0.12), transparent 55%),
+    linear-gradient(165deg, #F3F7FC 0%, #ffffff 55%);
+}
+
+/* Mobile compact */
+@media (max-width: 767.98px){
+  .acc-show-card{ padding: 12px; border-radius: 14px; }
+  .acc-show-title{ font-size: 14px; }
+  .acc-show-amount{ font-size: 18px; }
+  .acc-show-grid{ grid-template-columns: 1fr; }
+  .acc-show-item{ padding: 9px; }
+  .acc-show-item .v{ font-size: 12px; }
+}

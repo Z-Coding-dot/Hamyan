@@ -1,0 +1,57 @@
+/*
+ * Windows/Electron: native select arrows sit in a fixed OS gutter.
+ * CSS padding does NOT move them. Hide native arrow; draw ours inset from the edge.
+ */
+select:not([multiple]) {
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none !important;
+  cursor: pointer;
+  padding-inline-end: 2.75rem !important;
+  background-color: #fff;
+  /* Down-chevron from two solid triangles (no image / data-URL) */
+  background-image:
+    linear-gradient(45deg, transparent 50%, #4b5563 50%),
+    linear-gradient(135deg, #4b5563 50%, transparent 50%) !important;
+  background-repeat: no-repeat !important;
+  background-size: 6.5px 6.5px, 6.5px 6.5px !important;
+  /* LTR default: ~16–22px in from the right border */
+  background-position:
+    calc(100% - 22px) calc(50% - 1px),
+    calc(100% - 16px) calc(50% - 1px) !important;
+}
+
+select:not([multiple])::-ms-expand {
+  display: none;
+}
+
+/* RTL pages — inset from the left border */
+:dir(rtl) select:not([multiple]),
+[dir='rtl'] select:not([multiple]),
+.dash-div[dir='rtl'] select:not([multiple]),
+.party-page[dir='rtl'] select:not([multiple]),
+.warehouse-inventory-page[dir='rtl'] select:not([multiple]),
+.cp-page[dir='rtl'] select:not([multiple]),
+.wallet-v2-wrap[dir='rtl'] select:not([multiple]),
+.user-accounts-page[dir='rtl'] select:not([multiple]),
+.premium-page[dir='rtl'] select:not([multiple]) {
+  background-position:
+    16px calc(50% - 1px),
+    22px calc(50% - 1px) !important;
+}
+
+:dir(ltr) select:not([multiple]),
+[dir='ltr'] select:not([multiple]) {
+  background-position:
+    calc(100% - 22px) calc(50% - 1px),
+    calc(100% - 16px) calc(50% - 1px) !important;
+}
+
+select:not([multiple]):disabled {
+  cursor: not-allowed;
+  opacity: 0.72;
+  background-color: #f9fafb;
+  background-image:
+    linear-gradient(45deg, transparent 50%, #9ca3af 50%),
+    linear-gradient(135deg, #9ca3af 50%, transparent 50%) !important;
+}

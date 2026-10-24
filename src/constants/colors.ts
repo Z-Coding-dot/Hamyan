@@ -1,0 +1,16 @@
+export const BrandColors = {
+  primary: '#1463F3',
+  primaryStrong: '#0D2B7E',
+  primaryHover: '#0D2B7E',
+  primarySoft: '#EAF3FF',
+  accent: '#00B9FF',
+  secondary: '#00B9FF',
+  secondaryStrong: '#0D2B7E',
+  surface: '#FFFFFF',
+  surfaceMuted: '#EAF3FF',
+  background: '#F8FAFC',
+  text: '#1E293B',
+  mutedText: '#64748B',
+  success: '#22C55E',
+  danger: '#EF4444',
+}
