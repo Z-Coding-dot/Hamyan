@@ -92,6 +92,8 @@ export function SearchableSelect({
         className="hy-pick__button"
         aria-expanded={open}
         aria-controls={listId}
+        aria-label={label || placeholder || t('desktop.select')}
+        aria-haspopup="listbox"
         disabled={disabled}
         onClick={() => setOpen((prev) => !prev)}
       >
@@ -114,6 +116,7 @@ export function SearchableSelect({
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
                 placeholder={t('desktop.search')}
+                aria-label={t('desktop.search')}
                 autoFocus
               />
               <div className="hy-pick__list">

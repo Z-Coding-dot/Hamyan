@@ -1,16 +1,17 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
 import { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useShallow } from 'zustand/react/shallow'
 
 import { AppPageBar } from '@/components/layout/AppPageBar'
 import { AppSidebar } from '@/components/layout/AppSidebar'
 import { UserBottomBar } from '@/components/layout/UserBottomBar'
-import { PageRefresh } from '@/components/PageRefresh'
 import { useIsMobileSidebar } from '@/hooks/useMediaQuery'
 import { useAuthStore } from '@/store/useAuthStore'
 import { useSidebarStore } from '@/store/useSidebarStore'
 
 export function AppLayout() {
+  const { t } = useTranslation()
   const { token, isHydrated } = useAuthStore(
     useShallow((state) => ({
       token: state.token,
@@ -35,10 +36,6 @@ export function AppLayout() {
     if (isMobile) close()
   }, [location.pathname, isMobile, close])
 
-  useEffect(() => {
-    if (isMobile) close()
-  }, [isMobile, close])
-
   if (!isHydrated) {
     return (
       <div className="center-screen">
@@ -53,23 +50,23 @@ export function AppLayout() {
 
   return (
     <div
-      className={`app-frame app-frame--with-bottom-bar${isOpen ? '' : ' app-frame--sidebar-collapsed'}${isMobile ? ' app-frame--mobile' : ''}`}
+      className={`app-frame hy-app-shell${isMobile ? ' app-frame--with-bottom-bar app-frame--mobile' : ''}${isOpen ? '' : ' app-frame--sidebar-collapsed'}`}
     >
       {isMobile && isOpen ? (
         <button
           type="button"
           className="sidebar-backdrop"
-          aria-label="Close sidebar"
+          aria-label={t('desktop.sidebar_close')}
+          tabIndex={-1}
           onClick={close}
         />
       ) : null}
-      <AppPageBar />
-      <PageRefresh />
       <AppSidebar />
-      <main className="app-content">
+      <div className="hy-app-header" inert={isMobile && isOpen}><AppPageBar /></div>
+      <main id="app-main" className="app-content" inert={isMobile && isOpen}>
         <Outlet />
       </main>
-      <UserBottomBar />
+      {isMobile && <UserBottomBar />}
     </div>
   )
 }

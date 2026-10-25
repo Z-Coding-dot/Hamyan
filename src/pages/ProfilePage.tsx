@@ -41,7 +41,7 @@ export function ProfilePage() {
 
   if (!hasShell || !user) {
     return (
-      <div className="profile-page" dir="rtl">
+      <div className="profile-page hy-ledger hy-profile-page">
         {error ? <div className="alert-error">{error}</div> : null}
         <p className="muted">{t('desktop.loading')}</p>
       </div>
@@ -49,13 +49,14 @@ export function ProfilePage() {
   }
 
   return (
-    <div className="profile-page" dir="rtl">
-      <div className="ea-head">
+    <div className="profile-page hy-ledger hy-profile-page">
+      <header className="hy-ledger__head">
         <div>
+          <span className="hy-ledger__eyebrow">{t('desktop.hy_account_space')}</span>
           <h2>{t('desktop.nav_profile')}</h2>
           <p>{t('desktop.profile_ulanish_account')}</p>
         </div>
-      </div>
+      </header>
       {isSyncing ? (
         <div className="page-sync-indicator">
           <i className="fa-solid fa-rotate-right fa-spin" />
@@ -65,53 +66,22 @@ export function ProfilePage() {
 
       {error ? <div className="alert-error">{error}</div> : null}
 
-      <div className="profile">
-        <div className="profile-info">
+      <section className="hy-profile-hero">
+        <div className="hy-profile-hero__cover" aria-hidden="true"><span /><span /></div>
+        <div className="hy-profile-hero__body">
           <div className="profile-photo">
-            {photoUrl ? (
-              <img key={photoPath} src={photoUrl} alt={t('desktop.profile_photo')} />
-            ) : (
-              AVATAR_PLACEHOLDER
-            )}
-            <button
-              type="button"
-              className="profile-edit-btn"
-              onClick={() => setPhotoModalOpen(true)}
-              aria-label={t('desktop.update_profile_photo')}
-            >
-              <i className="fa-regular fa-pen-to-square" />
-            </button>
+            {photoUrl ? <img key={photoPath} src={photoUrl} alt={t('desktop.profile_photo')} /> : AVATAR_PLACEHOLDER}
+            <button type="button" className="profile-edit-btn" onClick={() => setPhotoModalOpen(true)} aria-label={t('desktop.update_profile_photo')}><i className="fa-solid fa-camera" aria-hidden="true" /></button>
           </div>
-        </div>
-
-        <div className="profile-details">
-          <strong className="hy-profile__name">
-            {[user.name, user.lastname].filter(Boolean).join(' ') || user.email}
-          </strong>
-          <p className="hy-profile__email" dir="ltr">
-            {user.email}
-          </p>
-          <p className="muted">
-            {t('desktop.profile_edit_on_ulanish')}{' '}
-            <button
-              type="button"
-              className="auth-link"
-              onClick={() => openExternalUrl('https://ulanish.dev')}
-            >
-              ulanish.dev
-            </button>
-          </p>
-          <div className="profile-details__edit">
-            <button
-              type="button"
-              onClick={() => setInfoModalOpen(true)}
-              aria-label={t('desktop.update_profile_info')}
-            >
-              <i className="fa-regular fa-pen-to-square" />
-            </button>
+          <div className="hy-profile-hero__identity">
+            <span className="hy-profile-hero__badge">{t('desktop.sidebar_personal_account')}</span>
+            <h3><bdi>{[user.name, user.lastname].filter(Boolean).join(' ') || user.email}</bdi></h3>
+            <p><bdi>{user.email}</bdi></p>
           </div>
+          <button type="button" className="btn-secondary hy-options-action" onClick={() => setInfoModalOpen(true)}><i className="fa-regular fa-pen-to-square" aria-hidden="true" />{t('desktop.update_profile_info')}</button>
         </div>
-      </div>
+        <div className="hy-profile-hero__note"><i className="fa-solid fa-link" aria-hidden="true" /><p>{t('desktop.profile_edit_on_ulanish')} <button type="button" className="auth-link" onClick={() => openExternalUrl('https://ulanish.dev')}>ulanish.dev</button></p></div>
+      </section>
 
       <div className="profile-grid">
         <IdentityCard token={token} userKey={userKey} initialProfile={user.profile} />

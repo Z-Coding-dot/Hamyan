@@ -261,8 +261,9 @@ export function AccountsPage() {
       onClose={() => !creating && setTemplateOpen(false)}
       title={t('desktop.hy_create_account_currency')}
       wide
+      className="hy-party-dialog hy-finance-dialog hy-template-dialog"
     >
-      <div className="ua-alert ua-alert--info">{t('desktop.choose_trade_currencies_note')}</div>
+      <div className="hy-party-form__intro"><span aria-hidden="true"><i className="fa-solid fa-coins" /></span><p>{t('desktop.choose_trade_currencies_note')}</p></div>
 
       {templatesLoading ? (
         <p className="muted">{t('desktop.loading')}</p>
@@ -278,7 +279,7 @@ export function AccountsPage() {
               )
               const checked = owned || selectedTemplateIds.includes(template.id)
               return (
-                <label key={template.id} className={`ua-template-item${owned ? ' is-disabled' : ''}`}>
+                <label key={template.id} className={`ua-template-item${owned ? ' is-disabled' : ''}${checked ? ' is-selected' : ''}`}>
                   <span className="ua-template-item__left">
                     <input
                       type="checkbox"
@@ -286,6 +287,7 @@ export function AccountsPage() {
                       disabled={creating || owned}
                       onChange={() => toggleTemplate(template.id)}
                     />
+                    <span className="hy-template-currency" aria-hidden="true">{template.currency}</span>
                     <span>{templateDisplayName(template, locale)}</span>
                   </span>
                   <span className="muted">{localizeCurrency(template.currency, t)}</span>
@@ -316,14 +318,16 @@ export function AccountsPage() {
 
   if (!loading && !primaryAccount?.id) {
     return (
-      <div className="user-accounts-page" dir="rtl">
-        <div className="ea-head">
+      <div className="user-accounts-page hy-ledger hy-accounts">
+        <div className="hy-ledger__head">
           <div>
+            <span className="hy-ledger__eyebrow">{t('desktop.hy_finances')}</span>
             <h2>{t('desktop.hy_accounts_title')}</h2>
             <p>{t('desktop.page_accounts_desc')}</p>
           </div>
         </div>
         <div className="ua-empty-activate">
+          <span className="hy-finance-empty-icon" aria-hidden="true"><i className="fa-solid fa-wallet" /></span>
           <p>{t('desktop.user_accounts_not_activated')}</p>
           <p style={{ marginTop: 8 }}>{t('desktop.create_user_account_guide')}</p>
           <div style={{ marginTop: 14 }}>
@@ -338,11 +342,16 @@ export function AccountsPage() {
   }
 
   return (
-    <div className="user-accounts-page" dir="rtl">
-      <div className="ea-head">
+    <div className="user-accounts-page hy-ledger hy-accounts">
+      <div className="hy-ledger__head">
         <div>
+          <span className="hy-ledger__eyebrow">{t('desktop.hy_finances')}</span>
           <h2>{t('desktop.hy_accounts_title')}</h2>
           <p>{t('desktop.page_accounts_desc')}</p>
+        </div>
+        <div className="hy-finance-actions">
+          {showCreateButton && <button type="button" className="btn-primary" onClick={() => void openTemplateModal()}><i className="fa-solid fa-plus" aria-hidden="true" />{t('desktop.hy_create_account_currency')}</button>}
+          <button type="button" className="btn-secondary" onClick={() => setFxOpen(true)} disabled={visibleAccounts.length < 2}><i className="fa-solid fa-right-left" aria-hidden="true" />{t('desktop.hy_fx_title')}</button>
         </div>
       </div>
 
@@ -367,49 +376,15 @@ export function AccountsPage() {
                   setAccountModalOpen(true)
                 }}
               >
+                <div className="hy-account-card__top"><span aria-hidden="true"><i className="fa-solid fa-wallet" /></span><span className="hy-account-card__currency">{item.currency}</span></div>
                 <p className="ua-card__label">{accountDisplayName(item, locale)}</p>
                 <p className="ua-card__balance">
-                  {Number(item.current_balance ?? 0).toLocaleString('en-US')}{' '}
+                  <bdi>{Number(item.current_balance ?? 0).toLocaleString('en-US')}</bdi>{' '}
                   <span>{localizeCurrency(item.currency || 'AFN', t)}</span>
                 </p>
+                <div className="hy-account-card__footer"><span>{t('desktop.more_details')}</span><i className={`fa-solid ${locale === 'en' ? 'fa-arrow-right' : 'fa-arrow-left'}`} aria-hidden="true" /></div>
               </button>
             ))}
-          </div>
-
-          <div className="ua-hint">{t('desktop.account_card_click_hint')}</div>
-
-          <div className="ua-toolbar">
-            <button
-              type="button"
-              className="btn-secondary"
-              onClick={() => {
-                if (primaryAccount) {
-                  setSelectedAccount(primaryAccount)
-                  setAccountModalOpen(true)
-                }
-              }}
-            >
-              <i className="fa-solid fa-circle-info" />
-              {t('desktop.more_details')}
-            </button>
-          </div>
-
-          <div className="ua-actions">
-            {showCreateButton ? (
-              <button type="button" className="btn-primary ua-btn--warning" onClick={() => void openTemplateModal()}>
-                <i className="fa-solid fa-plus" />
-                {t('desktop.hy_create_account_currency')}
-              </button>
-            ) : null}
-            <button
-              type="button"
-              className="btn-primary hy-action--fx"
-              onClick={() => setFxOpen(true)}
-              disabled={visibleAccounts.length < 2}
-            >
-              <i className="fa-solid fa-right-left" />
-              {t('desktop.hy_fx_title')}
-            </button>
           </div>
 
           <div className="ua-tx-wrap">
@@ -462,7 +437,7 @@ export function AccountsPage() {
 
       {templateModal}
 
-      <Modal open={Boolean(selectedDeposit)} onClose={() => setSelectedDeposit(null)} title={t('desktop.deposit_detail')}>
+      <Modal open={Boolean(selectedDeposit)} onClose={() => setSelectedDeposit(null)} title={t('desktop.deposit_detail')} className="hy-party-dialog hy-finance-dialog">
         {selectedDeposit ? (
           <>
             <ul className="ua-detail-list">
@@ -507,7 +482,7 @@ export function AccountsPage() {
         ) : null}
       </Modal>
 
-      <Modal open={deleteTxOpen} onClose={() => !deletingTx && setDeleteTxOpen(false)} title={t('desktop.confirm_delete_title')}>
+      <Modal open={deleteTxOpen} onClose={() => !deletingTx && setDeleteTxOpen(false)} title={t('desktop.confirm_delete_title')} className="hy-party-dialog hy-finance-dialog">
         <p>{t('desktop.confirm_delete_text')}</p>
         {deleteTxError ? <div className="alert-error">{deleteTxError}</div> : null}
         <div className="form-actions">
@@ -524,6 +499,7 @@ export function AccountsPage() {
         open={accountModalOpen}
         onClose={() => !deletingAccount && !deleteAccountOpen && setAccountModalOpen(false)}
         title={t('desktop.balance_details')}
+        className="hy-party-dialog hy-finance-dialog hy-balance-dialog"
       >
         {selectedAccount ? (
           <>
@@ -572,6 +548,7 @@ export function AccountsPage() {
         open={deleteAccountOpen}
         onClose={() => !deletingAccount && setDeleteAccountOpen(false)}
         title={t('desktop.confirm_delete_title')}
+        className="hy-party-dialog hy-finance-dialog"
       >
         <p>{t('desktop.confirm_delete_account_text')}</p>
         {deleteAccountError ? <div className="alert-error">{deleteAccountError}</div> : null}

@@ -231,14 +231,13 @@ export function EditIdentityModal({ open, token, profile, onClose, onUpdated }: 
   }
 
   return (
-    <Modal open={open} onClose={onClose} title={t('desktop.identity_details')} wide>
+    <Modal open={open} onClose={onClose} title={t('desktop.identity_details')} wide className="hy-party-dialog hy-finance-dialog hy-profile-dialog hy-identity-dialog">
       {error ? <div className="alert-error">{error}</div> : null}
 
       <form className="profile-edit-block form-grid" onSubmit={onWhatsapp}>
-        <h6>{t('desktop.whatsapp_number')}</h6>
         <div className="form-field">
-          <label>{t('desktop.whatsapp_number')}</label>
-          <input value={whatsapp} onChange={(e) => setWhatsapp(e.target.value)} dir="ltr" required />
+          <label htmlFor="identity-whatsapp">{t('desktop.whatsapp_number')}</label>
+          <input id="identity-whatsapp" type="tel" value={whatsapp} onChange={(e) => setWhatsapp(e.target.value)} dir="ltr" required />
         </div>
         <button type="submit" className="btn-primary" disabled={busy === 'whatsapp'}>
           {busy === 'whatsapp' ? t('desktop.processing') : t('desktop.save')}
@@ -246,10 +245,10 @@ export function EditIdentityModal({ open, token, profile, onClose, onUpdated }: 
       </form>
 
       <form className="profile-edit-block form-grid" onSubmit={onIdentity}>
-        <h6>{t('desktop.identity_number')}</h6>
         <div className="form-field">
-          <label>{t('desktop.identity_number')}</label>
+          <label htmlFor="identity-number">{t('desktop.identity_number')}</label>
           <input
+            id="identity-number"
             value={identityNumber}
             onChange={(e) => setIdentityNumber(e.target.value)}
             dir="ltr"

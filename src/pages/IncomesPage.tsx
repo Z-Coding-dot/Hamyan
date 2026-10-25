@@ -81,18 +81,26 @@ export function IncomesPage() {
       return true
     })
   }, [rows, startDate, endDate, category])
+  const totals = useMemo(() => {
+    const grouped = new Map<string, number>()
+    visible.forEach((row) => { const code = row.currency || 'AFN'; grouped.set(code, (grouped.get(code) || 0) + Number(row.amount || 0)) })
+    return Array.from(grouped)
+  }, [visible])
 
   return (
-    <div className="user-accounts-page hy-exp" dir="rtl">
-      <div className="ea-head">
+    <div className="user-accounts-page hy-exp hy-ledger hy-money-page hy-income-page">
+      <div className="hy-ledger__head">
         <div>
+          <span className="hy-ledger__eyebrow">{t('desktop.hy_finances')}</span>
           <h2>{t('desktop.hy_incomes_page')}</h2>
           <p>{t('desktop.hy_incomes_desc')}</p>
         </div>
       </div>
 
       {error ? <div className="alert-error">{error}</div> : null}
+      {totals.length > 0 && <div className="hy-money-totals">{totals.map(([currency, amount]) => <article key={currency}><div><span className="hy-money-totals__icon" aria-hidden="true"><i className="fa-solid fa-arrow-down" /></span><span>{t('desktop.total_incoming')}</span><small>{localizeCurrency(currency, t)}</small></div><strong><bdi>{amount.toLocaleString('en-US')}</bdi></strong><p>{t('desktop.hy_filtered_totals')}</p></article>)}</div>}
 
+      <div className="hy-ledger__workspace">
       <div className="hy-exp__filters">
         <label>
           {t('desktop.income_category')}
@@ -114,15 +122,17 @@ export function IncomesPage() {
           <JalaliDatePicker value={endDate} onChange={setEndDate} allowEmpty />
         </label>
       </div>
+      {startDate && endDate && startDate > endDate && <div className="alert-error" role="alert">{t('desktop.ea_range_invalid')}</div>}
 
       <section className="hy-tx">
         <div className="hy-tx__head">
           <h5>{t('desktop.hy_incomes_page')}</h5>
+          <span className="hy-money-count"><bdi>{visible.length}</bdi></span>
         </div>
         {loading ? (
-          <p className="hy-tx__empty muted">{t('desktop.loading')}</p>
+          <div className="hy-ledger__empty" role="status"><i className="fa-solid fa-circle-notch fa-spin" aria-hidden="true" /><p>{t('desktop.loading')}</p></div>
         ) : visible.length === 0 ? (
-          <p className="hy-tx__empty muted">{t('desktop.no_record_found')}</p>
+          <div className="hy-ledger__empty"><i className="fa-solid fa-arrow-down" aria-hidden="true" /><p>{t('desktop.no_record_found')}</p></div>
         ) : (
           visible.map((item) => {
             const categoryKey = incomeCategoryKey(item.income_category)
@@ -149,6 +159,7 @@ export function IncomesPage() {
           })
         )}
       </section>
+      </div>
     </div>
   )
 }

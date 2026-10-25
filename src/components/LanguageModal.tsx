@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { createPortal } from 'react-dom'
 
@@ -19,11 +19,41 @@ export function LanguageModal({ open, onClose, onSelect, pending = false }: Lang
   const language = useLocaleStore((state) => state.language)
   const setLanguage = useLocaleStore((state) => state.setLanguage)
   const sheet = useIsMobileSidebar()
+  const panelRef = useRef<HTMLDivElement>(null)
+  const closeRef = useRef(onClose)
+  const pendingRef = useRef(pending)
+  closeRef.current = onClose
+  pendingRef.current = pending
 
   useEffect(() => {
     if (!open) return
+    const previousFocus = document.activeElement as HTMLElement | null
     document.body.classList.add('hy-modal-open')
-    return () => document.body.classList.remove('hy-modal-open')
+    panelRef.current?.querySelector<HTMLButtonElement>('.modal-panel__close')?.focus()
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && !pendingRef.current) {
+        event.preventDefault()
+        closeRef.current()
+      }
+      if (event.key !== 'Tab') return
+      const buttons = panelRef.current?.querySelectorAll<HTMLButtonElement>('button:not(:disabled)')
+      if (!buttons?.length) return
+      const first = buttons[0]
+      const last = buttons[buttons.length - 1]
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault()
+        last.focus()
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault()
+        first.focus()
+      }
+    }
+    document.addEventListener('keydown', onKeyDown)
+    return () => {
+      document.body.classList.remove('hy-modal-open')
+      document.removeEventListener('keydown', onKeyDown)
+      previousFocus?.focus()
+    }
   }, [open])
 
   if (!open) {
@@ -63,7 +93,8 @@ export function LanguageModal({ open, onClose, onSelect, pending = false }: Lang
       }
     >
       <div
-        className="modal-panel"
+        ref={panelRef}
+        className="modal-panel hy-language-dialog"
         role="dialog"
         aria-modal="true"
         aria-labelledby="language-modal-title"
@@ -112,6 +143,7 @@ export function LanguageModal({ open, onClose, onSelect, pending = false }: Lang
                 className={`language-modal__option${isActive ? ' is-active' : ''}`}
                 onClick={() => void handleSelect(code)}
                 disabled={pending}
+                aria-pressed={isActive}
               >
                 <span>
                   <strong>{labels[code]}</strong>

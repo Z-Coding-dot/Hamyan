@@ -109,8 +109,9 @@ export function CurrencyExchangeModal({ open, token, accounts, locale, onClose, 
   }
 
   return (
-    <Modal open={open} onClose={onClose} title={t('desktop.hy_fx_title')} wide>
-      <form className="hy-fx" onSubmit={(e) => void submit(e)}>
+    <Modal open={open} onClose={onClose} title={t('desktop.hy_fx_title')} wide className="hy-party-dialog hy-finance-dialog hy-fx-dialog">
+      <form className="hy-fx hy-party-form" onSubmit={(e) => void submit(e)}>
+        <div className="hy-party-form__intro"><span aria-hidden="true"><i className="fa-solid fa-right-left" /></span><p>{t('desktop.hy_fx_form_note')}</p></div>
         {error ? <div className="alert-error">{error}</div> : null}
 
         <div className="hy-fx__pair">
@@ -123,7 +124,7 @@ export function CurrencyExchangeModal({ open, token, accounts, locale, onClose, 
             placeholder={t('desktop.select')}
           />
           <div className="hy-fx__swap" aria-hidden>
-            <i className="fa-solid fa-arrow-left-long" />
+            <i className={`fa-solid ${locale === 'en' ? 'fa-arrow-right-long' : 'fa-arrow-left-long'}`} />
           </div>
           <SearchableSelect
             label={t('desktop.hy_fx_to')}
@@ -139,7 +140,10 @@ export function CurrencyExchangeModal({ open, token, accounts, locale, onClose, 
           <label>
             {t('desktop.hy_fx_amount_from')}
             <input
+              id="exchange-amount"
               type="number"
+              inputMode="decimal"
+              placeholder="0.00"
               min="0.0001"
               step="any"
               value={amount}
@@ -164,6 +168,7 @@ export function CurrencyExchangeModal({ open, token, accounts, locale, onClose, 
             <button
               type="button"
               className={rateDirection === 'from_to' ? 'is-on' : undefined}
+              aria-pressed={rateDirection === 'from_to'}
               onClick={() => setRateDirection('from_to')}
             >
               {t('desktop.hy_fx_rate_from_to', { from: fromCode, to: toCode })}
@@ -171,6 +176,7 @@ export function CurrencyExchangeModal({ open, token, accounts, locale, onClose, 
             <button
               type="button"
               className={rateDirection === 'to_from' ? 'is-on' : undefined}
+              aria-pressed={rateDirection === 'to_from'}
               onClick={() => setRateDirection('to_from')}
             >
               {t('desktop.hy_fx_rate_to_from', { from: fromCode, to: toCode })}
@@ -179,7 +185,9 @@ export function CurrencyExchangeModal({ open, token, accounts, locale, onClose, 
           <label>
             {t('desktop.hy_fx_rate')}
             <input
+              id="exchange-rate"
               type="number"
+              inputMode="decimal"
               min="0.0000001"
               step="any"
               value={rate}
@@ -194,14 +202,15 @@ export function CurrencyExchangeModal({ open, token, accounts, locale, onClose, 
           </label>
         </div>
 
+        <div className="hy-party-form__grid">
         <div className="form-field">
-          <label>{t('desktop.date')}</label>
-          <JalaliDatePicker value={date} onChange={setDate} allowEmpty />
+          <label htmlFor="exchange-date">{t('desktop.date')}</label>
+          <JalaliDatePicker id="exchange-date" value={date} onChange={setDate} allowEmpty />
         </div>
-
         <div className="form-field">
-          <label>{t('desktop.description')}</label>
-          <input value={note} onChange={(e) => setNote(e.target.value)} />
+          <label htmlFor="exchange-note">{t('desktop.description')}</label>
+          <input id="exchange-note" value={note} onChange={(e) => setNote(e.target.value)} />
+        </div>
         </div>
 
         <div className="form-actions">

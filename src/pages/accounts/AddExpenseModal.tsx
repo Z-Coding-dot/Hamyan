@@ -2,6 +2,7 @@ import { FormEvent, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { JalaliDatePicker } from '@/components/inputs/JalaliDatePicker'
+import { SearchableSelect } from '@/components/inputs/SearchableSelect'
 import { Modal } from '@/components/ui/Modal'
 import { showSuccessToast } from '@/components/ui/SuccessToast'
 import { getApiErrorMessage } from '@/lib/auth'
@@ -9,6 +10,7 @@ import { todayLocalYmd } from '@/lib/datetime'
 import { localizeCurrency } from '@/lib/currency'
 import {
   expenseAccountLabel,
+  accountDisplayName,
   storeUserExpense,
   type ExpenseAccountRow,
   type UserAccountRow,
@@ -89,66 +91,52 @@ export function AddExpenseModal({
   }
 
   return (
-    <Modal open={open} onClose={() => !processing && onClose()} title={t('desktop.add_expense')}>
-      <form className="companies-create-form" onSubmit={(e) => void submit(e)}>
+    <Modal open={open} onClose={() => !processing && onClose()} title={t('desktop.hy_record_expense')} wide className="hy-party-dialog hy-finance-dialog hy-expense-dialog">
+      <form className="companies-create-form hy-party-form" onSubmit={(e) => void submit(e)}>
+        <div className="hy-party-form__intro"><span aria-hidden="true"><i className="fa-solid fa-receipt" /></span><p>{t('desktop.hy_expense_form_note')}</p></div>
         {error ? <div className="alert-error">{error}</div> : null}
-
-        <div className="form-field">
-          <label>{t('desktop.amount')}</label>
+        <div className="hy-party-form__grid">
+        <div className="form-field hy-party-form__full">
+          <label htmlFor="expense-amount">{t('desktop.amount')} <span className="hy-required" aria-hidden="true">*</span></label>
+          <div className="hy-flow-amount">
           <input
+            id="expense-amount"
             type="number"
+            inputMode="decimal"
+            placeholder="0.00"
             min="1"
             step="1"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
             required
           />
+          <span>{localizeCurrency(allowedAccounts.find((item) => String(item.id) === accountId)?.currency || 'AFN', t)}</span>
+          </div>
         </div>
 
         <div className="form-field">
-          <label>{t('desktop.date')}</label>
-          <JalaliDatePicker value={date} onChange={setDate} />
+          <label htmlFor="expense-date">{t('desktop.date')}</label>
+          <JalaliDatePicker id="expense-date" value={date} onChange={setDate} />
         </div>
 
         <div className="form-field">
-          <label>{t('desktop.expense_section')}</label>
-          <select
-            value={expenseAccountId}
-            onChange={(e) => setExpenseAccountId(e.target.value)}
-            required
-          >
-            {expenseAccounts.map((item) => (
-              <option key={item.id} value={item.id}>
-                {expenseAccountLabel(item, locale)}
-              </option>
-            ))}
-          </select>
+          <SearchableSelect label={t('desktop.expense_section')} value={expenseAccountId} onChange={setExpenseAccountId} required options={expenseAccounts.map((item) => ({ value: String(item.id), label: expenseAccountLabel(item, locale) }))} />
         </div>
 
-        <div className="form-field">
-          <label>{t('desktop.account')}</label>
-          <select
-            value={accountId}
-            onChange={(e) => setAccountId(e.target.value)}
-            required
-          >
-            {allowedAccounts.map((item) => (
-              <option key={item.id} value={item.id}>
-                {(item.name_fa || item.name_en || item.currency) +
-                  ` (${localizeCurrency(item.currency || 'AFN', t)})`}
-              </option>
-            ))}
-          </select>
+        <div className="form-field hy-party-form__full">
+          <SearchableSelect label={t('desktop.account')} value={accountId} onChange={setAccountId} required options={allowedAccounts.map((item) => ({ value: String(item.id), label: `${(item as UserAccountRow & { name?: string }).name || accountDisplayName(item, locale)} (${localizeCurrency(item.currency || 'AFN', t)})` }))} />
         </div>
 
-        <div className="form-field">
-          <label>{t('desktop.description')}</label>
+        <div className="form-field hy-party-form__full">
+          <label htmlFor="expense-description">{t('desktop.description')}</label>
           <textarea
+            id="expense-description"
             rows={3}
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             maxLength={1000}
           />
+        </div>
         </div>
 
         <div className="form-actions">

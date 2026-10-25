@@ -7,10 +7,12 @@ import { useUserCacheKey } from '@/hooks/useUserCacheKey'
 import { getApiErrorMessage } from '@/lib/auth'
 import { extractYoutubeVideoId, buildYoutubeEmbedUrl, fetchHelpGuide, type HelpGuideRow } from '@/lib/help'
 import { useAuthStore } from '@/store/useAuthStore'
+import { useLocaleStore } from '@/store/useLocaleStore'
 import { hydrateListsCache, useListsCacheStore } from '@/store/useListsCacheStore'
 
 export function HelpShowPage() {
   const { t } = useTranslation()
+  const locale = useLocaleStore((s) => s.language)
   const { guideId = '' } = useParams()
   const token = useAuthStore(useShallow((s) => s.token))
   const userKey = useUserCacheKey()
@@ -107,7 +109,7 @@ export function HelpShowPage() {
 
   if (loading && !guide) {
     return (
-      <div className="help-page" dir="rtl">
+      <div className="help-page hy-help">
         <div className="help-page__loading">
           <div className="spinner" aria-hidden />
           <p className="muted">{t('desktop.loading')}</p>
@@ -117,13 +119,13 @@ export function HelpShowPage() {
   }
 
   return (
-    <div className="help-page" dir="rtl">
-      <section className="help-card help-show-card">
+    <div className="help-page hy-help hy-help-article">
+      <section className="help-card help-show-card hy-options-panel">
         <div className="help-show-toolbar">
-          <Link to="/help" className="btn-secondary btn-sm">
-            <i className="fa-solid fa-arrow-right" /> {t('desktop.help_back_to_list')}
+          <Link to="/help" className="btn-secondary">
+            <i className={`fa-solid ${locale === 'en' ? 'fa-arrow-left' : 'fa-arrow-right'}`} aria-hidden="true" /> {t('desktop.help_back_to_list')}
           </Link>
-          <Link to={token ? '/dashboard' : '/'} className="btn-secondary btn-sm">
+          <Link to={token ? '/dashboard' : '/'} className="btn-secondary">
             <i className={`fa-solid ${token ? 'fa-gauge-high' : 'fa-house'}`} />{' '}
             {token ? t('desktop.back_to_dashboard') : t('desktop.back_to_home')}
           </Link>
@@ -148,7 +150,7 @@ export function HelpShowPage() {
                   <iframe
                     key={embedUrl}
                     src={embedUrl}
-                    title={guide.title || 'Help Video'}
+                    title={guide.title || t('desktop.help_show_video')}
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     allowFullScreen
                     referrerPolicy="strict-origin-when-cross-origin"

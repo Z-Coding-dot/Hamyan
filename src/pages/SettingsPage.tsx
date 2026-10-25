@@ -180,33 +180,31 @@ export function SettingsPage() {
   const canChangeUsername = usernameStatus?.can_change !== false
 
   return (
-    <div>
-      <section className="page-header">
-        <p className="muted">{t('desktop.page_settings_desc')}</p>
-      </section>
+    <div className="hy-ledger hy-settings">
+      <header className="hy-ledger__head"><div><span className="hy-ledger__eyebrow">{t('desktop.hy_account_space')}</span><h2>{t('desktop.nav_settings')}</h2><p>{t('desktop.page_settings_desc')}</p></div></header>
 
       {error ? <div className="alert-error">{error}</div> : null}
 
-      <section className="page-card settings-list">
+      <section className="hy-options-panel settings-list">
         <button type="button" className="settings-list__item" onClick={() => setLanguageOpen(true)}>
-          <span>
-            <i className="fa-solid fa-language" />
-            {t('desktop.change_language')}
+          <span className="hy-settings__main">
+            <span className="hy-options-icon" aria-hidden="true"><i className="fa-solid fa-language" /></span>
+            <span className="hy-settings__copy"><strong>{t('desktop.change_language')}</strong><small>{t('desktop.hy_language_note')}</small></span>
           </span>
           <span className="settings-list__meta">
-            {user?.lang ? String(user.lang).toUpperCase() : ''}
-            <i className="fa-solid fa-chevron-left" />
+            <span>{t(`desktop.language_${locale}`)}</span>
+            <i className={`fa-solid ${locale === 'en' ? 'fa-chevron-right' : 'fa-chevron-left'}`} aria-hidden="true" />
           </span>
         </button>
 
         <button type="button" className="settings-list__item" onClick={openUsernameModal}>
-          <span>
-            <i className="fa-solid fa-at" />
-            {t('desktop.set_username')}
+          <span className="hy-settings__main">
+            <span className="hy-options-icon" aria-hidden="true"><i className="fa-solid fa-at" /></span>
+            <span className="hy-settings__copy"><strong>{t('desktop.set_username')}</strong><small>{t('desktop.hy_username_note')}</small></span>
           </span>
-          <span className="settings-list__meta" dir="ltr">
-            {String(currentUsername)}
-            <i className="fa-solid fa-chevron-left" />
+          <span className="settings-list__meta">
+            <bdi>{String(currentUsername)}</bdi>
+            <i className={`fa-solid ${locale === 'en' ? 'fa-chevron-right' : 'fa-chevron-left'}`} aria-hidden="true" />
           </span>
         </button>
 
@@ -218,12 +216,12 @@ export function SettingsPage() {
             setPasswordOpen(true)
           }}
         >
-          <span>
-            <i className="fa-solid fa-lock" />
-            {t('desktop.change_password_button')}
+          <span className="hy-settings__main">
+            <span className="hy-options-icon" aria-hidden="true"><i className="fa-solid fa-lock" /></span>
+            <span className="hy-settings__copy"><strong>{t('desktop.change_password_button')}</strong><small>{t('desktop.hy_password_note')}</small></span>
           </span>
           <span className="settings-list__meta">
-            <i className="fa-solid fa-chevron-left" />
+            <i className={`fa-solid ${locale === 'en' ? 'fa-chevron-right' : 'fa-chevron-left'}`} aria-hidden="true" />
           </span>
         </button>
       </section>
@@ -243,6 +241,7 @@ export function SettingsPage() {
           resetPasswordForm()
         }}
         title={t('desktop.change_password_button')}
+        className="hy-party-dialog hy-finance-dialog hy-settings-dialog"
       >
         {passwordError ? <div className="alert-error">{passwordError}</div> : null}
 
@@ -300,6 +299,7 @@ export function SettingsPage() {
           setUsernameError(null)
         }}
         title={t('desktop.set_username')}
+        className="hy-party-dialog hy-finance-dialog hy-settings-dialog"
       >
         {usernameError ? <div className="alert-error">{usernameError}</div> : null}
 

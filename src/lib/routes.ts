@@ -97,5 +97,9 @@ export function getPageTitleKey(pathname: string): string {
     return 'exchange_rates_title'
   }
 
+  if (pathname.startsWith('/counterparties/')) {
+    return PAGE_TITLE_KEYS[pathname] ?? 'nav_counterparties'
+  }
+
   return PAGE_TITLE_KEYS[pathname] ?? 'home_page_title'
 }

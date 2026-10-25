@@ -79,7 +79,7 @@ export function IdentityCard({ token, userKey, initialProfile }: Props) {
 
   if (!profile) {
     return (
-      <div className="content-small">
+      <div className="content-small hy-profile-identity">
         <p className="muted" style={{ textAlign: 'center' }}>
           {t('desktop.loading')}
         </p>
@@ -113,27 +113,31 @@ export function IdentityCard({ token, userKey, initialProfile }: Props) {
   }
 
   return (
-    <div className="content-small">
-      <h5>{t('desktop.identity_details')}</h5>
+    <div className="content-small hy-profile-identity">
+      <div className="hy-profile-identity__head"><span className="hy-options-icon" aria-hidden="true"><i className="fa-regular fa-id-card" /></span><h3>{t('desktop.identity_details')}</h3><span className={statusClass(profile.status)}>{statusLabel(profile.status, t)}</span></div>
+
+      <div className="hy-profile-identity__completion"><span>{t('desktop.hy_profile_completion')}</span><strong><bdi>{progress}%</bdi></strong></div>
 
       <div className="profile-progress">
         <div
           className={`profile-progress__bar ${profile.status === 'approved' ? 'is-success' : 'is-warning'}`}
           style={{ width: `${progress}%` }}
+          role="progressbar"
+          aria-label={t('desktop.hy_profile_completion')}
+          aria-valuenow={progress}
+          aria-valuemin={0}
+          aria-valuemax={100}
         >
-          {progress}%
         </div>
       </div>
 
+      <div className="hy-profile-identity__fields">
       <div className="pdetail">
-        {t('desktop.whatsapp_number')}: {profile.whatsapp_number || '---'}
+        <span>{t('desktop.whatsapp_number')}</span><strong><bdi>{profile.whatsapp_number || '—'}</bdi></strong>
       </div>
       <div className="pdetail">
-        {t('desktop.identity_number')}: {profile.identity_number || '---'}
+        <span>{t('desktop.identity_number')}</span><strong><bdi>{profile.identity_number || '—'}</bdi></strong>
       </div>
-      <div className="pdetail">
-        {t('desktop.status')}:{' '}
-        <span className={statusClass(profile.status)}>{statusLabel(profile.status, t)}</span>
       </div>
 
       <div className="profile-scan-grid">
@@ -160,13 +164,15 @@ export function IdentityCard({ token, userKey, initialProfile }: Props) {
       </div>
 
       {canEdit ? (
-        <div className="profile-card-actions">
-          <button type="button" className="btn-primary" onClick={() => setEditOpen(true)}>
-            {t('desktop.edit')}
+        <div className="profile-card-actions hy-profile-identity__actions">
+          <button type="button" className="btn-secondary hy-profile-identity__edit" onClick={() => setEditOpen(true)}>
+            <i className="fa-regular fa-pen-to-square" aria-hidden="true" />
+            <span>{t('desktop.edit')}</span>
           </button>
           {canRequestReview ? (
-            <button type="button" className="btn-secondary" onClick={() => setReviewOpen(true)}>
-              {t('desktop.request_review')}
+            <button type="button" className="btn-primary hy-profile-identity__review" onClick={() => setReviewOpen(true)}>
+              <i className="fa-regular fa-paper-plane" aria-hidden="true" />
+              <span>{t('desktop.request_review')}</span>
             </button>
           ) : null}
         </div>
@@ -184,10 +190,11 @@ export function IdentityCard({ token, userKey, initialProfile }: Props) {
         open={reviewOpen}
         onClose={() => setReviewOpen(false)}
         title={t('desktop.confirm_request_review_title')}
+        className="hy-party-dialog hy-finance-dialog hy-profile-dialog"
       >
         <p>{t('desktop.confirm_request_review_note')}</p>
         {reviewError ? <div className="alert-error">{reviewError}</div> : null}
-        <div className="profile-card-actions">
+        <div className="profile-card-actions hy-profile-review-actions">
           <button
             type="button"
             className="btn-primary"

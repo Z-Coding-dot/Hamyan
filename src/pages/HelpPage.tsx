@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { useShallow } from 'zustand/react/shallow'
 
 import { SearchField } from '@/components/inputs/SearchField'
+import { useLocaleStore } from '@/store/useLocaleStore'
 import { useUserCacheKey } from '@/hooks/useUserCacheKey'
 import { getApiErrorMessage } from '@/lib/auth'
 import type { HelpGuideRow } from '@/lib/help'
@@ -12,6 +13,7 @@ import { hydrateListsCache, useListsCacheStore } from '@/store/useListsCacheStor
 
 export function HelpPage() {
   const { t } = useTranslation()
+  const locale = useLocaleStore((s) => s.language)
   const token = useAuthStore(useShallow((s) => s.token))
   const userKey = useUserCacheKey()
   const ensureHelpGuides = useListsCacheStore((s) => s.ensureHelpGuides)
@@ -86,23 +88,23 @@ export function HelpPage() {
   }, [guides, search])
 
   return (
-    <div className="help-page" dir="rtl">
+    <div className="help-page hy-ledger hy-help">
       <div className="guest-page-back">
         <Link to={token ? '/dashboard' : '/'} className="guest-back-home">
-          <i className="fa-solid fa-arrow-right" aria-hidden="true" />
+          <i className={`fa-solid ${locale === 'en' ? 'fa-arrow-left' : 'fa-arrow-right'}`} aria-hidden="true" />
           <span>{token ? t('desktop.back_to_dashboard') : t('desktop.back_to_home')}</span>
         </Link>
       </div>
-      <section className="help-card">
+      <header className="hy-ledger__head"><div><span className="hy-ledger__eyebrow">{t('desktop.other_options')}</span><h2>{t('desktop.help_center')}</h2><p>{t('desktop.help_videos_intro')}</p></div><span className="hy-help__hero-icon" aria-hidden="true"><i className="fa-regular fa-circle-question" /></span></header>
+      <section className="help-card hy-options-panel">
         <div className="help-card__brand">
-          <img src="/logo.png" width={56} height={56} alt="" />
-          <h2>{t('desktop.help_page_welcome')}</h2>
+          <h3>{t('desktop.help_page_welcome')}</h3>
         </div>
 
         <div className="help-card__actions">
           <button
             type="button"
-            className="btn-secondary btn-sm"
+            className="btn-secondary"
             onClick={() => void load(true)}
             disabled={refreshing || loading}
           >
@@ -111,7 +113,6 @@ export function HelpPage() {
           </button>
         </div>
 
-        <p className="help-card__intro muted">{t('desktop.help_videos_intro')}</p>
 
         <div className="help-filter">
           <SearchField
@@ -124,9 +125,9 @@ export function HelpPage() {
         {error ? <div className="alert-error">{error}</div> : null}
 
         {loading && guides.length === 0 ? (
-          <p className="muted">{t('desktop.loading')}</p>
+          <div className="hy-ledger__empty" role="status"><i className="fa-solid fa-circle-notch fa-spin" aria-hidden="true" /><p>{t('desktop.loading')}</p></div>
         ) : displayed.length === 0 ? (
-          <p className="muted">{t('desktop.help_no_results')}</p>
+          <div className="hy-ledger__empty"><i className="fa-solid fa-magnifying-glass" aria-hidden="true" /><p>{t('desktop.help_no_results')}</p></div>
         ) : (
           <div className="help-list">
             {displayed.map((guide, index) => {
@@ -144,12 +145,12 @@ export function HelpPage() {
                   >
                     <span className="help-tab__label">
                       <span className="help-index">{index + 1}</span>
-                      <i className="fa-regular fa-hand-pointer" />
                       <span>{guide.title}</span>
                     </span>
                     <i
                       className="fa-solid fa-circle-play help-tab__play"
                       title={t('desktop.help_show_video')}
+                      aria-hidden="true"
                     />
                   </Link>
                 </div>

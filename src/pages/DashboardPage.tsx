@@ -1,38 +1,22 @@
 import { useTranslation } from 'react-i18next'
-import { useShallow } from 'zustand/react/shallow'
 
 import { CounterpartyBalanceTotals } from '@/components/CounterpartyBalanceTotals'
 import { DashboardPersonalAccounts } from '@/components/DashboardPersonalAccounts'
 import { ProductMarquee } from '@/components/ProductMarquee'
-import { useCachedAsset } from '@/hooks/useCachedAsset'
-import { useLocalClock } from '@/hooks/useLocalClock'
 import { ULANISH_WHATSAPP_CHANNEL } from '@/lib/whatsapp'
-import { useAuthStore } from '@/store/useAuthStore'
-import { useLocaleStore, type SupportedLanguage } from '@/store/useLocaleStore'
 
 export function DashboardPage() {
-  const { t, i18n } = useTranslation()
-  const user = useAuthStore(useShallow((state) => state.user))
-  const name = [user?.name, user?.lastname].filter(Boolean).join(' ') || user?.email || ''
-  const photo = useCachedAsset(user?.profile_photo_path)
-  const locale = (
-    i18n.language?.startsWith('ps') ? 'ps' : i18n.language?.startsWith('en') ? 'en' : 'fa'
-  ) as SupportedLanguage
-  const clock = useLocalClock(locale, 60_000)
+  const { t } = useTranslation()
 
   return (
-    <div className="user-dashboard" dir="rtl">
-      <header className="hy-greet">
-        <div className="hy-greet__who">
-          <span className="hy-greet__avatar">
-            {photo ? <img src={photo} alt="" /> : <i className="fa-regular fa-circle-user" aria-hidden />}
-          </span>
-          <div>
-            <strong>{name || t('desktop.dashboard_title')}</strong>
-            <p>{clock.jalaliDate}</p>
-            <p>{t('desktop.brand_slogan')}</p>
-          </div>
+    <div className="user-dashboard hy-dashboard">
+      <header className="hy-dashboard__intro">
+        <div>
+          <span className="hy-dashboard__eyebrow"><span aria-hidden="true" />{t('desktop.hy_overview')}</span>
+          <h2>{t('desktop.hy_financial_overview')}</h2>
+          <p>{t('desktop.hy_overview_description')}</p>
         </div>
+        <span className="hy-dashboard__intro-icon" aria-hidden="true"><i className="fa-solid fa-chart-simple" /></span>
       </header>
 
       <CounterpartyBalanceTotals />
