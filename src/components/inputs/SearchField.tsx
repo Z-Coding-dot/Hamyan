@@ -65,6 +65,7 @@ export function SearchField({
           onBlur={onBlur}
           onKeyDown={onKeyDown}
           placeholder={placeholder || t('desktop.search')}
+          aria-label={label || placeholder || t('desktop.search')}
           disabled={disabled}
           autoFocus={autoFocus}
           autoComplete={autoComplete}

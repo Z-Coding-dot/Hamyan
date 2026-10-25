@@ -120,7 +120,7 @@
 .cp-table td {
   border-bottom: 1px solid #eee;
   padding: 10px 12px;
-  text-align: right;
+  text-align: start;
   vertical-align: top;
   font-size: 0.9rem;
 }

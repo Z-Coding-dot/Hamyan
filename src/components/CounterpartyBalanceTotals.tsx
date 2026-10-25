@@ -132,8 +132,7 @@ function TotalsCard({
       <div className="hy-dues__amounts">
         {shown.map(([currency, amount]) => (
           <b key={currency} className={signed ? (amount > 0 ? 'is-plus' : amount < 0 ? 'is-minus' : '') : undefined}>
-            {signed && amount > 0 ? '+' : ''}
-            {amount.toLocaleString('en-US')}
+            <bdi>{signed && amount > 0 ? '+' : ''}{amount.toLocaleString('en-US')}</bdi>
             <small>{localizeCurrency(currency, t)}</small>
           </b>
         ))}

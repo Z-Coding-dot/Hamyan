@@ -52,6 +52,7 @@ export function CounterpartyFlowModal({
   const [transactionDate, setTransactionDate] = useState('')
 
   const allowedAccounts = accounts
+  const selectedAccount = allowedAccounts.find((account) => String(account.id) === accountId)
 
   const loadCounterparties = async () => {
     try {
@@ -127,14 +128,17 @@ export function CounterpartyFlowModal({
             : t('desktop.cp_outgoing')
       }
       wide
+      className={`hy-party-dialog hy-flow-dialog ${direction === 'credit' ? 'is-in' : 'is-out'}`}
     >
-      <form className="companies-create-form" onSubmit={(e) => void submit(e)}>
-        {error ? <div className="alert-error">{error}</div> : null}
+      <form className="companies-create-form hy-party-form" onSubmit={(e) => void submit(e)}>
+        <div className="hy-party-form__intro"><span aria-hidden="true"><i className={`fa-solid ${direction === 'credit' ? 'fa-arrow-down' : 'fa-arrow-up'}`} /></span><p>{t(direction === 'credit' ? 'desktop.hy_cp_incoming_desc' : 'desktop.hy_cp_outgoing_desc')}</p></div>
+        {error ? <div className="alert-error" role="alert">{error}</div> : null}
+        <div className="hy-party-form__grid">
 
         {lockedCounterparty ? (
           <div className="form-field">
-            <label>{t('desktop.counterparty')}</label>
-            <input value={lockedCounterparty.name} readOnly />
+            <label htmlFor="cp-flow-person">{t('desktop.counterparty')}</label>
+            <input id="cp-flow-person" value={lockedCounterparty.name} readOnly />
           </div>
         ) : (
           <div className="form-field">
@@ -166,26 +170,33 @@ export function CounterpartyFlowModal({
           />
         </div>
 
-        <div className="form-field">
-          <label>{t('desktop.amount')}</label>
+        <div className="form-field hy-party-form__full">
+          <label htmlFor="cp-flow-amount">{t('desktop.amount')} <span className="hy-required" aria-hidden="true">*</span></label>
+          <div className="hy-flow-amount">
           <input
+            id="cp-flow-amount"
             type="number"
+            inputMode="decimal"
+            placeholder="0.00"
             min="1"
             step="any"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
             required
           />
+          <span>{localizeCurrency(selectedAccount?.currency || 'AFN', t)}</span>
+          </div>
         </div>
 
         <div className="form-field">
-          <label>{t('desktop.date')}</label>
-          <JalaliDatePicker value={transactionDate} onChange={setTransactionDate} />
+          <label htmlFor="cp-flow-date">{t('desktop.date')}</label>
+          <JalaliDatePicker id="cp-flow-date" value={transactionDate} onChange={setTransactionDate} />
         </div>
 
         <div className="form-field">
-          <label>{t('desktop.description')}</label>
-          <input value={note} onChange={(e) => setNote(e.target.value)} />
+          <label htmlFor="cp-flow-note">{t('desktop.description')}</label>
+          <input id="cp-flow-note" value={note} onChange={(e) => setNote(e.target.value)} />
+        </div>
         </div>
 
         <div className="form-actions">
@@ -197,6 +208,7 @@ export function CounterpartyFlowModal({
             className="btn-primary"
             disabled={processing || !counterpartyId || !accountId}
           >
+            <i className="fa-solid fa-check" aria-hidden="true" />
             {processing ? t('desktop.processing') : t('desktop.save')}
           </button>
         </div>

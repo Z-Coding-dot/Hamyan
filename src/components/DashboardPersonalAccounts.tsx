@@ -213,9 +213,11 @@ export function DashboardPersonalAccounts() {
         <p className="muted list-comps__status">{t('desktop.loading')}</p>
       ) : !isActive ? (
         <div className="hy-empty">
-          <h6>{t('desktop.user_accounts_not_activated')}</h6>
+          <span className="hy-empty__icon" aria-hidden="true"><i className="fa-solid fa-wallet" /></span>
+          <h3>{t('desktop.user_accounts_not_activated')}</h3>
           <p className="muted">{t('desktop.create_user_account_guide')}</p>
           <button type="button" className="btn-primary" onClick={() => void openTemplateModal()}>
+            <i className="fa-solid fa-plus" aria-hidden="true" />
             {t('desktop.create_user_accounts')}
           </button>
         </div>
@@ -226,6 +228,7 @@ export function DashboardPersonalAccounts() {
               {lead ? (
                 <>
                   <div className="hy-balance__top">
+                    <i className="fa-solid fa-wallet" aria-hidden="true" />
                     <span>
                       {accountDisplayName(lead, locale)}{' '}
                       <bdi>({localizeCurrency(lead.currency || 'AFN', t)})</bdi>
@@ -303,6 +306,7 @@ export function DashboardPersonalAccounts() {
 
           <div className="hy-tx">
             <div className="hy-tx__head">
+              <span className="hy-tx__heading-icon" aria-hidden="true"><i className="fa-solid fa-clock-rotate-left" /></span>
               <h5>{t('desktop.hy_tx_list_title')}</h5>
             </div>
             {deposits.length > 0 ? (
@@ -328,7 +332,7 @@ export function DashboardPersonalAccounts() {
                 })}
               </div>
             ) : (
-              <p className="muted hy-tx__empty">{t('desktop.no_record_found')}</p>
+              <div className="hy-tx__empty"><i className="fa-regular fa-folder-open" aria-hidden="true" /><p>{t('desktop.no_record_found')}</p></div>
             )}
           </div>
         </>
@@ -379,12 +383,16 @@ export function DashboardPersonalAccounts() {
         open={txOpen}
         onClose={() => !txBusy && setTxOpen(false)}
         title={t('desktop.dash_inject')}
+        wide
+        className="hy-party-dialog hy-finance-dialog hy-income-dialog"
       >
-        <form className="companies-create-form" onSubmit={(event) => void submitCash(event)}>
+        <form className="companies-create-form hy-party-form" onSubmit={(event) => void submitCash(event)}>
+          <div className="hy-party-form__intro"><span aria-hidden="true"><i className="fa-solid fa-arrow-down" /></span><p>{t('desktop.hy_income_form_note')}</p></div>
           {txError ? <div className="alert-error">{txError}</div> : null}
+          <div className="hy-party-form__grid">
           <div className="form-field">
-            <label>{t('desktop.income_category')}</label>
-            <select value={txCategory} onChange={(e) => setTxCategory(e.target.value)} required>
+            <label htmlFor="income-category">{t('desktop.income_category')}</label>
+            <select id="income-category" value={txCategory} onChange={(e) => setTxCategory(e.target.value)} required>
               {INCOME_CATEGORIES.map((code) => (
                 <option key={code} value={code}>
                   {t(`desktop.income_cat_${code}`)}
@@ -393,8 +401,8 @@ export function DashboardPersonalAccounts() {
             </select>
           </div>
           <div className="form-field">
-            <label>{t('desktop.account')}</label>
-            <select value={txAccountId} onChange={(e) => setTxAccountId(e.target.value)} required>
+            <label htmlFor="income-account">{t('desktop.account')}</label>
+            <select id="income-account" value={txAccountId} onChange={(e) => setTxAccountId(e.target.value)} required>
               {visibleAccounts.map((item) => (
                 <option key={item.id} value={item.id}>
                   {accountDisplayName(item, locale)} ({localizeCurrency(item.currency || 'AFN', t)})
@@ -402,24 +410,31 @@ export function DashboardPersonalAccounts() {
               ))}
             </select>
           </div>
-          <div className="form-field">
-            <label>{t('desktop.amount')}</label>
+          <div className="form-field hy-party-form__full">
+            <label htmlFor="income-amount">{t('desktop.amount')} <span className="hy-required" aria-hidden="true">*</span></label>
+            <div className="hy-flow-amount">
             <input
+              id="income-amount"
               type="number"
+              inputMode="decimal"
+              placeholder="0.00"
               min="1"
               step="any"
               value={txAmount}
               onChange={(e) => setTxAmount(e.target.value)}
               required
             />
+            <span>{localizeCurrency(visibleAccounts.find((item) => String(item.id) === txAccountId)?.currency || 'AFN', t)}</span>
+            </div>
           </div>
           <div className="form-field">
-            <label>{t('desktop.date')}</label>
-            <JalaliDatePicker value={txDate} onChange={setTxDate} />
+            <label htmlFor="income-date">{t('desktop.date')}</label>
+            <JalaliDatePicker id="income-date" value={txDate} onChange={setTxDate} />
           </div>
           <div className="form-field">
-            <label>{t('desktop.description')}</label>
-            <input value={txNote} onChange={(e) => setTxNote(e.target.value)} />
+            <label htmlFor="income-note">{t('desktop.description')}</label>
+            <input id="income-note" value={txNote} onChange={(e) => setTxNote(e.target.value)} />
+          </div>
           </div>
           <div className="form-actions">
             <button type="button" className="btn-secondary" onClick={() => setTxOpen(false)} disabled={txBusy}>

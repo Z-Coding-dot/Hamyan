@@ -1,5 +1,6 @@
-import { ReactNode, useEffect } from 'react'
+import { ReactNode, useEffect, useId } from 'react'
 import { createPortal } from 'react-dom'
+import { useTranslation } from 'react-i18next'
 
 import { useIsMobileSidebar } from '@/hooks/useMediaQuery'
 
@@ -9,9 +10,12 @@ type ModalProps = {
   children: ReactNode
   title?: string
   wide?: boolean
+  className?: string
 }
 
-export function Modal({ open, onClose, children, title, wide }: ModalProps) {
+export function Modal({ open, onClose, children, title, wide, className = '' }: ModalProps) {
+  const { t } = useTranslation()
+  const titleId = useId()
   const sheet = useIsMobileSidebar()
 
   useEffect(() => {
@@ -41,9 +45,10 @@ export function Modal({ open, onClose, children, title, wide }: ModalProps) {
       }
     >
       <div
-        className={`profile-modal${wide ? ' profile-modal--wide' : ''}`}
+        className={`profile-modal${wide ? ' profile-modal--wide' : ''} ${className}`}
         role="dialog"
         aria-modal="true"
+        aria-labelledby={title ? titleId : undefined}
         onClick={(event) => event.stopPropagation()}
         style={
           sheet
@@ -63,9 +68,9 @@ export function Modal({ open, onClose, children, title, wide }: ModalProps) {
         }
       >
         <div className="profile-modal__head">
-          {title ? <h3>{title}</h3> : <span />}
-          <button type="button" className="profile-modal__close" onClick={onClose} aria-label="Close">
-            <i className="fa-solid fa-xmark" />
+          {title ? <h3 id={titleId}>{title}</h3> : <span />}
+          <button type="button" className="profile-modal__close" onClick={onClose} aria-label={t('desktop.close')}>
+            <i className="fa-solid fa-xmark" aria-hidden="true" />
           </button>
         </div>
         <div className="profile-modal__body">{children}</div>

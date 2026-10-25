@@ -47,25 +47,27 @@ export function UpdateInfoModal({ open, token, user, onClose, onUpdated }: Props
   }
 
   return (
-    <Modal open={open} onClose={onClose} title={t('desktop.update_profile_info')}>
-      <form className="form-grid" onSubmit={(e) => void onSubmit(e)}>
+    <Modal open={open} onClose={onClose} title={t('desktop.update_profile_info')} className="hy-party-dialog hy-finance-dialog hy-profile-dialog">
+      <form className="form-grid hy-party-form" onSubmit={(e) => void onSubmit(e)}>
         {error ? <div className="alert-error">{error}</div> : null}
 
         <div className="form-field">
-          <label>{t('desktop.name')}</label>
-          <input value={name} onChange={(e) => setName(e.target.value)} required />
+          <label htmlFor="profile-name">{t('desktop.name')}</label>
+          <input id="profile-name" autoComplete="given-name" value={name} onChange={(e) => setName(e.target.value)} required />
         </div>
         <div className="form-field">
-          <label>{t('desktop.lastname')}</label>
-          <input value={lastname} onChange={(e) => setLastname(e.target.value)} required />
+          <label htmlFor="profile-lastname">{t('desktop.lastname')}</label>
+          <input id="profile-lastname" autoComplete="family-name" value={lastname} onChange={(e) => setLastname(e.target.value)} required />
         </div>
         <div className="form-field">
-          <label>{t('desktop.email')}</label>
+          <label htmlFor="profile-email">{t('desktop.email')}</label>
           <p className="muted" style={{ margin: '0 0 6px', fontSize: '0.8rem' }}>
             {t('desktop.email_change_note')}
           </p>
           <input
             type="email"
+            id="profile-email"
+            autoComplete="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required

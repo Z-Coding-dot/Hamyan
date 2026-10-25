@@ -171,20 +171,20 @@ export function JalaliDatePicker({ value, onChange, disabled, allowEmpty, id }: 
           style={{ top: popPos.top, left: popPos.left, width: popPos.width }}
         >
           <div className="jalali-date-picker__nav">
-            <button type="button" onClick={() => setViewYear((y) => y - 1)} aria-label="prev year">
-              <i className="fa-solid fa-angles-right" />
+            <button type="button" onClick={() => setViewYear((y) => y - 1)} aria-label={t('desktop.hy_date_prev_year')}>
+              <i className={`fa-solid ${locale === 'en' ? 'fa-angles-left' : 'fa-angles-right'}`} aria-hidden="true" />
             </button>
-            <button type="button" onClick={() => shiftMonth(-1)} aria-label="prev month">
-              <i className="fa-solid fa-angle-right" />
+            <button type="button" onClick={() => shiftMonth(-1)} aria-label={t('desktop.ea_prev_month')}>
+              <i className={`fa-solid ${locale === 'en' ? 'fa-angle-left' : 'fa-angle-right'}`} aria-hidden="true" />
             </button>
             <strong>
               {jalaliMonthName(viewMonth, locale)} {viewYear}
             </strong>
-            <button type="button" onClick={() => shiftMonth(1)} aria-label="next month">
-              <i className="fa-solid fa-angle-left" />
+            <button type="button" onClick={() => shiftMonth(1)} aria-label={t('desktop.ea_next_month')}>
+              <i className={`fa-solid ${locale === 'en' ? 'fa-angle-right' : 'fa-angle-left'}`} aria-hidden="true" />
             </button>
-            <button type="button" onClick={() => setViewYear((y) => y + 1)} aria-label="next year">
-              <i className="fa-solid fa-angles-left" />
+            <button type="button" onClick={() => setViewYear((y) => y + 1)} aria-label={t('desktop.hy_date_next_year')}>
+              <i className={`fa-solid ${locale === 'en' ? 'fa-angles-right' : 'fa-angles-left'}`} aria-hidden="true" />
             </button>
           </div>
           <div className="jalali-date-picker__week">

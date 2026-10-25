@@ -248,25 +248,27 @@ export function ExpenseAnalysisPage() {
   const slices = categories.filter((item) => item.amount > 0)
 
   return (
-    <div className="user-accounts-page ea-page" dir="rtl">
-      <div className="ea-head">
+    <div className="user-accounts-page ea-page hy-ledger hy-analysis">
+      <div className="hy-ledger__head">
         <div>
+          <span className="hy-ledger__eyebrow">{t('desktop.hy_finances')}</span>
           <h2>{t('desktop.expense_analysis')}</h2>
           <p>{t('desktop.ea_period', { period: periodLabel })}</p>
         </div>
         <div className="ea-nav">
           <button type="button" onClick={() => goMonth(-1)} aria-label={t('desktop.ea_prev_month')}>
-            <i className="fa-solid fa-angle-right" />
+            <i className={`fa-solid ${locale === 'en' ? 'fa-angle-left' : 'fa-angle-right'}`} aria-hidden="true" />
           </button>
           <strong>{periodLabel}</strong>
           <button type="button" onClick={() => goMonth(1)} aria-label={t('desktop.ea_next_month')}>
-            <i className="fa-solid fa-angle-left" />
+            <i className={`fa-solid ${locale === 'en' ? 'fa-angle-right' : 'fa-angle-left'}`} aria-hidden="true" />
           </button>
         </div>
       </div>
 
-      <div className="ea-filters">
-        <button type="button" className={!custom && isCurrent(year, month, today) ? 'is-on' : ''} onClick={() => {
+      <div className="hy-analysis__controls">
+      <div className="ea-filters" role="group" aria-label={t('desktop.hy_analysis_period')}>
+        <button type="button" aria-pressed={!custom && isCurrent(year, month, today)} className={!custom && isCurrent(year, month, today) ? 'is-on' : ''} onClick={() => {
           if (!today) return
           setYear(today.year)
           setMonth(today.month)
@@ -274,7 +276,7 @@ export function ExpenseAnalysisPage() {
         }}>
           {t('desktop.ea_this_month')}
         </button>
-        <button type="button" className={!custom && isPrevious(year, month, today) ? 'is-on' : ''} onClick={() => {
+        <button type="button" aria-pressed={!custom && isPrevious(year, month, today)} className={!custom && isPrevious(year, month, today) ? 'is-on' : ''} onClick={() => {
           if (!today) return
           const prev = shiftJalaliMonth(today.year, today.month, -1)
           setYear(prev.year)
@@ -286,6 +288,7 @@ export function ExpenseAnalysisPage() {
         <button
           type="button"
           className={custom ? 'is-on' : ''}
+          aria-pressed={custom}
           onClick={() => {
             if (!custom && period) {
               setFrom(period.selectedStart)
@@ -300,36 +303,38 @@ export function ExpenseAnalysisPage() {
 
       {custom ? (
         <div className="ea-range">
-          <label>
+          <label htmlFor="analysis-from">
             {t('desktop.ea_from')}
-            <JalaliDatePicker value={from} onChange={setFrom} />
+            <JalaliDatePicker id="analysis-from" value={from} onChange={setFrom} />
           </label>
-          <label>
+          <label htmlFor="analysis-to">
             {t('desktop.ea_to')}
-            <JalaliDatePicker value={to} onChange={setTo} />
+            <JalaliDatePicker id="analysis-to" value={to} onChange={setTo} />
           </label>
         </div>
       ) : null}
-      {rangeError ? <div className="alert-error">{t('desktop.ea_range_invalid')}</div> : null}
+      <span className="hy-analysis__currency"><i className="fa-solid fa-coins" aria-hidden="true" />{localizeCurrency(focusCurrency, t)}</span>
+      </div>
+      {rangeError ? <div className="alert-error" role="alert">{t('desktop.ea_range_invalid')}</div> : null}
       {error ? <div className="alert-error">{error}</div> : null}
 
       {loading ? (
-        <p className="muted">{t('desktop.loading')}</p>
-      ) : (
+        <div className="hy-ledger__empty" role="status"><i className="fa-solid fa-circle-notch fa-spin" aria-hidden="true" /><p>{t('desktop.loading')}</p></div>
+      ) : !period ? <div className="hy-ledger__empty"><i className="fa-regular fa-calendar" aria-hidden="true" /><p>{t('desktop.hy_analysis_choose_dates')}</p></div> : (
         <>
           <div className="ea-cards">
             <article>
               <span>{t('desktop.ea_total')}</span>
-              <strong>{money(currentTotal)} {localizeCurrency(focusCurrency, t)}</strong>
+              <strong><bdi>{money(currentTotal)}</bdi> <small>{localizeCurrency(focusCurrency, t)}</small></strong>
             </article>
             <article>
               <span>{t('desktop.ea_previous')}</span>
-              <strong>{money(previousTotal)} {localizeCurrency(focusCurrency, t)}</strong>
+              <strong><bdi>{money(previousTotal)}</bdi> <small>{localizeCurrency(focusCurrency, t)}</small></strong>
             </article>
             <article>
               <span>{t('desktop.ea_diff')}</span>
               <strong className={difference > 0 ? 'is-up' : difference < 0 ? 'is-down' : ''}>
-                {money(Math.abs(difference))} {localizeCurrency(focusCurrency, t)}
+                <bdi>{money(Math.abs(difference))}</bdi> <small>{localizeCurrency(focusCurrency, t)}</small>
               </strong>
               <small>
                 {difference > 0 ? t('desktop.ea_increase') : difference < 0 ? t('desktop.ea_decrease') : t('desktop.ea_same')}
@@ -337,7 +342,7 @@ export function ExpenseAnalysisPage() {
             </article>
             <article>
               <span>{t('desktop.ea_change')}</span>
-              <strong>{percent == null ? '—' : `${percent > 0 ? '+' : ''}${percent.toFixed(1)}%`}</strong>
+              <strong><bdi>{percent == null ? '—' : `${percent > 0 ? '+' : ''}${percent.toFixed(1)}%`}</bdi></strong>
               <small>{percent == null ? t('desktop.ea_no_baseline') : t('desktop.ea_vs_previous')}</small>
             </article>
             <article>
@@ -347,6 +352,7 @@ export function ExpenseAnalysisPage() {
             </article>
           </div>
 
+          <div className="ea-panels">
           <section className="ea-panel">
             <h3>{t('desktop.ea_months')}</h3>
             <BarChart items={monthBars} empty={t('desktop.ea_empty')} />
@@ -387,6 +393,7 @@ export function ExpenseAnalysisPage() {
               })}
             </div>
           </section>
+          </div>
         </>
       )}
     </div>
@@ -421,8 +428,8 @@ function BarChart({
   return (
     <div className={`ea-bars${scroll ? ' is-scroll' : ''}`}>
       {items.map((item, index) => (
-        <div key={`${item.label}-${index}`} className={item.active ? 'is-on' : ''} title={`${item.label}: ${money(item.value)}`}>
-          <span style={{ height: `${Math.max(4, (item.value / max) * 100)}%` }} />
+        <div key={`${item.label}-${index}`} tabIndex={0} role="img" aria-label={`${item.label}: ${money(item.value)}`} data-value={money(item.value)} className={item.active ? 'is-on' : ''} title={`${item.label}: ${money(item.value)}`}>
+          <span style={{ height: `${item.value > 0 ? Math.max(2, (item.value / max) * 100) : 0}%` }} />
           <small>{item.label}</small>
         </div>
       ))}
@@ -437,7 +444,7 @@ function Donut({
   items: Array<{ id: number; title: string; amount: number }>
   total: number
 }) {
-  const colors = ['#1463F3', '#0D2B7E', '#00B9FF', '#EF4444', '#F97316', '#64748B', '#94A3B8']
+  const colors = ['#5683cd', '#86a5d8', '#afc4e5', '#c77b90', '#d5ad70', '#8199a9', '#bbc9d8']
   let cursor = 0
   const stops = items.map((item, index) => {
     const share = total > 0 ? (item.amount / total) * 100 : 0

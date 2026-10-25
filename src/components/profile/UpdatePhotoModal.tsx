@@ -140,8 +140,8 @@ export function UpdatePhotoModal({ open, token, onClose, onUpdated }: Props) {
   }
 
   return (
-    <Modal open={open} onClose={handleClose} title={t('desktop.update_profile_photo')}>
-      <form className="form-grid" onSubmit={(e) => void onSubmit(e)}>
+    <Modal open={open} onClose={handleClose} title={t('desktop.update_profile_photo')} className="hy-party-dialog hy-finance-dialog hy-profile-dialog">
+      <form className="form-grid hy-party-form" onSubmit={(e) => void onSubmit(e)}>
         {error ? <div className="alert-error">{error}</div> : null}
 
         {imageSrc ? (

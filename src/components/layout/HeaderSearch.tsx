@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useRef, useState } from 'react'
+import { FormEvent, useCallback, useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useShallow } from 'zustand/react/shallow'
@@ -56,6 +56,9 @@ export function HeaderSearch() {
   const token = useAuthStore(useShallow((s) => s.token))
   const wrapRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
+  const triggerRef = useRef<HTMLButtonElement>(null)
+  const requestRef = useRef(0)
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const [open, setOpen] = useState(false)
   const [query, setQuery] = useState('')
   const [scope, setScope] = useState<Scope>('all')
@@ -77,7 +80,10 @@ export function HeaderSearch() {
       setOpen(false)
     }
     const onKey = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setOpen(false)
+      if (event.key === 'Escape') {
+        setOpen(false)
+        triggerRef.current?.focus()
+      }
     }
     document.addEventListener('mousedown', onDoc)
     document.addEventListener('keydown', onKey)
@@ -87,27 +93,31 @@ export function HeaderSearch() {
     }
   }, [open])
 
-  const scopes: Array<{ id: Scope; label: string }> = [
-    { id: 'all', label: t('desktop.hy_search_all') },
-    { id: 'expense', label: t('desktop.hy_search_expenses') },
-    { id: 'deal', label: t('desktop.hy_search_deals') },
-    { id: 'person', label: t('desktop.hy_search_people') },
+  const scopes: Array<{ id: Scope; label: string; icon: string }> = [
+    { id: 'all', label: t('desktop.hy_search_all'), icon: 'fa-layer-group' },
+    { id: 'expense', label: t('desktop.hy_search_expenses'), icon: 'fa-receipt' },
+    { id: 'deal', label: t('desktop.hy_search_deals'), icon: 'fa-right-left' },
+    { id: 'person', label: t('desktop.hy_search_people'), icon: 'fa-user-group' },
   ]
 
-  const run = async (event?: FormEvent) => {
+  const run = useCallback(async (event?: FormEvent) => {
     event?.preventDefault()
+    if (timerRef.current) clearTimeout(timerRef.current)
+    const request = ++requestRef.current
     if (!token) return
     const text = query.trim().toLowerCase()
     if (!text && !from && !to) {
-      setRan(true)
+      setRan(false)
       setHits([])
       setError(null)
+      setLoading(false)
       return
     }
     if (from && to && from > to) {
       setError(t('desktop.ea_range_invalid'))
       setHits([])
       setRan(true)
+      setLoading(false)
       return
     }
     setLoading(true)
@@ -207,16 +217,27 @@ export function HeaderSearch() {
           if (personCount >= cap) break
       }
 
+      if (request !== requestRef.current) return
       setHits(next)
       setRan(true)
     } catch (err) {
+      if (request !== requestRef.current) return
       setHits([])
       setError(getApiErrorMessage(err))
       setRan(true)
     } finally {
-      setLoading(false)
+      if (request === requestRef.current) setLoading(false)
     }
-  }
+  }, [token, query, scope, from, to, locale, t])
+
+  useEffect(() => {
+    if (!open) return
+    timerRef.current = setTimeout(() => void run(), 350)
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current)
+      requestRef.current += 1
+    }
+  }, [open, run])
 
   const go = (to: string) => {
     setOpen(false)
@@ -226,60 +247,71 @@ export function HeaderSearch() {
   return (
     <div className="hy-search-slot" ref={wrapRef}>
       <button
+        ref={triggerRef}
         type="button"
-        className={`hy-top__btn${open ? ' is-on' : ''}`}
+        className={`hy-top__btn hy-top__search-trigger${open ? ' is-on' : ''}`}
         onClick={() => setOpen((prev) => !prev)}
         aria-label={t('desktop.hy_search_title')}
         aria-expanded={open}
+        aria-controls="header-search-panel"
       >
-        <i className="fa-solid fa-magnifying-glass" />
+        <i className="fa-solid fa-magnifying-glass" aria-hidden="true" />
+        <span>{t('desktop.hy_search_title')}</span>
       </button>
       {open ? (
-        <form className="hy-search" onSubmit={(event) => void run(event)}>
+        <form id="header-search-panel" className="hy-search" role="search" aria-label={t('desktop.hy_search_title')} onSubmit={(event) => void run(event)}>
+          <div className="hy-search__head">
+            <span className="hy-search__head-icon" aria-hidden="true"><i className="fa-solid fa-magnifying-glass" /></span>
+            <div><h2>{t('desktop.hy_search_title')}</h2><p>{t('desktop.hy_search_description')}</p></div>
+            <button type="button" className="hy-search__close" aria-label={t('desktop.close')} onClick={() => { setOpen(false); triggerRef.current?.focus() }}><i className="fa-solid fa-xmark" aria-hidden="true" /></button>
+          </div>
           <div className="hy-search__box">
+            <i className="fa-solid fa-magnifying-glass" aria-hidden="true" />
             <input
               ref={inputRef}
               value={query}
               onChange={(event) => setQuery(event.target.value)}
               placeholder={t('desktop.hy_search_hint')}
               aria-label={t('desktop.hy_search_title')}
+              autoComplete="off"
             />
-            <button type="submit" className="btn-primary" disabled={loading}>
-              {loading ? t('desktop.loading') : t('desktop.search')}
-            </button>
+            {query && <button type="button" className="hy-search__clear-query" aria-label={t('desktop.hy_search_clear')} onClick={() => { setQuery(''); inputRef.current?.focus() }}><i className="fa-solid fa-circle-xmark" aria-hidden="true" /></button>}
           </div>
-          <div className="hy-search__filters">
+          <p className="hy-search__auto-hint">{t('desktop.hy_search_live_hint')}</p>
+          <fieldset className="hy-search__scope">
+            <legend>{t('desktop.hy_search_scope')}</legend>
+            <div className="hy-search__filters">
             {scopes.map((item) => (
               <button
                 key={item.id}
                 type="button"
                 className={scope === item.id ? 'is-on' : ''}
                 onClick={() => setScope(item.id)}
+                aria-pressed={scope === item.id}
               >
-                {item.label}
+                <i className={`fa-solid ${item.icon}`} aria-hidden="true" /><span>{item.label}</span>
               </button>
             ))}
-          </div>
+            </div>
+          </fieldset>
+          <div className="hy-search__date-heading"><i className="fa-regular fa-calendar" aria-hidden="true" /><span>{t('desktop.hy_search_date_range')}</span></div>
           <div className="hy-search__dates">
-            <label>
-              {t('desktop.start_date')}
-              <JalaliDatePicker value={from} onChange={setFrom} allowEmpty />
-            </label>
-            <label>
-              {t('desktop.end_date')}
-              <JalaliDatePicker value={to} onChange={setTo} allowEmpty />
-            </label>
+            <div><label htmlFor="header-search-from">{t('desktop.start_date')}</label><JalaliDatePicker id="header-search-from" value={from} onChange={setFrom} allowEmpty /></div>
+            <div><label htmlFor="header-search-to">{t('desktop.end_date')}</label><JalaliDatePicker id="header-search-to" value={to} onChange={setTo} allowEmpty /></div>
           </div>
-          {error ? <div className="alert-error">{error}</div> : null}
-          <div className="hy-search__results">
-            {!ran ? (
-              <p>{t('desktop.hy_search_prompt')}</p>
-            ) : hits.length === 0 && !error ? (
-              <p>{textEmpty(query, from, to) ? t('desktop.hy_search_prompt') : t('desktop.hy_search_empty')}</p>
+          {error ? <div className="alert-error" role="alert">{error}</div> : null}
+          <div className="hy-search__results" aria-live="polite" aria-busy={loading}>
+            {loading ? <div className="hy-search__empty" role="status"><span className="hy-search__empty-icon"><i className="fa-solid fa-circle-notch fa-spin" aria-hidden="true" /></span><strong>{t('desktop.loading')}</strong></div> : !ran || (hits.length === 0 && !error) ? (
+              <div className="hy-search__empty">
+                <span className="hy-search__empty-icon"><i className={`fa-solid ${!ran || textEmpty(query, from, to) ? 'fa-magnifying-glass-chart' : 'fa-magnifying-glass'}`} aria-hidden="true" /></span>
+                <strong>{!ran || textEmpty(query, from, to) ? t('desktop.hy_search_ready') : t('desktop.hy_search_empty')}</strong>
+                <p>{!ran || textEmpty(query, from, to) ? t('desktop.hy_search_prompt') : t('desktop.hy_search_try_again')}</p>
+              </div>
             ) : (
               hits.map((hit) => (
                 <button key={hit.key} type="button" className="hy-search__hit" onClick={() => go(hit.to)}>
-                  <span>
+                  <span className={`hy-search__hit-icon${hit.out ? ' is-out' : ''}`} aria-hidden="true"><i className={`fa-solid ${hit.key.startsWith('expense') ? 'fa-receipt' : hit.key.startsWith('person') ? 'fa-user' : 'fa-right-left'}`} /></span>
+                  <span className="hy-search__hit-copy">
                     <strong>{hit.title}</strong>
                     {hit.meta ? <small>{hit.meta}</small> : null}
                   </span>

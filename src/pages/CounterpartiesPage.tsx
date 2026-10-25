@@ -1,5 +1,5 @@
 import { FormEvent, useCallback, useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useShallow } from 'zustand/react/shallow'
 
@@ -58,13 +58,13 @@ function BalanceLines({ lines, t }: { lines?: CounterpartyBalanceLine[]; t: (k: 
             <div className="cp-balance-line__account">{line.account_name || '—'}</div>
             {kind === 'talab' ? (
               <span className="cp-talab">
-                {t('desktop.talab')}: {amount.toLocaleString('en-US')}{' '}
+                {t('desktop.talab')}: <bdi>{amount.toLocaleString('en-US')}</bdi>{' '}
                 {localizeCurrency(line.currency || 'AFN', t)}
               </span>
             ) : null}
             {kind === 'baqi' ? (
               <span className="cp-baqi">
-                {t('desktop.baqi')}: {amount.toLocaleString('en-US')}{' '}
+                {t('desktop.baqi')}: <bdi>{amount.toLocaleString('en-US')}</bdi>{' '}
                 {localizeCurrency(line.currency || 'AFN', t)}
               </span>
             ) : null}
@@ -91,7 +91,6 @@ const emptyForm: CounterpartyFormPayload = {
 
 export function CounterpartiesPage() {
   const { t } = useTranslation()
-  const navigate = useNavigate()
   const locale = useLocaleStore((s) => s.language)
   const { token } = useAuthStore(useShallow((state) => ({ token: state.token })))
   const userKey = useUserCacheKey()
@@ -264,13 +263,17 @@ export function CounterpartiesPage() {
   }
 
   return (
-    <div className="cp-page" dir="rtl">
-      <div className="ea-head">
+    <div className="cp-page hy-ledger hy-counterparties">
+      <header className="hy-ledger__head">
         <div>
+          <span className="hy-ledger__eyebrow">{t('desktop.hy_cp_eyebrow')}</span>
           <h2>{t('desktop.nav_counterparties')}</h2>
           <p>{t('desktop.page_counterparties_desc')}</p>
         </div>
-      </div>
+        <button type="button" className="btn-primary hy-ledger__add" onClick={openCreate} disabled={!canAdd}>
+          <i className="fa-solid fa-plus" aria-hidden="true" />{t('desktop.add_counterparty')}
+        </button>
+      </header>
 
       <CounterpartyBalanceTotals />
 
@@ -280,23 +283,19 @@ export function CounterpartiesPage() {
         <div className="cp-alert cp-alert--amber">{t('desktop.counterparty_free_limit_note')}</div>
       ) : null}
 
-      <form className="cp-search" onSubmit={onSearch}>
+      <div className="hy-ledger__workspace">
+      <div className="hy-ledger__toolbar">
+      <form className="cp-search" role="search" onSubmit={onSearch}>
         <SearchField
           value={search}
           onChange={setSearch}
-          placeholder={t('desktop.search')}
+          placeholder={t('desktop.hy_cp_search_hint')}
         />
         <button type="submit" className="btn-secondary">
-          {t('desktop.search')}
+          <i className="fa-solid fa-magnifying-glass" aria-hidden="true" /><span>{t('desktop.search')}</span>
         </button>
       </form>
 
-      <div className="cp-toolbar">
-        <button type="button" className="btn-primary" onClick={openCreate} disabled={!canAdd}>
-          <i className="fa-solid fa-circle-plus" />
-          {t('desktop.add_counterparty')}
-        </button>
-      </div>
       {!canAdd ? (
         <p className="cp-alert cp-alert--amber">{t('desktop.counterparty_add_locked_note')}</p>
       ) : null}
@@ -307,39 +306,32 @@ export function CounterpartiesPage() {
       <div className="cp-actions">
         <button
           type="button"
-          className="btn-primary"
-          style={{ background: '#059669', borderColor: '#059669' }}
+          className="hy-ledger__flow is-in"
           onClick={() => setCpFlow('credit')}
           disabled={visibleAccounts.length === 0}
         >
-          <i className="fa-solid fa-arrow-down" />
+          <i className="fa-solid fa-arrow-down" aria-hidden="true" />
           {t('desktop.cp_incoming')}
         </button>
         <button
           type="button"
-          className="btn-primary"
-          style={{ background: '#dc2626', borderColor: '#dc2626' }}
+          className="hy-ledger__flow is-out"
           onClick={() => setCpFlow('debit')}
           disabled={visibleAccounts.length === 0}
         >
-          <i className="fa-solid fa-arrow-up" />
+          <i className="fa-solid fa-arrow-up" aria-hidden="true" />
           {t('desktop.cp_outgoing')}
         </button>
       </div>
+      </div>
 
-      <p className="cp-count">
-        {t('desktop.counterparty_count_label')}: {items.length} / {totalCount}
-      </p>
+      <div className="hy-ledger__list-head"><h3>{t('desktop.nav_counterparties')}</h3><span className="cp-count">{t('desktop.counterparty_count_label')}: <bdi>{items.length} / {totalCount}</bdi></span></div>
 
       <div className="cp-table-wrap">
         {loading ? (
-          <p className="muted" style={{ padding: 16 }}>
-            <i className="fa-solid fa-spinner fa-spin" /> {t('desktop.loading')}
-          </p>
+          <div className="hy-ledger__empty" role="status"><i className="fa-solid fa-circle-notch fa-spin" aria-hidden="true" /><p>{t('desktop.loading')}</p></div>
         ) : items.length === 0 ? (
-          <p className="muted" style={{ padding: 16 }}>
-            {t('desktop.no_counterparties')}
-          </p>
+          <div className="hy-ledger__empty"><i className="fa-solid fa-user-group" aria-hidden="true" /><p>{t('desktop.no_counterparties')}</p></div>
         ) : (
           <>
           <table className="cp-table">
@@ -358,7 +350,7 @@ export function CounterpartiesPage() {
                 <tr key={String(cp.customer_id)}>
                   <td>
                     <Link className="cp-name-link" to={`/counterparties/${cp.customer_id}`}>
-                      {cp.name || '—'}
+                      <span className="hy-party-avatar" aria-hidden="true">{Array.from(cp.name || '—')[0]}</span><span>{cp.name || '—'}</span>
                     </Link>
                   </td>
                   <td>{cp.company_name || '—'}</td>
@@ -372,8 +364,8 @@ export function CounterpartiesPage() {
                       <button type="button" className="btn-secondary btn-sm" onClick={() => openEdit(cp)}>
                         <i className="fa-regular fa-pen-to-square" /> {t('desktop.edit')}
                       </button>
-                      <Link className="cp-icon-btn" to={`/counterparties/${cp.customer_id}`} title={t('desktop.view')}>
-                        <i className="fa-solid fa-eye" />
+                      <Link className="cp-icon-btn" to={`/counterparties/${cp.customer_id}`} title={t('desktop.view')} aria-label={`${t('desktop.view')}: ${cp.name}`}>
+                        <i className="fa-solid fa-arrow-up-right-from-square" aria-hidden="true" />
                       </Link>
                     </div>
                   </td>
@@ -386,10 +378,9 @@ export function CounterpartiesPage() {
               <article
                 key={String(cp.customer_id)}
                 className="cp-card"
-                onClick={() => navigate(`/counterparties/${cp.customer_id}`)}
               >
                 <div className="cp-card__top">
-                  <span className="cp-name-link">{cp.name || '—'}</span>
+                  <Link className="cp-name-link" to={`/counterparties/${cp.customer_id}`}><span className="hy-party-avatar" aria-hidden="true">{Array.from(cp.name || '—')[0]}</span><span>{cp.name || '—'}</span></Link>
                   <button
                     type="button"
                     className="cp-icon-btn"
@@ -398,6 +389,7 @@ export function CounterpartiesPage() {
                       openEdit(cp)
                     }}
                     title={t('desktop.edit')}
+                    aria-label={`${t('desktop.edit')}: ${cp.name}`}
                   >
                     <i className="fa-regular fa-pen-to-square" />
                   </button>
@@ -416,69 +408,77 @@ export function CounterpartiesPage() {
           </>
         )}
       </div>
+      </div>
 
       <Modal
         open={modalOpen}
         onClose={() => !saving && setModalOpen(false)}
         title={editing ? t('desktop.edit_counterparty') : t('desktop.add_counterparty')}
         wide
+        className="hy-party-dialog"
       >
-        <form className="companies-create-form" onSubmit={(e) => void onSubmit(e)}>
+        <form className="companies-create-form hy-party-form" onSubmit={(e) => void onSubmit(e)}>
+          <div className="hy-party-form__intro"><span aria-hidden="true"><i className="fa-solid fa-user-plus" /></span><p>{t('desktop.hy_cp_form_desc')}</p></div>
           {formError ? <div className="alert-error">{formError}</div> : null}
 
+          <fieldset className="hy-party-form__kind"><legend>{t('desktop.personality')}</legend>
+            {(['human', 'company'] as const).map((kind) => <label key={kind} className={form.personality === kind ? 'is-selected' : ''}>
+              <input type="radio" name="counterparty-kind" value={kind} checked={form.personality === kind} onChange={() => setForm((prev) => ({ ...prev, personality: kind }))} />
+              <i className={`fa-solid ${kind === 'human' ? 'fa-user' : 'fa-building'}`} aria-hidden="true" /><span>{t(`desktop.personality_${kind}`)}</span>
+              <i className="fa-solid fa-circle-check" aria-hidden="true" />
+            </label>)}
+          </fieldset>
+          <div className="hy-party-form__grid">
           <div className="form-field">
-            <label>{t('desktop.name')}</label>
+            <label htmlFor="cp-name">{t('desktop.name')} <span className="hy-required" aria-hidden="true">*</span></label>
             <input
+              id="cp-name"
+              autoComplete="name"
               value={form.name}
               onChange={(e) => setForm((prev) => ({ ...prev, name: e.target.value }))}
               required
             />
           </div>
           <div className="form-field">
-            <label>{t('desktop.company_name')}</label>
+            <label htmlFor="cp-company">{t('desktop.company_name')}</label>
             <input
+              id="cp-company"
+              autoComplete="organization"
               value={form.company_name || ''}
               onChange={(e) => setForm((prev) => ({ ...prev, company_name: e.target.value }))}
             />
           </div>
           <div className="form-field">
-            <label>{t('desktop.phone')}</label>
+            <label htmlFor="cp-phone">{t('desktop.phone')}</label>
             <input
+              id="cp-phone"
+              type="tel"
+              autoComplete="tel"
               value={form.phone || ''}
               onChange={(e) => setForm((prev) => ({ ...prev, phone: e.target.value }))}
               dir="ltr"
             />
           </div>
           <div className="form-field">
-            <label>{t('desktop.email')}</label>
+            <label htmlFor="cp-email">{t('desktop.email')}</label>
             <input
+              id="cp-email"
+              autoComplete="email"
               type="email"
               value={form.email || ''}
               onChange={(e) => setForm((prev) => ({ ...prev, email: e.target.value }))}
               dir="ltr"
             />
           </div>
-          <div className="form-field">
-            <label>{t('desktop.address')}</label>
+          <div className="form-field hy-party-form__full">
+            <label htmlFor="cp-address">{t('desktop.address')}</label>
             <input
+              id="cp-address"
+              autoComplete="street-address"
               value={form.address || ''}
               onChange={(e) => setForm((prev) => ({ ...prev, address: e.target.value }))}
             />
           </div>
-          <div className="form-field">
-            <label>{t('desktop.personality')}</label>
-            <select
-              value={form.personality}
-              onChange={(e) =>
-                setForm((prev) => ({
-                  ...prev,
-                  personality: e.target.value as 'human' | 'company',
-                }))
-              }
-            >
-              <option value="human">{t('desktop.personality_human')}</option>
-              <option value="company">{t('desktop.personality_company')}</option>
-            </select>
           </div>
 
           <div className="form-actions">
