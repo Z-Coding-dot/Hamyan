@@ -1,3 +1,4 @@
+import { Select } from '@/components/inputs/SearchableSelect'
 import { FormEvent, useEffect, useMemo, useState } from 'react'
 import { Link, useOutletContext, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
@@ -233,22 +234,22 @@ export function CompanyWarehouseInventoryPage() {
           onChange={setSearch}
           placeholder={t('desktop.search_by_name')}
         />
-        <select
+        <Select
           value={locationFilter}
           onChange={(e) => setLocationFilter(e.target.value as typeof locationFilter)}
         >
           <option value="all">{t('desktop.all_locations')}</option>
           <option value="warehouse">{t('desktop.warehouse_stock')}</option>
           <option value="company">{t('desktop.company_sales_center_full')}</option>
-        </select>
-        <select value={warehouseFilter} onChange={(e) => setWarehouseFilter(e.target.value)}>
+        </Select>
+        <Select value={warehouseFilter} onChange={(e) => setWarehouseFilter(e.target.value)}>
           <option value="all">{t('desktop.all_warehouses')}</option>
           {warehouses.map((wh) => (
             <option key={wh.id} value={wh.id}>
               {wh.name}
             </option>
           ))}
-        </select>
+        </Select>
       </div>
 
       {loading ? (
@@ -301,7 +302,7 @@ export function CompanyWarehouseInventoryPage() {
 
           <label>
             {t('desktop.transfer_type')}
-            <select
+            <Select
               value={transferForm.type}
               disabled={transferLoading}
               onChange={(e) =>
@@ -316,12 +317,12 @@ export function CompanyWarehouseInventoryPage() {
               <option value="warehouse_to_warehouse">{t('desktop.warehouse_to_warehouse')}</option>
               <option value="warehouse_to_company">{t('desktop.warehouse_to_company')}</option>
               <option value="company_to_warehouse">{t('desktop.company_to_warehouse')}</option>
-            </select>
+            </Select>
           </label>
 
           <label>
             {t('desktop.item')}
-            <select
+            <Select
               required
               value={transferForm.item_id}
               disabled={transferLoading}
@@ -334,14 +335,14 @@ export function CompanyWarehouseInventoryPage() {
                   {item.code ? ` (${item.code})` : ''}
                 </option>
               ))}
-            </select>
+            </Select>
           </label>
 
           {transferForm.type === 'warehouse_to_warehouse' ||
           transferForm.type === 'warehouse_to_company' ? (
             <label>
               {t('desktop.from_warehouse')}
-              <select
+              <Select
                 required
                 value={transferForm.from_warehouse_id}
                 disabled={transferLoading}
@@ -355,7 +356,7 @@ export function CompanyWarehouseInventoryPage() {
                     {wh.name}
                   </option>
                 ))}
-              </select>
+              </Select>
             </label>
           ) : null}
 
@@ -363,7 +364,7 @@ export function CompanyWarehouseInventoryPage() {
           transferForm.type === 'company_to_warehouse' ? (
             <label>
               {t('desktop.to_warehouse')}
-              <select
+              <Select
                 required
                 value={transferForm.to_warehouse_id}
                 disabled={transferLoading}
@@ -377,7 +378,7 @@ export function CompanyWarehouseInventoryPage() {
                     {wh.name}
                   </option>
                 ))}
-              </select>
+              </Select>
             </label>
           ) : null}
 

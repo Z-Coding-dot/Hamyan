@@ -1,3 +1,4 @@
+import { Select } from '@/components/inputs/SearchableSelect'
 import { FormEvent, useEffect, useState } from 'react'
 import { Link, useOutletContext, useParams } from 'react-router-dom'
 import { AxiosError } from 'axios'
@@ -472,7 +473,7 @@ export function CompanyExpensesPage() {
 
           <label>
             {t('desktop.select_account')}
-            <select
+            <Select
               value={expenseForm.company_account_id}
               onChange={(e) => setExpenseForm((p) => ({ ...p, company_account_id: e.target.value }))}
               required
@@ -483,7 +484,7 @@ export function CompanyExpensesPage() {
                   {a.name} — {localizeCurrency(a.currency, t)}
                 </option>
               ))}
-            </select>
+            </Select>
             {expenseErrors.company_account_id?.[0] ? (
               <span className="field-error">{expenseErrors.company_account_id[0]}</span>
             ) : null}
@@ -518,7 +519,7 @@ export function CompanyExpensesPage() {
 
           <label>
             {t('desktop.account_name')}
-            <select
+            <Select
               value={expenseForm.field_id}
               onChange={(e) => setExpenseForm((p) => ({ ...p, field_id: e.target.value }))}
               required
@@ -529,13 +530,13 @@ export function CompanyExpensesPage() {
                   {field.account_name} ({field.account_code})
                 </option>
               ))}
-            </select>
+            </Select>
             {expenseErrors.field_id?.[0] ? <span className="field-error">{expenseErrors.field_id[0]}</span> : null}
           </label>
 
           <label>
             {t('desktop.spender')}
-            <select
+            <Select
               value={expenseForm.spender}
               onChange={(e) => setExpenseForm((p) => ({ ...p, spender: e.target.value }))}
               required
@@ -548,7 +549,7 @@ export function CompanyExpensesPage() {
                     `#${member.id}`}
                 </option>
               ))}
-            </select>
+            </Select>
             {expenseErrors.spender?.[0] ? <span className="field-error">{expenseErrors.spender[0]}</span> : null}
           </label>
 

@@ -1,6 +1,10 @@
+import { Select } from '@/components/inputs/SearchableSelect'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useShallow } from 'zustand/react/shallow'
+import { m } from 'framer-motion'
+import { IncomeEntryModal } from '@/components/DashboardPersonalAccounts'
+import { useIsMobileSidebar } from '@/hooks/useMediaQuery'
 
 import { JalaliDatePicker } from '@/components/inputs/JalaliDatePicker'
 import { useRegisterPageRefresh } from '@/hooks/useRegisterPageRefresh'
@@ -29,8 +33,13 @@ export function IncomesPage() {
   const locale = useLocaleStore((s) => s.language)
   const token = useAuthStore(useShallow((s) => s.token))
   const userKey = useUserCacheKey()
+  const isMobile = useIsMobileSidebar()
+  const [search, setSearch] = useState('')
+  const [filtersOpen, setFiltersOpen] = useState(false)
+  const [incomeOpen, setIncomeOpen] = useState(false)
   const ensurePersonalAccounts = useAppCacheStore((s) => s.ensurePersonalAccounts)
   const cachedDeposits = useAppCacheStore((s) => s.getPersonalAccounts(userKey)?.deposits)
+  const accounts = useAppCacheStore((s) => s.getPersonalAccounts(userKey)?.accounts)
 
   const [rows, setRows] = useState<UserAccountDeposit[]>(
     (cachedDeposits ?? []).filter(isPersonalIncome),
@@ -78,9 +87,10 @@ export function IncomesPage() {
       if (startDate && day < startDate) return false
       if (endDate && day > endDate) return false
       if (category && row.income_category !== category) return false
+      if (search.trim() && ![row.description, row.account_name, t(`desktop.income_cat_${row.income_category}`)].join(' ').toLowerCase().includes(search.trim().toLowerCase())) return false
       return true
     })
-  }, [rows, startDate, endDate, category])
+  }, [rows, startDate, endDate, category, search, t])
   const totals = useMemo(() => {
     const grouped = new Map<string, number>()
     visible.forEach((row) => { const code = row.currency || 'AFN'; grouped.set(code, (grouped.get(code) || 0) + Number(row.amount || 0)) })
@@ -95,23 +105,26 @@ export function IncomesPage() {
           <h2>{t('desktop.hy_incomes_page')}</h2>
           <p>{t('desktop.hy_incomes_desc')}</p>
         </div>
+        {isMobile && <m.button type="button" className="btn-primary hy-ledger__add hy-mobile-fab" whileTap={{ scale: .92 }} onClick={() => setIncomeOpen(true)} aria-label={t('desktop.hy_mobile_record_income')}><i className="fa-solid fa-plus" aria-hidden="true" /><span>{t('desktop.hy_mobile_record_income')}</span></m.button>}
       </div>
 
       {error ? <div className="alert-error">{error}</div> : null}
       {totals.length > 0 && <div className="hy-money-totals">{totals.map(([currency, amount]) => <article key={currency}><div><span className="hy-money-totals__icon" aria-hidden="true"><i className="fa-solid fa-arrow-down" /></span><span>{t('desktop.total_incoming')}</span><small>{localizeCurrency(currency, t)}</small></div><strong><bdi>{amount.toLocaleString('en-US')}</bdi></strong><p>{t('desktop.hy_filtered_totals')}</p></article>)}</div>}
 
+      {isMobile && <div className="hy-mobile-list-tools"><div className="hy-mobile-list-tools__search"><i className="fa-solid fa-magnifying-glass" aria-hidden="true" /><input type="search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder={t('desktop.search')} aria-label={t('desktop.search')} /></div><button type="button" onClick={() => setFiltersOpen((value) => !value)} aria-label={t('desktop.filters')} aria-expanded={filtersOpen} aria-controls="income-filters"><i className="fa-solid fa-sliders" aria-hidden="true" /></button></div>}
+      {isMobile && <div className="hy-mobile-chips" role="group" aria-label={t('desktop.income_category')}>{['', ...INCOME_CATEGORIES].map((code) => <button key={code} type="button" className={category === code ? 'is-active' : ''} aria-pressed={category === code} onClick={() => setCategory(code)}>{code ? t(`desktop.income_cat_${code}`) : t('desktop.all')}</button>)}</div>}
       <div className="hy-ledger__workspace">
-      <div className="hy-exp__filters">
+      <div id="income-filters" className={`hy-exp__filters${filtersOpen ? ' is-mobile-open' : ''}`}>
         <label>
           {t('desktop.income_category')}
-          <select value={category} onChange={(e) => setCategory(e.target.value)}>
+          <Select value={category} onChange={(e) => setCategory(e.target.value)}>
             <option value="">{t('desktop.all')}</option>
             {INCOME_CATEGORIES.map((code) => (
               <option key={code} value={code}>
                 {t(`desktop.income_cat_${code}`)}
               </option>
             ))}
-          </select>
+          </Select>
         </label>
         <label>
           {t('desktop.start_date')}
@@ -132,7 +145,7 @@ export function IncomesPage() {
         {loading ? (
           <div className="hy-ledger__empty" role="status"><i className="fa-solid fa-circle-notch fa-spin" aria-hidden="true" /><p>{t('desktop.loading')}</p></div>
         ) : visible.length === 0 ? (
-          <div className="hy-ledger__empty"><i className="fa-solid fa-arrow-down" aria-hidden="true" /><p>{t('desktop.no_record_found')}</p></div>
+          <div className="hy-ledger__empty"><i className={`fa-solid ${isMobile ? 'fa-wallet' : 'fa-arrow-down'}`} aria-hidden="true" />{isMobile && rows.length === 0 ? <><h3>{t('desktop.hy_mobile_no_income')}</h3><p>{t('desktop.hy_mobile_add_income_hint')}</p></> : <p>{t('desktop.no_record_found')}</p>}</div>
         ) : (
           visible.map((item) => {
             const categoryKey = incomeCategoryKey(item.income_category)
@@ -160,6 +173,7 @@ export function IncomesPage() {
         )}
       </section>
       </div>
+      <IncomeEntryModal open={incomeOpen} onClose={() => setIncomeOpen(false)} accounts={accounts ?? []} onSaved={() => load(true)} />
     </div>
   )
 }

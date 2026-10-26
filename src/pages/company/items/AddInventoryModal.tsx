@@ -1,3 +1,4 @@
+import { Select } from '@/components/inputs/SearchableSelect'
 import { FormEvent, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -91,7 +92,7 @@ export function AddInventoryModal({
       </label>
       <label>
         {t('desktop.capital_account')}
-        <select
+        <Select
           required
           value={capitalAccountId}
           onChange={(e) => setCapitalAccountId(e.target.value)}
@@ -102,7 +103,7 @@ export function AddInventoryModal({
               {a.name} ({localizeCurrency(a.currency, t)})
             </option>
           ))}
-        </select>
+        </Select>
       </label>
       {selected?.currency ? (
         <p className="muted small">

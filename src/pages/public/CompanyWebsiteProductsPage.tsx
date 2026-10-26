@@ -1,3 +1,4 @@
+import { Select } from '@/components/inputs/SearchableSelect'
 import { FormEvent, useEffect, useState } from 'react'
 import { Link, useParams, useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
@@ -100,12 +101,12 @@ export function CompanyWebsiteProductsPage() {
               onChange={setQ}
               placeholder={t('desktop.cw_search_products')}
             />
-            <select value={sort} onChange={(e) => setSort(e.target.value)}>
+            <Select value={sort} onChange={(e) => setSort(e.target.value)}>
               <option value="new">{t('desktop.cw_sort_newest')}</option>
               <option value="old">{t('desktop.cw_sort_oldest')}</option>
               <option value="price_asc">{t('desktop.cw_sort_price_asc')}</option>
               <option value="price_desc">{t('desktop.cw_sort_price_desc')}</option>
-            </select>
+            </Select>
             <button type="submit" className="cw-primary-btn">
               {t('desktop.cw_apply')}
             </button>

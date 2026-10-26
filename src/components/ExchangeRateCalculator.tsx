@@ -1,3 +1,4 @@
+import { Select } from '@/components/inputs/SearchableSelect'
 import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -136,20 +137,20 @@ export function ExchangeRateCalculator({ rates }: Props) {
 
       <div className="form-field">
         <label>{t('desktop.exchange_pair')}</label>
-        <select value={selectedPairKey} onChange={(e) => setSelectedPairKey(e.target.value)}>
+        <Select value={selectedPairKey} onChange={(e) => setSelectedPairKey(e.target.value)}>
           {pairOptions.map((pair) => (
             <option key={pair.key} value={pair.key}>
               {pair.aName} ({localizeCurrency(pair.aCode, t)}) - {pair.bName} (
               {localizeCurrency(pair.bCode, t)})
             </option>
           ))}
-        </select>
+        </Select>
       </div>
 
       <div className="xrate-calculator__dirs">
         <div className="form-field">
           <label>{t('desktop.exchange_from')}</label>
-          <select
+          <Select
             value={calcFrom}
             onChange={(e) => {
               const nextFrom = e.target.value
@@ -164,11 +165,11 @@ export function ExchangeRateCalculator({ rates }: Props) {
                 {currency.name} ({localizeCurrency(currency.code, t)})
               </option>
             ))}
-          </select>
+          </Select>
         </div>
         <div className="form-field">
           <label>{t('desktop.exchange_to')}</label>
-          <select
+          <Select
             value={calcTo}
             onChange={(e) => {
               const nextTo = e.target.value
@@ -183,7 +184,7 @@ export function ExchangeRateCalculator({ rates }: Props) {
                 {currency.name} ({localizeCurrency(currency.code, t)})
               </option>
             ))}
-          </select>
+          </Select>
         </div>
       </div>
 

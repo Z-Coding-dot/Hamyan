@@ -1,3 +1,4 @@
+import { Select } from '@/components/inputs/SearchableSelect'
 import { FormEvent, useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useNavigate, useOutletContext, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
@@ -358,14 +359,14 @@ export function CompanyPackageSalePage() {
           </label>
           <label>
             {t('desktop.payment_account')}
-            <select value={accountId} onChange={(event) => setAccountId(event.target.value)} required={price > 0}>
+            <Select value={accountId} onChange={(event) => setAccountId(event.target.value)} required={price > 0}>
               <option value="">{t('desktop.select')}</option>
               {activeAccounts.map((account) => (
                 <option key={account.id} value={account.id}>
                   {account.name} ({account.currency})
                 </option>
               ))}
-            </select>
+            </Select>
           </label>
           <label>
             {t('desktop.note')}

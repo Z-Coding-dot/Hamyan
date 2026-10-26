@@ -1,3 +1,4 @@
+import { Select } from '@/components/inputs/SearchableSelect'
 import { FormEvent, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -137,7 +138,7 @@ export function StaffContractModal({
         </label>
         <label>
           {t('desktop.select_account')}
-          <select
+          <Select
             value={accountId}
             onChange={(e) => setAccountId(e.target.value)}
             required
@@ -151,7 +152,7 @@ export function StaffContractModal({
                 {account.name || '—'} - {localizeCurrency(account.currency, t)}
               </option>
             ))}
-          </select>
+          </Select>
         </label>
         {selectedAccount ? (
           <p className="muted">

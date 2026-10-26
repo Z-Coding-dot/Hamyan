@@ -1,3 +1,4 @@
+import { Select } from '@/components/inputs/SearchableSelect'
 import { FormEvent, useEffect, useState } from 'react'
 import { Link, Navigate, useOutletContext, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
@@ -144,14 +145,14 @@ export function CompanyParentCompanySettingsPage() {
           <div className="cs-card">
             <div className="cs-card__title">{t('desktop.select_parent_company')}</div>
             <div className="cs-field">
-              <select value={parentId} onChange={(e) => setParentId(e.target.value)}>
+              <Select value={parentId} onChange={(e) => setParentId(e.target.value)}>
                 <option value="">{t('desktop.select')}</option>
                 {(payload?.parentCompanyOptions || []).map((opt) => (
                   <option key={String(opt.company_id)} value={String(opt.company_id)}>
                     {opt.name}
                   </option>
                 ))}
-              </select>
+              </Select>
             </div>
             <div className="cs-actions">
               <button

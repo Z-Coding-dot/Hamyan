@@ -1,3 +1,4 @@
+import { Select } from '@/components/inputs/SearchableSelect'
 import { FormEvent, useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { Link, useOutletContext, useParams } from 'react-router-dom'
@@ -973,7 +974,7 @@ function CashActionModal({
         ) : null}
         <label>
           {t('desktop.account')}
-          <select value={accountId} onChange={(e) => setAccountId(e.target.value)} required>
+          <Select value={accountId} onChange={(e) => setAccountId(e.target.value)} required>
             <option value="">{t('desktop.select')}</option>
             {options.map((opt) => (
               <option key={opt.id} value={opt.id}>
@@ -981,7 +982,7 @@ function CashActionModal({
                 {opt.remaining != null ? ` (${formatMoney(opt.remaining)})` : ''}
               </option>
             ))}
-          </select>
+          </Select>
         </label>
         {selected && selected.remaining != null ? (
           <p className="muted">

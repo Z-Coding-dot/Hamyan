@@ -1,3 +1,4 @@
+import { Select } from '@/components/inputs/SearchableSelect'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
@@ -162,9 +163,9 @@ export function CounterpartyTransactionsPage() {
         <div className="cp-filters">
           <SearchField label={t('desktop.search')} value={search} onChange={setSearch} placeholder={t('desktop.hy_transfer_search_hint')} />
           <div className="form-field"><label htmlFor="transfer-type">{t('desktop.type')}</label>
-            <select id="transfer-type" value={typeFilter} onChange={(e) => setTypeFilter(e.target.value)}>
+            <Select id="transfer-type" value={typeFilter} onChange={(e) => setTypeFilter(e.target.value)}>
               <option value="">{t('desktop.all')}</option><option value="credit">{t('desktop.cp_incoming')}</option><option value="debit">{t('desktop.cp_outgoing')}</option>
-            </select>
+            </Select>
           </div>
           <div className="form-field"><label htmlFor="transfer-from">{t('desktop.start_date')}</label><JalaliDatePicker id="transfer-from" value={startDate} onChange={setStartDate} allowEmpty /></div>
           <div className="form-field"><label htmlFor="transfer-to">{t('desktop.end_date')}</label><JalaliDatePicker id="transfer-to" value={endDate} onChange={setEndDate} allowEmpty /></div>

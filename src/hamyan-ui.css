@@ -4239,3 +4239,333 @@ body:has(.hy-party-dialog) .jalali-date-picker__pop { z-index: 7100; }
 @media (prefers-reduced-motion: reduce) {
   .hy-top__profile, .hy-profile-review-actions > button { transition: none; }
 }
+
+/* Mobile application surfaces. Desktop rules above remain independent. */
+.hy-mobile-welcome, .hy-mobile-activity { display: none; }
+@media (max-width: 900px) {
+  .hy-app-shell { --hy-mobile-primary: #1463f3; --hy-mobile-deep: #102d7d; --hy-mobile-soft: #edf4ff; --hy-shell-line: #e7e9ed; --hy-shell-ink: #262d3c; --hy-shell-muted: #7a7f8a; }
+  .hy-app-shell, .hy-app-shell.app-frame--sidebar-collapsed { grid-template-rows: calc(70px + env(safe-area-inset-top)) minmax(0, 1fr); background: #fff; --bottom-bar-clearance: calc(86px + env(safe-area-inset-bottom)); }
+  .hy-app-shell > .app-content { padding: 0 0 var(--bottom-bar-clearance); background: #fff; scrollbar-gutter: auto; scrollbar-width: none; overflow-x: hidden; }
+  .hy-app-shell > .app-content::-webkit-scrollbar { display: none; }
+  .hy-mobile-screen { min-width: 0; min-height: 100%; }
+  .hy-app-shell .hy-mobile-header { background: var(--hy-mobile-primary); border: 0; backdrop-filter: none; }
+  .hy-mobile-header__bar { display: flex; align-items: center; justify-content: space-between; direction: ltr; height: 100%; padding: calc(10px + env(safe-area-inset-top)) 21px 10px; }
+  .hy-mobile-header__profile { position: relative; display: grid; place-items: center; width: 44px; height: 44px; padding: 0; flex: 0 0 44px; border: 2px solid #ffffff80; border-radius: 50%; background: #e8ecf4; color: #2b4270; font: inherit; font-size: 1rem; font-weight: 650; cursor: pointer; }
+  .hy-mobile-header__profile > img { width: 100%; height: 100%; border-radius: inherit; object-fit: cover; }
+  .hy-mobile-header__dot { position: absolute; top: -1px; right: -1px; width: 9px; height: 9px; border: 2px solid var(--hy-mobile-primary); border-radius: 50%; background: #f4c483; }
+  .hy-mobile-header__brand { display: inline-flex; flex-direction: row-reverse; align-items: center; gap: 8px; min-height: 44px; color: #fff; text-decoration: none; }
+  .hy-mobile-header__brand strong { font-size: 1.18rem; font-weight: 700; }
+  .hy-mobile-header__brand img { filter: drop-shadow(0 2px 3px #15254420); }
+  .hy-app-shell > .hy-mobile-nav { position: fixed; inset-inline: 0; bottom: 0; z-index: 60; padding: 8px 10px max(10px, env(safe-area-inset-bottom)); border-top: 1px solid #edf0ee; background: #fffffff5; backdrop-filter: blur(18px); box-shadow: 0 -4px 24px #202c4304; }
+  .hy-app-shell .hy-mobile-nav .bottom-bar-nav { grid-template-columns: repeat(4, minmax(0, 1fr)); max-width: 650px; height: 54px; gap: 2px; }
+  .hy-app-shell .hy-mobile-nav .bottom-link { height: 54px; min-height: 48px; gap: 4px; color: #7c7f85; background: transparent; border-radius: 0; }
+  .hy-app-shell .hy-mobile-nav .bottom-link.active-link { color: #1463f3; background: transparent; }
+  .hy-app-shell .hy-mobile-nav .bottom-link .tab-icon { position: relative; width: 54px; height: 29px; color: inherit; background: transparent; }
+  .hy-app-shell .hy-mobile-nav .bottom-link .tab-icon > i { position: relative; z-index: 1; font-size: 18px; transform: none; }
+  .hy-mobile-nav__pill { position: absolute; inset: 0; border-radius: 18px; background: #dce1ec; }
+  .hy-app-shell .hy-mobile-nav .bottom-link .tab-text { font-size: clamp(.61rem, 2.25vw, .72rem); font-weight: 500; line-height: 1.5; }
+  .hy-app-shell > .hy-sidebar.hy-profile-hub { inset: 0; width: 100%; max-width: none; height: 100dvh; grid-template-rows: calc(70px + env(safe-area-inset-top)) minmax(0, 1fr) auto; border: 0; border-radius: 0; background: #f7faf8; box-shadow: none; transition: none; }
+  .hy-app-shell.app-frame--sidebar-collapsed > .hy-sidebar.hy-profile-hub { visibility: visible; }
+  .hy-profile-hub .hy-sidebar__head { background: var(--hy-mobile-primary); color: #fff; padding-inline: 22px 14px; border: 0; }
+  .hy-profile-hub .hy-sidebar__head h2 { margin: 0; color: #fff; font-size: 1.05rem; font-weight: 600; }
+  .hy-profile-hub .hy-sidebar__toggle { color: #fff; background: #ffffff12; border-radius: 50%; }
+  .hy-profile-hub .hy-sidebar__nav { padding: 20px 18px; }
+  .hy-profile-hub__identity { display: flex; align-items: center; gap: 14px; padding: 18px; margin-bottom: 25px; border: 1px solid #e4e7ee; border-radius: 19px; background: #fff; color: #2f3645; text-decoration: none; }
+  .hy-profile-hub__identity .hy-sidebar__avatar { flex-basis: 52px; width: 52px; height: 52px; border-radius: 50%; background: #e2e7f0; color: #1463f3; font-size: 1.2rem; }
+  .hy-profile-hub__identity > span:nth-child(2) { display: grid; flex: 1; min-width: 0; gap: 5px; }
+  .hy-profile-hub__identity strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 1rem; }
+  .hy-profile-hub__identity small { color: #7a7f8a; font-size: .72rem; }
+  .hy-profile-hub__identity > i { color: #9199aa; font-size: 12px; }
+  .hy-profile-hub .hy-sidebar__group { margin-top: 22px; }
+  .hy-profile-hub .hy-sidebar__caption { color: #9197a3; margin-inline: 10px; font-size: .67rem; }
+  .hy-profile-hub .hy-side-link { min-height: 52px; padding: 13px 12px; margin-top: 4px; border-radius: 13px; background: #fff; color: #464f60; font-size: .84rem; }
+  .hy-profile-hub .hy-side-link > i { color: #506794; }
+  .hy-profile-hub .hy-side-link.is-active { background: #e5e9f1; color: #243d6e; }
+  .hy-profile-hub__preferences > button > small { margin-inline-start: auto; color: #818998; font-size: .7rem; }
+  .hy-profile-hub .hy-sidebar__footer { background: #fff; border-color: #e6e9ee; padding: 10px 18px max(14px, env(safe-area-inset-bottom)); }
+  .hy-profile-hub .hy-sidebar__logout { margin-top: 0; color: #b75456; background: #fff8f7; }
+  .hy-profile-hub__tool { display: grid; gap: 4px; }
+  .hy-profile-hub .hy-search-slot { width: 100%; }
+  .hy-profile-hub .hy-top__search-trigger, .hy-profile-hub .hy-top__refresh { display: flex; align-items: center; justify-content: flex-start; gap: 12px; width: 100%; height: 52px; padding: 13px 12px; margin-top: 4px; border: 0; border-radius: 13px; background: #fff; color: #464f60; font-size: .84rem; }
+  .hy-profile-hub .hy-top__search-trigger > span { display: inline; font-size: .84rem; }
+  .hy-profile-hub .hy-search { position: fixed; inset: 78px 12px auto; width: auto; max-height: calc(100dvh - 100px); border-radius: 20px; z-index: 10; }
+  .hy-profile-hub .hy-search__filters { flex-wrap: wrap; }
+  .hy-mobile-welcome { display: block; padding: 4px 22px 24px; background: var(--hy-mobile-primary); color: #fff; }
+  .hy-mobile-welcome p { margin: 0 0 3px; color: #d5dcea; font-size: .8rem; }
+  .hy-mobile-welcome h2 { margin: 0; color: #fff; font-size: 1.6rem; font-weight: 650; line-height: 1.5; }
+  .hy-dashboard { display: flex; flex-direction: column; gap: 0; margin: 0; }
+  .hy-dashboard__intro { display: none; }
+  .hy-dashboard > .hy-fin { order: 1; margin: 0; padding: 0; border: 0; border-radius: 0; background: #fff; box-shadow: none; }
+  .hy-dashboard > .hy-dues { order: 2; margin: 20px; }
+  .hy-dashboard > .hy-wa { order: 3; margin: 0 20px 24px; }
+  .hy-dashboard > :last-child:not(.hy-fin):not(.hy-dues):not(.hy-wa) { display: none; }
+  .hy-dashboard .hy-fin__main { display: flex; flex-direction: column; gap: 0; background: linear-gradient(to bottom, var(--hy-mobile-primary) 0, var(--hy-mobile-primary) 105px, #fff 105px); padding: 0; border: 0; }
+  .hy-wallet-carousel { position: relative; min-width: 0; width: 100%; padding: 0 20px; }
+  .hy-wallet-carousel__viewport { position: relative; z-index: 1; min-width: 0; border-radius: 20px; touch-action: pan-y; }
+  .hy-wallet-card { position: relative; min-width: 0; width: 100%; min-height: 225px; padding: 20px; border: 1px solid #ffffff45; border-radius: 20px; overflow: hidden; background: linear-gradient(135deg, #2a4170, #243964); color: #fff; box-shadow: 0 8px 0 -3px #435c8f, 0 15px 0 -7px #8c9ab7; touch-action: pan-y; user-select: none; outline-offset: 4px; }
+  .hy-wallet-card::before { content: ''; position: absolute; width: 200px; height: 200px; border: 17px solid #ffffff04; border-radius: 50%; inset-inline-start: -70px; top: -85px; pointer-events: none; }
+  .hy-wallet-card > * { position: relative; }
+  .hy-wallet-card__top { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+  .hy-wallet-card__top > span { display: flex; align-items: center; gap: 9px; min-width: 0; font-size: .8rem; }
+  .hy-wallet-card__top > button { display: grid; place-items: center; flex: 0 0 44px; width: 44px; height: 44px; margin: -9px -5px; padding: 0; border: 0; border-radius: 50%; background: transparent; color: #d8deeb; cursor: pointer; }
+  .hy-wallet-card__label { margin: 17px 0 4px; font-size: .72rem; color: #c6cede; }
+  .hy-wallet-card__label > span { margin-inline-start: 5px; }
+  .hy-wallet-card__amount { display: flex; align-items: baseline; gap: 8px; margin-bottom: 18px; color: #fff; font-size: clamp(1.8rem, 8vw, 2.4rem); font-weight: 700; line-height: 1.3; overflow-wrap: anywhere; }
+  .hy-wallet-card__amount small { font-size: .8rem; font-weight: 500; }
+  .hy-wallet-card__stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; padding-top: 13px; border-top: 1px solid #ffffff25; }
+  .hy-wallet-card__stats > div { display: grid; gap: 4px; min-width: 0; }
+  .hy-wallet-card__stats span { display: flex; align-items: center; gap: 5px; color: #c8cfde; font-size: .65rem; }
+  .hy-wallet-card__stats span > i { display: grid; place-items: center; width: 19px; height: 19px; border-radius: 50%; background: #ffffff10; font-size: 9px; }
+  .hy-wallet-card__stats bdi { color: #fff; font-size: .9rem; font-weight: 600; overflow-wrap: anywhere; }
+  .hy-wallet-carousel__dots { display: flex; align-items: center; justify-content: center; height: 39px; margin-top: 8px; }
+  .hy-wallet-carousel__dots > button { display: grid; place-items: center; width: 32px; height: 36px; padding: 0; border: 0; background: none; cursor: pointer; }
+  .hy-wallet-carousel__dots span { width: 5px; height: 5px; border-radius: 50%; background: #c8cdd7; transition: width 180ms, background-color 180ms; }
+  .hy-wallet-carousel__dots [aria-current='true'] span { width: 18px; border-radius: 6px; background: #1463f3; }
+  .hy-wallet-carousel__hint { margin: -4px 0 0; color: #9297a2; text-align: center; font-size: .62rem; }
+  .hy-dashboard .hy-actions { display: flex; align-items: stretch; gap: 6px; width: 100%; padding: 20px 14px; overflow-x: auto; scrollbar-width: none; }
+  .hy-dashboard button.hy-action { display: flex; flex-direction: column; justify-content: flex-start; flex: 1 0 64px; gap: 8px; min-height: 80px; width: auto; padding: 0 3px; border: 0; background: transparent !important; box-shadow: none; font-size: .63rem; line-height: 1.6; text-align: center; }
+  .hy-dashboard button.hy-action .hy-action__icon { width: 42px; height: 42px; border-radius: 14px; background: #e7ebf2 !important; color: #344f85 !important; font-size: 16px; }
+  .hy-dashboard button.hy-action--spend .hy-action__icon { background: #fff0e4 !important; color: #dc945c !important; }
+  .hy-dashboard .hy-desktop-activity { display: none; }
+  .hy-mobile-activity { display: grid; gap: 24px; padding: 6px 20px 20px; }
+  .hy-mobile-activity__section h3 { margin: 0 0 12px; font-size: .82rem; color: #8b8f98; font-weight: 500; }
+  .hy-mobile-activity .hy-tx__row { min-height: 75px; gap: 12px; padding: 14px 0; border-bottom: 1px solid #edf1ee; }
+  .hy-mobile-activity .hy-tx__body strong { color: #3c4049; font-size: .83rem; font-weight: 600; }
+  .hy-mobile-activity .hy-tx__body small { margin-top: 4px; color: #9a9ea5; font-size: .68rem; }
+  .hy-mobile-activity .hy-tx__icon { width: 38px; height: 38px; border-radius: 12px; background: #e0e6f2; color: #5b719c; }
+  .hy-mobile-activity .hy-tx__icon.is-out { background: #fff0df; color: #e59a58; }
+  .hy-mobile-activity .hy-tx__amount { display: grid; gap: 4px; max-width: 37%; color: #2e3138; font-size: 1rem; font-weight: 650; }
+  .hy-mobile-activity .hy-tx__amount small { color: #9499a2; font-size: .6rem; font-weight: 500; }
+  .hy-mobile-activity__empty { margin: 10px 0; padding: 20px; border-radius: 14px; background: #f8faf8; color: #969aa3; font-size: .75rem; text-align: center; }
+  .hy-app-shell .hy-ledger { gap: 0; margin: 0; padding: 0; background: #fff; }
+  .hy-app-shell .hy-ledger > .hy-ledger__head { position: relative; display: flex; align-items: center; padding: 4px 22px 22px; margin: 0; border: 0; border-radius: 0; background: var(--hy-mobile-primary); color: #fff; }
+  .hy-app-shell .hy-ledger__head h2 { margin: 0; color: #fff; font-size: 1.35rem; font-weight: 650; line-height: 1.6; }
+  .hy-app-shell .hy-ledger__head :is(.hy-ledger__eyebrow, p) { display: none; }
+  .hy-app-shell .hy-ledger > :is(.hy-options-panel, .hy-guide-page__grid, .hy-profile-hero, .profile-grid, .hy-membership__hero, .hy-membership__account, .hy-dues, .ua-cards, .hy-analysis__controls, .ea-cards, .ea-panel, .hy-transfer-summary__grid) { margin: 20px 18px; }
+  .hy-app-shell .hy-ledger > .hy-ledger__workspace { margin: 0 18px 20px; border-radius: 18px; box-shadow: none; }
+  .hy-app-shell .hy-options-icon { color: #4d6595; border-color: #dbe1ec; background: #eaedf4; }
+  .hy-app-shell :is(.btn-primary, .hy-ledger__add) { background: #1463f3 !important; border-color: #1463f3 !important; color: #fff !important; box-shadow: 0 4px 12px #1463f314; }
+  .hy-app-shell .hy-options-panel { border-color: #e5e7ec; border-radius: 18px; }
+  .hy-app-shell .hy-profile-hero__cover, .hy-app-shell .hy-membership__hero { background: linear-gradient(130deg, #364e7f, #20345c); }
+  .hy-app-shell .hy-profile-identity__edit { background: #f4f9f6; border-color: #dce0e9; color: #445982; }
+  .hy-app-shell .hy-notifications__toolbar button.is-active, .hy-app-shell .hy-guide-topic[open] > summary .hy-options-icon { background: #e4e8f1; border-color: #d5dce9; color: #374f7e; }
+  .hy-app-shell .hy-notifications__dot { background: #4b6497; }
+  .hy-money-page { display: flex; flex-direction: column; }
+  .hy-money-page > .hy-ledger__head { order: 0; }
+  .hy-mobile-list-tools { order: 1; display: flex; align-items: center; gap: 9px; padding: 0 18px 17px; background: var(--hy-mobile-primary); }
+  .hy-mobile-list-tools__search { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; height: 44px; padding: 0 15px; border-radius: 24px; background: #fff; color: #a6aab3; }
+  .hy-mobile-list-tools__search > input { width: 100%; min-width: 0; height: 100%; padding: 0; border: 0; outline: none; background: transparent; box-shadow: none; color: #3a4251; font: inherit; font-size: 16px; }
+  .hy-mobile-list-tools > button { display: grid; place-items: center; flex: 0 0 44px; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 50%; background: #fff; color: #5b719e; font-size: 17px; }
+  .hy-mobile-list-tools > button[aria-expanded='true'] { background: #d1d9e8; color: #22365e; }
+  .hy-mobile-chips { order: 2; display: flex; gap: 8px; padding: 15px 18px; overflow-x: auto; scrollbar-width: none; white-space: nowrap; }
+  .hy-mobile-chips > button { flex: 0 0 auto; min-height: 36px; padding: 7px 14px; border: 0; border-radius: 20px; background: #f2f4f2; color: #8b8f97; font: inherit; font-size: .74rem; }
+  .hy-mobile-chips > button.is-active { background: #e0e5ef; color: #38507f; font-weight: 600; }
+  .hy-money-page > .hy-money-totals { order: 3; display: flex; flex-wrap: nowrap; gap: 10px; margin: 0; padding: 2px 18px 16px; overflow-x: auto; scrollbar-width: none; }
+  .hy-money-page .hy-money-totals > article { flex: 1 0 145px; min-width: 0; padding: 12px 14px; border: 1px solid #edf2ee; border-radius: 13px; background: #fafcfb; box-shadow: none; }
+  .hy-money-page .hy-money-totals article > div { gap: 6px; font-size: .66rem; }
+  .hy-money-page .hy-money-totals article > div > span:not(.hy-money-totals__icon) { font-size: .65rem; }
+  .hy-money-page .hy-money-totals article > strong { display: block; margin-top: 5px; color: #414f6b; font-size: 1.15rem; }
+  .hy-money-page .hy-money-totals :is(.hy-money-totals__icon, article > p) { display: none; }
+  .hy-money-page > .hy-ledger__workspace { order: 4; border: 0; }
+  .hy-money-page .hy-exp__filters { display: none; }
+  .hy-money-page .hy-exp__filters.is-mobile-open { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; padding: 16px; margin-bottom: 16px; border: 1px solid #e5e8ee; border-radius: 16px; background: #f7faf8; }
+  .hy-money-page .hy-exp__filters > label:first-child { grid-column: 1 / -1; }
+  .hy-money-page .hy-tx { padding: 0 2px; border: 0; border-radius: 0; }
+  .hy-money-page .hy-tx__head { padding: 8px 0 12px; }
+  .hy-money-page .hy-tx__head h5 { color: #989ca3; font-size: .77rem; font-weight: 500; }
+  .hy-money-page .hy-tx__row { gap: 12px; min-height: 78px; padding: 16px 0; }
+  .hy-money-page .hy-tx__icon { width: 38px; height: 38px; border-radius: 11px; background: #dfe5f0; color: #5e739c; }
+  .hy-expenses-page .hy-tx__icon { background: #ffeddd; color: #e99953; }
+  .hy-money-page .hy-tx__body strong { color: #494c51; font-size: .83rem; }
+  .hy-money-page .hy-tx__body small { color: #989ba2; font-size: .67rem; }
+  .hy-money-page .hy-tx__amount { max-width: 37%; color: #343943; font-size: .96rem; }
+  .hy-money-page .hy-ledger__empty { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 40dvh; gap: 10px; padding: 34px 15px; }
+  .hy-money-page .hy-ledger__empty > i { width: auto; height: auto; margin-bottom: 8px; background: none; color: #b7babf; font-size: 70px; }
+  .hy-money-page .hy-ledger__empty h3 { margin: 0; color: #3d4149; font-size: 1rem; line-height: 1.7; }
+  .hy-money-page .hy-ledger__empty p { margin: 0; color: #9c9fa6; font-size: .78rem; }
+  .hy-app-shell .hy-mobile-fab, .hy-app-shell .hy-counterparties > .hy-ledger__head > .hy-ledger__add { position: fixed; inset-inline-end: 21px; bottom: calc(96px + env(safe-area-inset-bottom)); z-index: 45; display: grid; place-items: center; width: 54px; min-width: 54px; max-width: 54px; height: 54px; min-height: 54px; padding: 0; border: 0; border-radius: 17px; background: #1463f3; box-shadow: 0 5px 12px #20345c24; font-size: 21px; }
+  .hy-mobile-fab > span, .hy-counterparties > .hy-ledger__head > .hy-ledger__add { font-size: 0 !important; }
+  .hy-counterparties > .hy-ledger__head > .hy-ledger__add > i { font-size: 20px; }
+  .hy-mobile-fab > span { display: none; }
+  .hy-counterparties .hy-dues { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+  .hy-counterparties .hy-dues__card { padding: 12px 8px; min-height: 116px; border-radius: 14px; }
+  .hy-counterparties .hy-dues__head { gap: 5px; font-size: .6rem; }
+  .hy-counterparties .hy-dues__icon { width: 24px; height: 24px; font-size: 10px; }
+  .hy-counterparties .hy-dues__amounts b { font-size: 1rem; }
+  .hy-counterparties .hy-dues__amounts small { font-size: .55rem; }
+  .hy-counterparties .hy-dues__amounts { gap: 5px; }
+  .hy-counterparties .hy-ledger__toolbar { padding: 16px; }
+  .hy-counterparties .hy-ledger__workspace { border-color: #e5e7ec; }
+  .hy-counterparties .cp-alert { margin-inline: 18px; font-size: .7rem; }
+  .profile-modal { padding-top: 12px; }
+  .profile-modal::before, .hy-language-dialog::before { content: ''; position: absolute; width: 36px; height: 4px; top: 9px; left: calc(50% - 18px); border-radius: 4px; background: #d8dadf; }
+  .profile-modal .profile-modal__head { padding-top: 22px; }
+  .profile-modal .profile-modal__head h3 { color: #303848; font-size: 1rem; }
+  .profile-modal .profile-modal__close { min-width: 44px; width: 44px; height: 44px; border-radius: 50%; color: #7d8596; background: #f1f6f2; }
+  .profile-modal .btn-primary { background: #1463f3 !important; border-color: #1463f3 !important; color: #fff !important; box-shadow: none; border-radius: 14px; }
+  .profile-modal :is(input:not([type='checkbox']):not([type='range']), select, textarea) { font-size: 16px; border-color: #dfe2e9; }
+  .profile-modal :is(input, select, textarea):focus { border-color: #5c729e; box-shadow: 0 0 0 3px #3d599114; }
+  .hy-party-dialog .hy-party-form__intro { display: none; }
+  .hy-language-dialog .language-modal__option.is-active { background: #e9edf4; border-color: #c4cdde; color: #3c5484; }
+}
+@media (max-width: 360px) {
+  .hy-wallet-card { padding: 17px; }
+  .hy-wallet-card__top > span { font-size: .73rem; }
+  .hy-wallet-card__amount { font-size: 1.9rem; }
+  .hy-wallet-card__stats span { font-size: .6rem; }
+  .hy-app-shell .hy-mobile-nav .bottom-link .tab-text { font-size: .6rem; }
+  .hy-counterparties .hy-dues { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 900px) {
+  .hy-mobile-page-back { padding: 0 16px 8px; background: #1463f3; }
+  .hy-mobile-page-back > button { display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 8px 10px; border: 0; border-radius: 10px; background: #ffffff0e; color: #e4e9f2; font: inherit; font-size: .75rem; }
+}
+@media (max-width: 900px) {
+  .hy-app-shell .hy-profile-page > .profile-grid { width: auto; min-width: 0; }
+  .hy-app-shell .hy-ledger__head > div:first-child { width: 100%; text-align: start; }
+  .hy-app-shell .hy-mobile-nav .bottom-link.active-link .tab-icon { color: #1463f3; }
+}
+@media (max-width: 900px) {
+  .hy-app-shell :is(.hy-dashboard, .hy-counterparties) > .hy-dues { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 9px; margin: 20px 18px; }
+  .hy-app-shell :is(.hy-dashboard, .hy-counterparties) .hy-dues__card { min-height: 130px; padding: 13px 10px; border: 1px solid #e5e8ee; border-radius: 15px; box-shadow: none; }
+  .hy-app-shell :is(.hy-dashboard, .hy-counterparties) .hy-dues__card.is-balance { grid-column: auto; background: #173e91; border-color: #173e91; }
+  .hy-app-shell :is(.hy-dashboard, .hy-counterparties) .hy-dues__head { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .hy-app-shell :is(.hy-dashboard, .hy-counterparties) .hy-dues__head > span:last-child { font-size: .65rem; line-height: 1.6; }
+  .hy-app-shell :is(.hy-dashboard, .hy-counterparties) .hy-dues__icon { width: 27px; height: 27px; flex-basis: 27px; border-radius: 9px; font-size: 11px; }
+  .hy-app-shell :is(.hy-dashboard, .hy-counterparties) .hy-dues__amounts { margin-top: 13px; gap: 7px; }
+  .hy-app-shell :is(.hy-dashboard, .hy-counterparties) .hy-dues__amounts b { font-size: 1.1rem; gap: 4px; letter-spacing: 0; }
+  .hy-app-shell :is(.hy-dashboard, .hy-counterparties) .hy-dues__amounts small { font-size: .56rem; }
+  .hy-help .guest-back-home { border-color: #dce1ea; color: #344b7a; }
+  .hy-help .hy-ledger__head h2, .hy-help .help-show-title { color: #2f446f; }
+  .hy-help .help-index { background: #e7ebf2; border-color: #d9dfea; color: #556c99; }
+  .hy-help .help-tab__play { color: #7889aa; }
+}
+@media (max-width: 900px) {
+  .hy-wallet-card__stats bdi { justify-self: start; }
+  .hy-app-shell .hy-expenses-page .hy-tx__icon.is-out { background: #fff0df; color: #e99953; }
+}
+@media (max-width: 900px) {
+  .profile-modal::before, .hy-language-dialog::before { content: none; }
+  .hy-sheet-handle { position: absolute; inset-inline: 0; top: 0; z-index: 2; display: flex; justify-content: center; align-items: center; height: 24px; touch-action: none; cursor: grab; }
+  .hy-sheet-handle > span { width: 36px; height: 4px; border-radius: 4px; background: #d8dadf; }
+  .hy-sheet-handle:active { cursor: grabbing; }
+}
+
+/* Compact mobile navigation and the Hamyan logo palette. */
+@media (max-width: 900px) {
+  .hy-app-shell, .hy-app-shell.app-frame--sidebar-collapsed { grid-template-rows: calc(60px + env(safe-area-inset-top)) minmax(0, 1fr); }
+  .hy-app-shell .hy-mobile-header { background: #fff; border: 0; box-shadow: none; }
+  .hy-mobile-header__bar { direction: inherit; justify-content: space-between; gap: 10px; padding: calc(6px + env(safe-area-inset-top)) 18px 6px; border: 0; box-shadow: none; }
+  .hy-mobile-header__brand { flex-direction: row; gap: 7px; color: #142b5c; }
+  .hy-mobile-header__brand strong { font-size: 1.07rem; }
+  .hy-mobile-header__profile { width: 44px; height: 44px; flex-basis: 44px; padding: 5px; border: 0; background: transparent; }
+  .hy-mobile-header__avatar { display: grid; place-items: center; width: 33px; height: 33px; border: 1px solid #dce8fc; border-radius: 50%; background: #edf4ff; color: #1463f3; font-size: 14px; overflow: hidden; }
+  .hy-mobile-header__avatar > img { width: 100%; height: 100%; object-fit: cover; }
+  .hy-mobile-header__dot { width: 7px; height: 7px; top: 6px; inset-inline-end: 5px; border-color: #fff; background: #ffb823; }
+  .hy-mobile-header--page .hy-mobile-header__bar { justify-content: flex-start; }
+  .hy-mobile-header__bar > h1 { min-width: 0; margin: 0; padding: 0; border: 0; color: #142b5c; font-size: 1.2rem; line-height: 1.5; font-weight: 650; letter-spacing: -.025em; box-shadow: none; }
+  [dir='rtl'] .hy-mobile-header__bar > h1 { letter-spacing: 0; }
+  .hy-mobile-header__back { display: grid; place-items: center; flex: 0 0 40px; width: 40px; height: 44px; padding: 0; border: 0; border-radius: 12px; background: #f3f7fe; color: #5075af; }
+  .hy-mobile-welcome { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 2px 20px 14px; border: 0; background: #fff; box-shadow: none; }
+  .hy-mobile-welcome > div { min-width: 0; }
+  .hy-mobile-welcome p { margin: 0 0 2px; color: #8794aa; font-size: .72rem; line-height: 1.5; }
+  .hy-mobile-welcome h2 { margin: 0; padding: 0; border: 0; color: #182f59; font-size: 1.24rem; font-weight: 650; line-height: 1.5; overflow-wrap: anywhere; box-shadow: none; }
+  .hy-mobile-welcome__icon { display: grid; place-items: center; flex: 0 0 37px; width: 37px; height: 37px; border-radius: 13px; background: #fff8e9; color: #eeb044; font-size: 20px; }
+  .hy-mobile-welcome::before, .hy-mobile-welcome::after, .hy-mobile-welcome h2::before, .hy-mobile-welcome h2::after, .hy-mobile-header::before, .hy-mobile-header::after, .hy-mobile-header h1::before, .hy-mobile-header h1::after { content: none; }
+  .hy-mobile-screen--page .hy-ledger > .hy-ledger__head { min-height: 0; gap: 0; padding: 0 18px 12px; border: 0; background: #fff; }
+  .hy-mobile-screen--page .hy-ledger > .hy-ledger__head > div:first-child { display: none; }
+  .hy-mobile-screen--page .hy-ledger > .hy-ledger__head:not(:has(button, a)) { display: none; }
+  .hy-mobile-screen--page :is(.hy-income-page, .hy-expenses-page, .hy-counterparties) > .hy-ledger__head { height: 0; padding: 0; }
+  .hy-app-shell .hy-ledger__head :is(h2, h3) { border: 0; box-shadow: none; }
+  .hy-mobile-screen--page .hy-mobile-list-tools { padding: 6px 18px 10px; background: #fff; }
+  .hy-mobile-list-tools__search { background: #f3f6fc; color: #91a1bc; border: 0; }
+  .hy-mobile-list-tools > button { color: #4777c0; background: #edf3ff; }
+  .hy-mobile-chips { padding-block: 10px 12px; }
+  .hy-app-shell > .hy-mobile-nav { border: 0; box-shadow: 0 -8px 24px #15315d05; }
+  .hy-dashboard .hy-fin__main { background: #fff; }
+  .hy-wallet-carousel { padding-inline: 20px; }
+  .hy-wallet-card { min-height: 216px; padding: 19px 20px 18px; border: 1px solid #5588ed50; border-radius: 22px; background: radial-gradient(ellipse at 108% -5%, #20c4ff70, transparent 58%), linear-gradient(120deg, #091f61, #1247ba 58%, #1477ed); box-shadow: 0 7px 0 -3px #d5e4ff, 0 13px 0 -7px #ebf2ff, 0 14px 26px -16px #16469c80; }
+  .hy-wallet-card[data-currency='USD'] { background: radial-gradient(ellipse at 100% 0, #07c3ff70, transparent 60%), linear-gradient(120deg, #0b2b77, #1463f3 80%); }
+  .hy-wallet-card[data-currency='IRR'] { background: radial-gradient(ellipse at 100% -20%, #318dff99, transparent 62%), linear-gradient(120deg, #071b50, #163f97); }
+  .hy-wallet-card::before { width: 215px; height: 215px; inset-inline-start: auto; inset-inline-end: 0; top: -95px; border: 1px solid #ffffff14; box-shadow: 0 0 0 25px #ffffff04, 0 0 0 50px #ffffff03; }
+  .hy-wallet-card::after { content: ''; position: absolute; width: 140px; height: 140px; inset-inline-start: 0; bottom: -100px; border-radius: 50%; border: 1px solid #ffffff10; pointer-events: none; }
+  .hy-wallet-card__top { gap: 8px; }
+  .hy-wallet-card__top > span { flex: 1; min-width: 0; font-size: .76rem; color: #e7efff; }
+  .hy-wallet-card__top > span > i { color: #b8d8ff; font-size: 15px; }
+  .hy-wallet-card__currency { flex-shrink: 0; padding: 4px 7px; border: 1px solid #ffffff22; border-radius: 7px; background: #ffffff0b; color: #e0ebff; font-size: .6rem; letter-spacing: .06em; }
+  .hy-wallet-card__top > button { color: #c4dcff; }
+  .hy-wallet-card__label { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 19px 0 3px; color: #b8cdf1; font-size: .7rem; }
+  .hy-wallet-card__chip { color: #ffd071; font-size: 23px; opacity: .9; }
+  .hy-wallet-card__amount { margin-bottom: 17px; color: #fff; font-size: clamp(1.85rem, 8vw, 2.3rem); letter-spacing: -.035em; }
+  .hy-wallet-card__amount small { color: #c4d9ff; font-size: .71rem; letter-spacing: 0; }
+  .hy-wallet-card__stats { gap: 8px; padding-top: 0; border: 0; }
+  .hy-wallet-card__stats > div { gap: 5px; padding: 9px 10px; border: 0; border-radius: 11px; background: #ffffff09; }
+  .hy-wallet-card__stats span { color: #afc8ef; font-size: .6rem; }
+  .hy-wallet-card__stats bdi { color: #eff5ff; font-size: .85rem; }
+  .hy-wallet-card__stats span > i { width: 16px; height: 16px; color: #bad5ff; background: #ffffff0c; }
+  .hy-wallet-carousel__dots { height: 29px; margin-top: 8px; }
+  .hy-wallet-carousel__hint { color: #9ba9be; font-size: .59rem; }
+  .hy-dashboard .hy-actions { padding-block: 14px 12px; }
+  .hy-dashboard button.hy-action { min-height: 73px; gap: 6px; }
+  .hy-mobile-activity { gap: 19px; padding-top: 2px; }
+  .hy-mobile-activity .hy-tx__row { min-height: 68px; padding-block: 12px; }
+  .hy-profile-hub .hy-sidebar__head, .hy-profile-hub .hy-sidebar__footer { border: 0; }
+  .hy-profile-hub__identity { padding: 14px; margin-bottom: 17px; border: 0; box-shadow: none; }
+  .hy-profile-hub .hy-sidebar__group { margin-top: 17px; }
+  .hy-profile-hub .hy-side-link { min-height: 48px; padding-block: 11px; border: 0; }
+}
+@media (max-width: 900px) {
+  .hy-dashboard > .hy-fin { gap: 8px; }
+  .hy-mobile-activity .hy-tx__icon.is-in { background: #eaf2ff; color: #397bd6; }
+}
+
+/* Shared animated selectors, compact money typography, and quiet search focus. */
+.hy-session-pending { min-height: 100dvh; background: #fff; }
+.hy-select { position: relative; min-width: 0; }
+.hy-select select.hy-select__native { position: absolute !important; inset: 0 auto auto 0 !important; width: 1px !important; min-width: 0 !important; max-width: 1px !important; height: 1px !important; min-height: 0 !important; max-height: 1px !important; padding: 0 !important; margin: 0 !important; border: 0 !important; opacity: 0 !important; clip-path: inset(50%); pointer-events: none; }
+.hy-select > .hy-pick__button { display: flex; align-items: center; justify-content: space-between; flex: none; gap: 12px; width: 100%; min-width: 0; max-width: none; height: auto; min-height: 46px; padding: 10px 12px; border: 1px solid #e0e7f2; border-radius: 12px; background: #fff; color: #526480; font-size: .83rem; font-weight: 450; line-height: 1.6; white-space: normal; box-shadow: 0 2px 5px #19365c02; transition: border-color 150ms, background-color 150ms, box-shadow 150ms; }
+.hy-select > .hy-pick__button > span { min-width: 0; overflow-wrap: anywhere; text-align: start; }
+.hy-select > .hy-pick__button > i { flex: 0 0 12px; color: #8fa3c1; font-size: 10px; transition: transform 180ms; }
+.hy-select > .hy-pick__button[aria-expanded='true'] { border-color: #b8cff5; background: #f8faff; box-shadow: 0 0 0 3px #1463f30a; }
+.hy-select > .hy-pick__button[aria-expanded='true'] > i { transform: rotate(180deg); }
+.hy-select[data-invalid='true'] > .hy-pick__button { border-color: #da8c96; }
+.hy-select__menu.hy-pick__menu { z-index: 7200; gap: 6px; padding: 7px; overflow: hidden; border: 1px solid #e1e9f6; border-radius: 15px; background: #fff; color: #4c6081; box-shadow: 0 12px 40px #193b761c, 0 3px 10px #193b7605; outline: none; }
+.hy-select__menu .hy-pick__list { gap: 2px; scrollbar-width: thin; scrollbar-color: #dbe5f7 transparent; overscroll-behavior: contain; }
+.hy-select__menu .hy-pick__list button { display: flex; align-items: center; justify-content: space-between; gap: 16px; width: 100%; min-width: 0; min-height: 44px; padding: 10px 12px; border: 0; border-radius: 9px; background: #fff; color: #61718c; font-size: .82rem; line-height: 1.6; white-space: normal; cursor: pointer; }
+.hy-select__menu .hy-pick__list button > span { min-width: 0; overflow-wrap: anywhere; }
+.hy-select__menu .hy-pick__list button > i { flex-shrink: 0; color: #c9d6ec; font-size: 5px; }
+.hy-select__menu .hy-pick__list button.is-on { color: #1c62ce; background: #edf4ff; font-weight: 550; }
+.hy-select__menu .hy-pick__list button.is-on > i { color: #367bea; font-size: 11px; }
+.hy-select__menu .hy-pick__list button:is(:hover, .is-active):not(:disabled) { background: #f0f5fd; color: #2665be; }
+.hy-select__menu .hy-pick__list button:disabled { opacity: .45; cursor: not-allowed; }
+.hy-select__search { display: flex; align-items: center; gap: 9px; flex: none; min-height: 42px; margin: 1px 1px 5px; padding: 0 11px; border: 0; border-radius: 10px; background: #f3f6fc; color: #98aac5; }
+.hy-select__search > i { font-size: 12px; }
+.hy-select__menu .hy-pick__search { flex: 1; width: 100%; min-width: 0; min-height: 40px; margin: 0; padding: 7px 0; border: 0; border-radius: 0; background: transparent; color: #536785; font-size: .8rem; outline: none; box-shadow: none; }
+.hy-select__menu .hy-pick__search:focus { outline: none; box-shadow: none; }
+.hy-select__group { padding: 10px 12px 5px; color: #91a1ba; font-size: .65rem; font-weight: 500; }
+.hy-app-shell .hy-mobile-list-tools input:is(:focus, :focus-visible), .hy-app-shell .search-field input.search-field__input:is(:focus, :focus-visible) { border: 0; outline: none; box-shadow: none; border-radius: 0; }
+.hy-mobile-list-tools__search:focus-within { background: #eef3fd; box-shadow: 0 0 0 2px #1463f313; }
+.hy-app-shell .search-field__control:focus-within { border-color: #c7d8f4; box-shadow: 0 0 0 2px #1463f30a; }
+@media (max-width: 900px) {
+  .hy-app-shell .hy-counterparties > .hy-ledger__head > .hy-ledger__add { display: grid; place-items: center; place-content: center; gap: 0; padding: 0; line-height: 1; }
+  .hy-counterparties > .hy-ledger__head > .hy-ledger__add > span { display: none; }
+  .hy-app-shell .hy-counterparties > .hy-ledger__head > .hy-ledger__add > i { display: block; width: 22px; height: 22px; margin: 0; padding: 0; font-size: 22px; line-height: 22px; text-align: center; }
+  .hy-mobile-header__bar > h1 { font-size: 1.1rem; }
+  .hy-mobile-welcome h2 { font-size: 1.15rem; }
+  .hy-mobile-activity .hy-tx__body strong, .hy-money-page .hy-tx__body strong { font-size: .76rem; }
+  .hy-mobile-activity .hy-tx__body small, .hy-money-page .hy-tx__body small { font-size: .62rem; }
+  .hy-mobile-activity .hy-tx__amount, .hy-money-page .hy-tx__amount { font-size: .87rem; font-weight: 750; font-variant-numeric: tabular-nums; }
+  .hy-wallet-card__amount { font-size: clamp(1.75rem, 7.4vw, 2.15rem); font-weight: 750; font-variant-numeric: tabular-nums; }
+  .hy-wallet-card__stats bdi { font-size: .8rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .hy-money-page .hy-money-totals article > strong { font-size: 1.05rem; font-weight: 750; }
+  .hy-mobile-activity .hy-tx__amount small { font-size: .58rem; font-weight: 500; }
+  .hy-app-shell :is(.ua-tx-amount, .cp-balance-line bdi, .hy-dues__amounts b, .hy-transfer-value) { font-weight: 750; font-variant-numeric: tabular-nums; }
+  .hy-mobile-chips > button { font-size: .69rem; }
+  .hy-profile-hub .hy-side-link { font-size: .78rem; }
+  .hy-select__menu .hy-pick__list button { font-size: .78rem; }
+  .hy-select > .hy-pick__button { font-size: .8rem; }
+  .hy-select__menu .hy-pick__search { font-size: 16px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hy-select > .hy-pick__button, .hy-select > .hy-pick__button > i { transition: none; }
+}

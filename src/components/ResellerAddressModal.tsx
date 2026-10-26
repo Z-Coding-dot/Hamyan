@@ -1,3 +1,4 @@
+import { Select } from '@/components/inputs/SearchableSelect'
 import { FormEvent, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -96,7 +97,7 @@ export function ResellerAddressModal({
       <form className="form-grid affiliate-apply-form" onSubmit={(e) => void onSubmit(e)}>
         <div className="form-field">
           <label htmlFor="reseller-modal-province">{t('desktop.reseller_province')}</label>
-          <select
+          <Select
             id="reseller-modal-province"
             value={provinceId}
             disabled={saving}
@@ -109,7 +110,7 @@ export function ResellerAddressModal({
                 {provinceLabel(row, language)}
               </option>
             ))}
-          </select>
+          </Select>
         </div>
         <div className="form-field">
           <label htmlFor="reseller-modal-city">{t('desktop.reseller_city_district')}</label>

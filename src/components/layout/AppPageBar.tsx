@@ -2,14 +2,17 @@ import { useCallback, useEffect, useRef, useState, type KeyboardEvent } from 're
 import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useShallow } from 'zustand/react/shallow'
+import { m } from 'framer-motion'
 
 import { HeaderSearch } from '@/components/layout/HeaderSearch'
 import { PageRefresh } from '@/components/PageRefresh'
+import { BrandLogo } from '@/components/BrandLogo'
 import { useCachedAsset } from '@/hooks/useCachedAsset'
 import { useIsMobileSidebar } from '@/hooks/useMediaQuery'
 import { getPageTitleKey } from '@/lib/routes'
 import { fetchNotifications } from '@/lib/user'
 import { useAuthStore } from '@/store/useAuthStore'
+import { useSidebarStore } from '@/store/useSidebarStore'
 import { supportedLanguages, useLocaleStore, type SupportedLanguage } from '@/store/useLocaleStore'
 
 const nativeLanguageNames: Record<SupportedLanguage, string> = {
@@ -103,10 +106,14 @@ export function AppPageBar() {
   const location = useLocation()
   const { token, user } = useAuthStore(useShallow((s) => ({ token: s.token, user: s.user })))
   const isMobile = useIsMobileSidebar()
+  const profileMenuOpen = useSidebarStore((s) => s.isOpen)
+  const toggleProfileMenu = useSidebarStore((s) => s.toggle)
   const profilePhotoUrl = useCachedAsset(user?.profile_photo_path)
   const displayName = [user?.name, user?.lastname].filter(Boolean).join(' ') || user?.email || t('desktop.nav_profile')
   const [hasUnread, setHasUnread] = useState(false)
   const notesActive = location.pathname === '/notifications'
+  const isHome = location.pathname === '/dashboard'
+  const isMainMobileTab = ['/incomes', '/expenses', '/counterparties'].includes(location.pathname)
   const showBack = location.pathname !== '/dashboard'
   const onBack = () => {
     if (typeof window.history.state?.idx === 'number' && window.history.state.idx > 0) navigate(-1)
@@ -126,6 +133,24 @@ export function AppPageBar() {
   useEffect(() => {
     void loadUnread()
   }, [loadUnread, location.pathname])
+
+  if (isMobile) return (
+    <header className={`hy-top-wrap hy-mobile-header${isHome ? ' hy-mobile-header--home' : ' hy-mobile-header--page'}`}>
+      <div className="hy-mobile-header__bar">
+        {isHome ? <>
+        <NavLink to="/dashboard" className="hy-mobile-header__brand" aria-label={t('desktop.app_name')}><BrandLogo size={31} /><strong>{t('desktop.app_name')}</strong></NavLink>
+        <m.button type="button" className="hy-mobile-header__profile" whileTap={{ scale: .94 }} onClick={toggleProfileMenu}
+          aria-label={t('desktop.hy_mobile_account_menu')} aria-expanded={profileMenuOpen} aria-controls="app-sidebar">
+          <span className="hy-mobile-header__avatar">{profilePhotoUrl ? <img src={profilePhotoUrl} alt="" /> : <i className="fa-regular fa-user" aria-hidden="true" />}</span>
+          {hasUnread && <span className="hy-mobile-header__dot" aria-hidden="true" />}
+        </m.button>
+        </> : <>
+          {!isMainMobileTab && <button type="button" className="hy-mobile-header__back" onClick={onBack} aria-label={t('desktop.nav_back')}><i className={`fa-solid ${i18n.dir() === 'rtl' ? 'fa-arrow-right' : 'fa-arrow-left'}`} aria-hidden="true" /></button>}
+          <h1>{t(`desktop.${getPageTitleKey(location.pathname)}`)}</h1>
+        </>}
+      </div>
+    </header>
+  )
 
   return (
     <header className={`hy-top-wrap${showBack ? ' hy-top-wrap--with-back' : ''}`}>

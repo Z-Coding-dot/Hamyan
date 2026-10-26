@@ -1,3 +1,4 @@
+import { Select } from '@/components/inputs/SearchableSelect'
 import { FormEvent, useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate, useOutletContext, useParams } from 'react-router-dom'
 import { AxiosError } from 'axios'
@@ -420,22 +421,22 @@ export function CompanySalesPage() {
         </label>
         <label>
           {t('desktop.currency')}
-          <select value={currency} onChange={(e) => setCurrency(e.target.value)}>
+          <Select value={currency} onChange={(e) => setCurrency(e.target.value)}>
             <option value="">{t('desktop.filter_all')}</option>
             {accountCurrencies.map((code) => (
               <option key={code} value={code}>
                 {localizeCurrency(code, t)}
               </option>
             ))}
-          </select>
+          </Select>
         </label>
         <label>
           {t('desktop.status')}
-          <select value={status} onChange={(e) => setStatus(e.target.value)}>
+          <Select value={status} onChange={(e) => setStatus(e.target.value)}>
             <option value="">{t('desktop.filter_all')}</option>
             <option value="draft">{t('desktop.draft')}</option>
             <option value="completed">{t('desktop.finalized')}</option>
-          </select>
+          </Select>
         </label>
         <div className="activity-filters-actions">
           <button type="button" className="btn-secondary" onClick={resetFilters}>

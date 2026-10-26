@@ -1,3 +1,4 @@
+import { Select } from '@/components/inputs/SearchableSelect'
 import { FormEvent, useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useOutletContext, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
@@ -676,14 +677,14 @@ export function CompanySaleSetupPage() {
           {!withoutCustomer ? (
             <label>
               {t('desktop.customers')}
-              <select value={customerId} onChange={(e) => setCustomerId(e.target.value)} required>
+              <Select value={customerId} onChange={(e) => setCustomerId(e.target.value)} required>
                 <option value="">{t('desktop.select')}</option>
                 {customers.map((c) => (
                   <option key={c.id} value={c.id}>
                     {c.name}
                   </option>
                 ))}
-              </select>
+              </Select>
             </label>
           ) : null}
           <label>
@@ -692,7 +693,7 @@ export function CompanySaleSetupPage() {
           </label>
           <label>
             {t('desktop.sale_bill_currency')}
-            <select value={accountId} onChange={(e) => setAccountId(e.target.value)} required>
+            <Select value={accountId} onChange={(e) => setAccountId(e.target.value)} required>
               <option value="">{t('desktop.select')}</option>
               {accounts.map((a) => (
                 <option key={a.id} value={a.id}>
@@ -702,7 +703,7 @@ export function CompanySaleSetupPage() {
                     (a.is_sell_account ? ` (${t('desktop.sell_account')})` : '')}
                 </option>
               ))}
-            </select>
+            </Select>
           </label>
           {hasDirectionalRate ? (
             <label>

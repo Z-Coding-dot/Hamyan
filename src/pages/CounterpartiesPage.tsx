@@ -1,6 +1,7 @@
 import { FormEvent, useCallback, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { m } from 'framer-motion'
 import { useShallow } from 'zustand/react/shallow'
 
 import { CounterpartyBalanceTotals } from '@/components/CounterpartyBalanceTotals'
@@ -270,9 +271,9 @@ export function CounterpartiesPage() {
           <h2>{t('desktop.nav_counterparties')}</h2>
           <p>{t('desktop.page_counterparties_desc')}</p>
         </div>
-        <button type="button" className="btn-primary hy-ledger__add" onClick={openCreate} disabled={!canAdd}>
-          <i className="fa-solid fa-plus" aria-hidden="true" />{t('desktop.add_counterparty')}
-        </button>
+        <m.button type="button" className="btn-primary hy-ledger__add" whileTap={{ scale: .95 }} onClick={openCreate} disabled={!canAdd} aria-label={t('desktop.add_counterparty')}>
+          <i className="fa-solid fa-plus" aria-hidden="true" /><span>{t('desktop.add_counterparty')}</span>
+        </m.button>
       </header>
 
       <CounterpartyBalanceTotals />

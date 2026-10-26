@@ -1,6 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { HelmetProvider } from 'react-helmet-async'
+import { LazyMotion, MotionConfig } from 'framer-motion'
 import App from './App'
 import '@/lib/i18n'
 import './styles.css'
@@ -38,10 +39,12 @@ import './components/logo/logo-splash.css'
 import './components/logo/logo-classic.css'
 import './hamyan-ui.css'
 
+const loadMotionFeatures = () => import('framer-motion').then((module) => module.domMax)
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <HelmetProvider>
+    <LazyMotion features={loadMotionFeatures}><MotionConfig reducedMotion="user"><HelmetProvider>
       <App />
-    </HelmetProvider>
+    </HelmetProvider></MotionConfig></LazyMotion>
   </StrictMode>,
 )

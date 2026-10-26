@@ -1,3 +1,4 @@
+import { Select } from '@/components/inputs/SearchableSelect'
 import { FormEvent, useEffect, useState } from 'react'
 import { Link, Navigate, useOutletContext, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
@@ -368,13 +369,13 @@ export function CompanyAccessSettingsPage() {
           ) : null}
           <label>
             {t('desktop.role')}
-            <select value={roleCode} onChange={(e) => setRoleCode(e.target.value)} required>
+            <Select value={roleCode} onChange={(e) => setRoleCode(e.target.value)} required>
               {roles.map((role) => (
                 <option key={role.code} value={role.code}>
                   {localizeCompanyRoleTitle(role.code, t, role.title)}
                 </option>
               ))}
-            </select>
+            </Select>
           </label>
           {roleCode ? (
             <p className="cs-muted" style={{ margin: 0 }}>
@@ -418,13 +419,13 @@ export function CompanyAccessSettingsPage() {
           </div>
           <label>
             {t('desktop.role')}
-            <select value={roleCode} onChange={(e) => setRoleCode(e.target.value)} required>
+            <Select value={roleCode} onChange={(e) => setRoleCode(e.target.value)} required>
               {roles.map((role) => (
                 <option key={role.code} value={role.code}>
                   {localizeCompanyRoleTitle(role.code, t, role.title)}
                 </option>
               ))}
-            </select>
+            </Select>
           </label>
           {roleCode ? (
             <p className="cs-muted" style={{ margin: 0 }}>

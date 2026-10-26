@@ -1,6 +1,7 @@
 import { ReactNode, useEffect, useId } from 'react'
 import { createPortal } from 'react-dom'
 import { useTranslation } from 'react-i18next'
+import { m, useDragControls, useReducedMotion } from 'framer-motion'
 
 import { useIsMobileSidebar } from '@/hooks/useMediaQuery'
 
@@ -17,6 +18,8 @@ export function Modal({ open, onClose, children, title, wide, className = '' }: 
   const { t } = useTranslation()
   const titleId = useId()
   const sheet = useIsMobileSidebar()
+  const reduceMotion = useReducedMotion()
+  const dragControls = useDragControls()
 
   useEffect(() => {
     if (!open) return
@@ -44,8 +47,12 @@ export function Modal({ open, onClose, children, title, wide, className = '' }: 
           : undefined
       }
     >
-      <div
+      <m.div
         className={`profile-modal${wide ? ' profile-modal--wide' : ''} ${className}`}
+        initial={sheet && !reduceMotion ? { y: 50, opacity: .6 } : false}
+        animate={{ y: 0, opacity: 1 }} transition={{ type: 'spring', stiffness: 380, damping: 36 }}
+        drag={sheet ? 'y' : false} dragControls={dragControls} dragListener={false} dragConstraints={{ top: 0, bottom: 0 }} dragElastic={{ top: 0, bottom: .4 }} dragSnapToOrigin
+        onDragEnd={(_, info) => { if (sheet && (info.offset.y > 90 || info.velocity.y > 650)) onClose() }}
         role="dialog"
         aria-modal="true"
         aria-labelledby={title ? titleId : undefined}
@@ -67,6 +74,7 @@ export function Modal({ open, onClose, children, title, wide, className = '' }: 
             : undefined
         }
       >
+        {sheet && <div className="hy-sheet-handle" aria-hidden="true" onPointerDown={(event) => dragControls.start(event)}><span /></div>}
         <div className="profile-modal__head">
           {title ? <h3 id={titleId}>{title}</h3> : <span />}
           <button type="button" className="profile-modal__close" onClick={onClose} aria-label={t('desktop.close')}>
@@ -74,7 +82,7 @@ export function Modal({ open, onClose, children, title, wide, className = '' }: 
           </button>
         </div>
         <div className="profile-modal__body">{children}</div>
-      </div>
+      </m.div>
     </div>,
     document.body,
   )

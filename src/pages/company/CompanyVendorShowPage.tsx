@@ -1,3 +1,4 @@
+import { Select } from '@/components/inputs/SearchableSelect'
 import { FormEvent, useEffect, useState } from 'react'
 import { Link, useOutletContext, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
@@ -624,7 +625,7 @@ function CashActionModal({
         {hint ? <p className="muted small">{hint}</p> : null}
         <label>
           {t('desktop.account')}
-          <select value={accountId} onChange={(e) => setAccountId(e.target.value)} required>
+          <Select value={accountId} onChange={(e) => setAccountId(e.target.value)} required>
             <option value="">{t('desktop.select')}</option>
             {options.map((opt) => (
               <option key={opt.id} value={opt.id}>
@@ -632,7 +633,7 @@ function CashActionModal({
                 {opt.remaining != null ? ` (${formatMoney(opt.remaining)})` : ''}
               </option>
             ))}
-          </select>
+          </Select>
         </label>
         {!useAllAccounts && selected?.remaining != null ? (
           <p className="muted">
