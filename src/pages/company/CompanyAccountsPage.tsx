@@ -1,3 +1,4 @@
+import { Select } from '@/components/inputs/SearchableSelect'
 import { FormEvent, useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useOutletContext, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
@@ -837,22 +838,22 @@ function CreateAccountModal({
           </div>
           <label>
             {t('desktop.currency')}
-            <select value={templateId} onChange={(e) => setTemplateId(e.target.value)} required>
+            <Select value={templateId} onChange={(e) => setTemplateId(e.target.value)} required>
               <option value="">{t('desktop.select')}</option>
               {templates.map((tpl) => (
                 <option key={tpl.id} value={tpl.id}>
                   {templateDisplayName(tpl, locale)} - {localizeCurrency(tpl.currency, t)}
                 </option>
               ))}
-            </select>
+            </Select>
           </label>
           <label>
             {t('desktop.account_type')}
-            <select value={type} onChange={(e) => setType(e.target.value)}>
+            <Select value={type} onChange={(e) => setType(e.target.value)}>
               <option value="cash">{t('desktop.cash')}</option>
               <option value="bank">{t('desktop.bank')}</option>
               <option value="etc">{t('desktop.etc')}</option>
-            </select>
+            </Select>
           </label>
           <label>
             {t('desktop.name')}

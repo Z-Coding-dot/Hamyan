@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import {
   Navigate,
   Route,
@@ -10,7 +10,6 @@ import {
 
 import { AppLayout } from '@/components/layout/AppLayout'
 import { GuestLayout } from '@/components/layout/GuestLayout'
-import { AppLoadingSplash, LOGO_ANIMATION_TOTAL_MS } from '@/components/logo'
 import { SeoHead } from '@/components/SeoHead'
 import { PwaManager } from '@/components/PwaManager'
 import { OfflineBanner } from '@/components/OfflineBanner'
@@ -150,7 +149,6 @@ export default function App() {
   const hydrateSidebar = useSidebarStore((state) => state.hydrate)
   const hydrateCompanyContext = useCompanyContextStore((state) => state.hydrate)
   const localeReady = useLocaleStore((state) => state.isReady)
-  const [splashDone, setSplashDone] = useState(false)
 
   useEffect(() => {
     void initializeLocale()
@@ -159,17 +157,10 @@ export default function App() {
     void bootstrapAuth()
   }, [initializeLocale, hydrateSidebar, hydrateCompanyContext, bootstrapAuth])
 
-  useEffect(() => {
-    const timer = window.setTimeout(() => setSplashDone(true), LOGO_ANIMATION_TOTAL_MS)
-    return () => window.clearTimeout(timer)
-  }, [])
-
-  const ready = splashDone && localeReady
-
   return (
     <>
-      <PwaManager showUi={ready} />
-      {ready ? <RouterProvider router={appRouter} /> : <AppLoadingSplash />}
+      <PwaManager showUi={localeReady} />
+      {localeReady && <RouterProvider router={appRouter} />}
     </>
   )
 }

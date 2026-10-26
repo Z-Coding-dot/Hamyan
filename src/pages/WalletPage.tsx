@@ -1,3 +1,4 @@
+import { Select } from '@/components/inputs/SearchableSelect'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
@@ -323,11 +324,11 @@ export function WalletPage() {
         <div className="wallet-v2-filter-row">
           <div className="wallet-v2-filter-item">
             <label>{t('desktop.type')}</label>
-            <select value={typeFilter} onChange={(e) => setTypeFilter(e.target.value)}>
+            <Select value={typeFilter} onChange={(e) => setTypeFilter(e.target.value)}>
               <option value="all">{t('desktop.all')}</option>
               <option value="آمد">{t('desktop.credit_in')}</option>
               <option value="رفت">{t('desktop.debit_out')}</option>
-            </select>
+            </Select>
           </div>
           <div className="wallet-v2-filter-item">
             <label>{t('desktop.gregorian_date_label')}</label>

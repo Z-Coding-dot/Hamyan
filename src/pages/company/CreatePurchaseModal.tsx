@@ -1,3 +1,4 @@
+import { Select } from '@/components/inputs/SearchableSelect'
 import { FormEvent, useEffect, useMemo, useState, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -230,14 +231,14 @@ export function CreatePurchaseModal({
 
       <label>
         {t('desktop.company_account')}
-        <select value={accountId} onChange={(e) => setAccountId(e.target.value)} required>
+        <Select value={accountId} onChange={(e) => setAccountId(e.target.value)} required>
           <option value="">{t('desktop.select')}</option>
           {accounts.map((a) => (
             <option key={a.id} value={a.id}>
               {(a.name || `#${a.id}`) + ' - ' + localizeCurrency(a.currency, t)}
             </option>
           ))}
-        </select>
+        </Select>
       </label>
 
       <label>
@@ -285,7 +286,7 @@ export function CreatePurchaseModal({
       {transferToWarehouse ? (
         <label>
           {t('desktop.warehouse')}
-          <select value={warehouseId} onChange={(e) => setWarehouseId(e.target.value)} required>
+          <Select value={warehouseId} onChange={(e) => setWarehouseId(e.target.value)} required>
             <option value="">{t('desktop.select')}</option>
             {warehouses.map((w) => (
               <option key={w.id} value={w.id}>
@@ -293,7 +294,7 @@ export function CreatePurchaseModal({
                 {w.address ? ` — ${w.address}` : ''}
               </option>
             ))}
-          </select>
+          </Select>
           {warehouses.length === 0 ? (
             <span className="field-error">{t('desktop.no_warehouses')}</span>
           ) : null}

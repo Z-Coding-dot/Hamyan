@@ -1,6 +1,9 @@
+import { Select } from '@/components/inputs/SearchableSelect'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useShallow } from 'zustand/react/shallow'
+import { m } from 'framer-motion'
+import { useIsMobileSidebar } from '@/hooks/useMediaQuery'
 
 import { JalaliDatePicker } from '@/components/inputs/JalaliDatePicker'
 import { AddExpenseModal } from '@/pages/accounts/AddExpenseModal'
@@ -12,6 +15,7 @@ import { readPageCache, writePageCache } from '@/lib/devicePageCache'
 import { formatJalaliSlash } from '@/lib/datetime'
 import {
   fetchExpenseAccounts,
+  expenseAccountLabel,
   fetchUserExpensesData,
   type ExpenseAccountRow,
   type ExpenseListData,
@@ -30,6 +34,10 @@ export function ExpensesPage() {
   const locale = useLocaleStore((s) => s.language)
   const token = useAuthStore(useShallow((s) => s.token))
   const userKey = useUserCacheKey()
+  const isMobile = useIsMobileSidebar()
+  const [search, setSearch] = useState('')
+  const [sectionId, setSectionId] = useState('')
+  const [filtersOpen, setFiltersOpen] = useState(false)
   const cached = readPageCache<ExpenseListData>(userKey, 'expenses')
 
   const [accounts, setAccounts] = useState<ExpenseListData['accounts']>(cached?.accounts ?? [])
@@ -89,12 +97,14 @@ export function ExpensesPage() {
   const visible = useMemo(() => {
     return expenses.filter((item) => {
       if (accountId && String(item.user_account_id || '') !== accountId) return false
+      if (sectionId && String(item.user_expense_account_id || '') !== sectionId) return false
+      if (search.trim() && ![item.expense_title, item.account_name, item.description].join(' ').toLowerCase().includes(search.trim().toLowerCase())) return false
       const day = ymd(item.expense_date)
       if (startDate && day < startDate) return false
       if (endDate && day > endDate) return false
       return true
     })
-  }, [expenses, accountId, startDate, endDate])
+  }, [expenses, accountId, sectionId, search, startDate, endDate])
 
   const userAccounts = accounts as UserAccountRow[]
   const totals = useMemo(() => {
@@ -111,27 +121,29 @@ export function ExpensesPage() {
           <h2>{t('desktop.expenses_page')}</h2>
           <p>{t('desktop.expenses_page_desc')}</p>
         </div>
-        <button type="button" className="btn-primary hy-ledger__add" onClick={() => setExpenseOpen(true)}>
+        <m.button type="button" className={`btn-primary hy-ledger__add${isMobile ? ' hy-mobile-fab' : ''}`} whileTap={isMobile ? { scale: .92 } : undefined} onClick={() => setExpenseOpen(true)} aria-label={t('desktop.hy_record_expense')}>
           <i className="fa-solid fa-plus" aria-hidden="true" />
-          {t('desktop.hy_record_expense')}
-        </button>
+          <span>{t('desktop.hy_record_expense')}</span>
+        </m.button>
       </div>
 
       {error ? <div className="alert-error">{error}</div> : null}
       {totals.length > 0 && <div className="hy-money-totals">{totals.map(([currency, amount]) => <article key={currency}><div><span className="hy-money-totals__icon" aria-hidden="true"><i className="fa-solid fa-receipt" /></span><span>{t('desktop.expenses_page')}</span><small>{localizeCurrency(currency, t)}</small></div><strong><bdi>{amount.toLocaleString('en-US')}</bdi></strong><p>{t('desktop.hy_filtered_totals')}</p></article>)}</div>}
 
+      {isMobile && <div className="hy-mobile-list-tools"><div className="hy-mobile-list-tools__search"><i className="fa-solid fa-magnifying-glass" aria-hidden="true" /><input type="search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder={t('desktop.search')} aria-label={t('desktop.search')} /></div><button type="button" onClick={() => setFiltersOpen((value) => !value)} aria-label={t('desktop.filters')} aria-expanded={filtersOpen} aria-controls="expense-filters"><i className="fa-solid fa-sliders" aria-hidden="true" /></button></div>}
+      {isMobile && <div className="hy-mobile-chips" role="group" aria-label={t('desktop.expense_section')}><button type="button" className={!sectionId ? 'is-active' : ''} aria-pressed={!sectionId} onClick={() => setSectionId('')}>{t('desktop.all')}</button>{expenseAccounts.map((section) => <button key={section.id} type="button" className={sectionId === String(section.id) ? 'is-active' : ''} aria-pressed={sectionId === String(section.id)} onClick={() => setSectionId(String(section.id))}>{expenseAccountLabel(section, locale)}</button>)}</div>}
       <div className="hy-ledger__workspace">
-      <div className="hy-exp__filters">
+      <div id="expense-filters" className={`hy-exp__filters${filtersOpen ? ' is-mobile-open' : ''}`}>
         <label>
           {t('desktop.account')}
-          <select value={accountId} onChange={(e) => setAccountId(e.target.value)}>
+          <Select value={accountId} onChange={(e) => setAccountId(e.target.value)}>
             <option value="">{t('desktop.all')}</option>
             {accounts.map((acc) => (
               <option key={acc.id} value={acc.id}>
                 {(acc.name || '-') + ` (${localizeCurrency(acc.currency || 'AFN', t)})`}
               </option>
             ))}
-          </select>
+          </Select>
         </label>
         <label>
           {t('desktop.start_date')}
@@ -152,7 +164,7 @@ export function ExpensesPage() {
         {loading ? (
           <div className="hy-ledger__empty" role="status"><i className="fa-solid fa-circle-notch fa-spin" aria-hidden="true" /><p>{t('desktop.loading')}</p></div>
         ) : visible.length === 0 ? (
-          <div className="hy-ledger__empty"><i className="fa-solid fa-receipt" aria-hidden="true" /><p>{t('desktop.no_record_found')}</p></div>
+          <div className="hy-ledger__empty"><i className={`fa-solid ${isMobile ? 'fa-wallet' : 'fa-receipt'}`} aria-hidden="true" />{isMobile && expenses.length === 0 ? <><h3>{t('desktop.hy_mobile_no_expense')}</h3><p>{t('desktop.hy_mobile_add_expense_hint')}</p></> : <p>{t('desktop.no_record_found')}</p>}</div>
         ) : (
           visible.map((item) => (
             <article key={item.id} className="hy-tx__row">

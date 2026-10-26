@@ -1,3 +1,4 @@
+import { Select } from '@/components/inputs/SearchableSelect'
 import { FormEvent, useEffect, useState } from 'react'
 import { Link, useOutletContext, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
@@ -267,13 +268,13 @@ export function CompanyPackagesPage() {
           </label>
           <label>
             {t('desktop.package_unit')}
-            <select
+            <Select
               value={draft.data_unit}
               onChange={(event) => setDraft({ ...draft, data_unit: event.target.value === 'mb' ? 'mb' : 'gb' })}
             >
               <option value="gb">{t('desktop.package_unit_gb')}</option>
               <option value="mb">{t('desktop.package_unit_mb')}</option>
-            </select>
+            </Select>
           </label>
           <label>
             {t('desktop.package_price')}
@@ -299,7 +300,7 @@ export function CompanyPackagesPage() {
           </label>
           <label>
             {t('desktop.package_validity_unit')}
-            <select
+            <Select
               value={draft.validity_unit}
               onChange={(event) =>
                 setDraft({ ...draft, validity_unit: event.target.value === 'month' ? 'month' : 'day' })
@@ -307,7 +308,7 @@ export function CompanyPackagesPage() {
             >
               <option value="day">{t('desktop.package_unit_day')}</option>
               <option value="month">{t('desktop.package_unit_month')}</option>
-            </select>
+            </Select>
           </label>
           <div className="form-actions">
             <button type="button" className="btn-secondary" disabled={busy} onClick={() => setEditing(null)}>

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useShallow } from 'zustand/react/shallow'
+import { useIsMobileSidebar } from '@/hooks/useMediaQuery'
 
 import { AuthPasswordField } from '@/components/auth/AuthFields'
 import { LanguageModal } from '@/components/LanguageModal'
@@ -24,6 +25,7 @@ const USERNAME_PATTERN = /^[a-z][a-z0-9_]{2,29}$/
 
 export function SettingsPage() {
   const { t } = useTranslation()
+  const isMobile = useIsMobileSidebar()
   const locale = useLocaleStore((state) => state.language)
   const { token, user, refreshCurrentUser, logout } = useAuthStore(
     useShallow((state) => ({
@@ -186,7 +188,7 @@ export function SettingsPage() {
       {error ? <div className="alert-error">{error}</div> : null}
 
       <section className="hy-options-panel settings-list">
-        <button type="button" className="settings-list__item" onClick={() => setLanguageOpen(true)}>
+        {!isMobile && <button type="button" className="settings-list__item" onClick={() => setLanguageOpen(true)}>
           <span className="hy-settings__main">
             <span className="hy-options-icon" aria-hidden="true"><i className="fa-solid fa-language" /></span>
             <span className="hy-settings__copy"><strong>{t('desktop.change_language')}</strong><small>{t('desktop.hy_language_note')}</small></span>
@@ -195,7 +197,7 @@ export function SettingsPage() {
             <span>{t(`desktop.language_${locale}`)}</span>
             <i className={`fa-solid ${locale === 'en' ? 'fa-chevron-right' : 'fa-chevron-left'}`} aria-hidden="true" />
           </span>
-        </button>
+        </button>}
 
         <button type="button" className="settings-list__item" onClick={openUsernameModal}>
           <span className="hy-settings__main">

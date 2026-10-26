@@ -1,3 +1,4 @@
+import { Select } from '@/components/inputs/SearchableSelect'
 import { type ReactNode, useEffect, useMemo, useState } from 'react'
 import { Link, useLocation, useNavigate, useOutletContext, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
@@ -341,13 +342,13 @@ export function CompanyItemShowPage() {
           {inventoryRecords.length > 0 ? (
             <label className="item-inventory-filter">
               {t('desktop.filters')}:
-              <select value={inventoryFilter} onChange={(e) => setInventoryFilter(e.target.value)}>
+              <Select value={inventoryFilter} onChange={(e) => setInventoryFilter(e.target.value)}>
                 {inventoryFilterOptions.map((opt) => (
                   <option key={opt.value} value={opt.value}>
                     {opt.label}
                   </option>
                 ))}
-              </select>
+              </Select>
             </label>
           ) : null}
         </div>

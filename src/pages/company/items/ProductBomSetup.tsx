@@ -1,3 +1,4 @@
+import { Select } from '@/components/inputs/SearchableSelect'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -149,7 +150,7 @@ export function ProductBomSetup({
         {error ? <div className="alert-error">{error}</div> : null}
         {rows.map((row, index) => (
           <div className="form-grid" key={index}>
-            <select
+            <Select
               value={row.raw_material_item_id}
               onChange={(e) =>
                 setRows(rows.map((r, i) => (i === index ? { ...r, raw_material_item_id: e.target.value } : r)))
@@ -161,7 +162,7 @@ export function ProductBomSetup({
                   {m.name} ({m.code})
                 </option>
               ))}
-            </select>
+            </Select>
             <input
               type="number"
               min="0.001"

@@ -1,3 +1,4 @@
+import { Select } from '@/components/inputs/SearchableSelect'
 import { FormEvent, useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate, useOutletContext, useParams, useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
@@ -505,13 +506,13 @@ function CreateCustomerModal({
         </label>
         <label>
           {t('desktop.personality')}
-          <select
+          <Select
             value={personality}
             onChange={(e) => setPersonality(e.target.value as 'human' | 'company')}
           >
             <option value="human">{t('desktop.personality_human')}</option>
             <option value="company">{t('desktop.personality_company')}</option>
-          </select>
+          </Select>
         </label>
         <div className="form-actions">
           <button type="button" className="btn-secondary" onClick={onClose}>

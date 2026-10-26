@@ -1,3 +1,4 @@
+import { Select } from '@/components/inputs/SearchableSelect'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useLocation, useNavigate, useOutletContext, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
@@ -581,7 +582,7 @@ export function CompanyItemsPage() {
           placeholder={t('desktop.search_by_code')}
           dir="ltr"
         />
-        <select value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)}>
+        <Select value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)}>
           <option value="all">{t('desktop.all_categories')}</option>
           <option value="none">{t('desktop.no_category')}</option>
           {categories.map((category) => (
@@ -589,17 +590,17 @@ export function CompanyItemsPage() {
               {category.name}
             </option>
           ))}
-        </select>
-        <select value={stockFilter} onChange={(e) => setStockFilter(e.target.value)}>
+        </Select>
+        <Select value={stockFilter} onChange={(e) => setStockFilter(e.target.value)}>
           <option value="all">{t('desktop.all_inventory')}</option>
           <option value="zero">{t('desktop.zero_inventory')}</option>
           <option value="positive">{t('desktop.positive_inventory')}</option>
-        </select>
-        <select value={stockSort} onChange={(e) => setStockSort(e.target.value)}>
+        </Select>
+        <Select value={stockSort} onChange={(e) => setStockSort(e.target.value)}>
           <option value="default">{t('desktop.sort_default')}</option>
           <option value="stock-desc">{t('desktop.sort_stock_high_to_low')}</option>
           <option value="stock-asc">{t('desktop.sort_stock_low_to_high')}</option>
-        </select>
+        </Select>
         <button type="button" className="btn-secondary btn-sm" disabled={!filtersActive} onClick={clearFilters}>
           <i className="fa-solid fa-xmark" /> {t('desktop.clear_filters')}
         </button>

@@ -1,3 +1,4 @@
+import { Select } from '@/components/inputs/SearchableSelect'
 import { FormEvent, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -62,7 +63,7 @@ export function StaffAbsenceModal({ open, token, companyId, staff, onClose, onSa
           <>
             <label>
               {t('desktop.staff')}
-              <select value={staffId} onChange={(e) => setStaffId(e.target.value)} required>
+              <Select value={staffId} onChange={(e) => setStaffId(e.target.value)} required>
                 <option value="">{t('desktop.select')}</option>
                 {eligible.map((row) => (
                   <option key={row.id} value={row.id}>
@@ -70,7 +71,7 @@ export function StaffAbsenceModal({ open, token, companyId, staff, onClose, onSa
                     {row.position ? ` — ${row.position}` : ''}
                   </option>
                 ))}
-              </select>
+              </Select>
             </label>
             <label>
               {t('desktop.absence_date')}

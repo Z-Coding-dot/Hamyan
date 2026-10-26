@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { createPortal } from 'react-dom'
+import { m, useDragControls, useReducedMotion } from 'framer-motion'
 
 import { useIsMobileSidebar } from '@/hooks/useMediaQuery'
 import { useLocaleStore, type SupportedLanguage } from '@/store/useLocaleStore'
@@ -19,6 +20,8 @@ export function LanguageModal({ open, onClose, onSelect, pending = false }: Lang
   const language = useLocaleStore((state) => state.language)
   const setLanguage = useLocaleStore((state) => state.setLanguage)
   const sheet = useIsMobileSidebar()
+  const dragControls = useDragControls()
+  const reduceMotion = useReducedMotion()
   const panelRef = useRef<HTMLDivElement>(null)
   const closeRef = useRef(onClose)
   const pendingRef = useRef(pending)
@@ -92,9 +95,12 @@ export function LanguageModal({ open, onClose, onSelect, pending = false }: Lang
           : undefined
       }
     >
-      <div
+      <m.div
         ref={panelRef}
         className="modal-panel hy-language-dialog"
+        initial={sheet && !reduceMotion ? { y: 40, opacity: .6 } : false} animate={{ y: 0, opacity: 1 }} transition={{ type: 'spring', stiffness: 380, damping: 36 }}
+        drag={sheet && !pending ? 'y' : false} dragControls={dragControls} dragListener={false} dragConstraints={{ top: 0, bottom: 0 }} dragElastic={{ top: 0, bottom: .4 }} dragSnapToOrigin
+        onDragEnd={(_, info) => { if (sheet && !pending && (info.offset.y > 90 || info.velocity.y > 650)) onClose() }}
         role="dialog"
         aria-modal="true"
         aria-labelledby="language-modal-title"
@@ -116,6 +122,7 @@ export function LanguageModal({ open, onClose, onSelect, pending = false }: Lang
             : undefined
         }
       >
+        {sheet && <div className="hy-sheet-handle" aria-hidden="true" onPointerDown={(event) => { if (!pending) dragControls.start(event) }}><span /></div>}
         <div className="modal-panel__head">
           <div>
             <h3 id="language-modal-title">{t('desktop.language_title')}</h3>
@@ -161,7 +168,7 @@ export function LanguageModal({ open, onClose, onSelect, pending = false }: Lang
             <span>{t('desktop.changing_language')}</span>
           </div>
         ) : null}
-      </div>
+      </m.div>
     </div>,
     document.body,
   )

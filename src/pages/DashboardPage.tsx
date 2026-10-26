@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next'
+import { useAuthStore } from '@/store/useAuthStore'
 
 import { CounterpartyBalanceTotals } from '@/components/CounterpartyBalanceTotals'
 import { DashboardPersonalAccounts } from '@/components/DashboardPersonalAccounts'
@@ -7,9 +8,11 @@ import { ULANISH_WHATSAPP_CHANNEL } from '@/lib/whatsapp'
 
 export function DashboardPage() {
   const { t } = useTranslation()
+  const user = useAuthStore((s) => s.user)
 
   return (
     <div className="user-dashboard hy-dashboard">
+      <div className="hy-mobile-welcome"><div><p>{t('desktop.hy_mobile_welcome')}</p><h2><bdi>{user?.name || t('desktop.hy_mobile_home')}</bdi></h2></div><span className="hy-mobile-welcome__icon" aria-hidden="true"><i className="fa-regular fa-sun" /></span></div>
       <header className="hy-dashboard__intro">
         <div>
           <span className="hy-dashboard__eyebrow"><span aria-hidden="true" />{t('desktop.hy_overview')}</span>

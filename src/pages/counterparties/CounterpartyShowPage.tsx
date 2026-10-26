@@ -1,3 +1,4 @@
+import { Select } from '@/components/inputs/SearchableSelect'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
@@ -188,11 +189,11 @@ export function CounterpartyShowPage() {
           <div className="cp-filters">
             <div className="form-field">
               <label>{t('desktop.type')}</label>
-              <select value={typeFilter} onChange={(e) => setTypeFilter(e.target.value)}>
+              <Select value={typeFilter} onChange={(e) => setTypeFilter(e.target.value)}>
                 <option value="">{t('desktop.all')}</option>
                 <option value="credit">{t('desktop.cp_incoming')}</option>
                 <option value="debit">{t('desktop.cp_outgoing')}</option>
-              </select>
+              </Select>
             </div>
             <div className="form-field">
               <label>{t('desktop.start_date')}</label>

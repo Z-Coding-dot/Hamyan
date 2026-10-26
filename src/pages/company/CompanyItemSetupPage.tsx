@@ -1,3 +1,4 @@
+import { Select } from '@/components/inputs/SearchableSelect'
 import { FormEvent, useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate, useOutletContext, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
@@ -273,7 +274,7 @@ export function CompanyItemSetupPage() {
         </label>
         <label>
           {t('desktop.unit_small')}
-          <select
+          <Select
             required
             disabled={!canManage}
             value={String(form.unit_id)}
@@ -285,11 +286,11 @@ export function CompanyItemSetupPage() {
                 {u.label}
               </option>
             ))}
-          </select>
+          </Select>
         </label>
         <label>
           {t('desktop.unit_medium')}
-          <select
+          <Select
             disabled={!canManage}
             value={String(form.medium_unit_id)}
             onChange={(e) =>
@@ -308,7 +309,7 @@ export function CompanyItemSetupPage() {
                   {u.label}
                 </option>
               ))}
-          </select>
+          </Select>
         </label>
         {form.medium_unit_id ? (
           <label>
@@ -327,7 +328,7 @@ export function CompanyItemSetupPage() {
         ) : null}
         <label>
           {t('desktop.unit_large')}
-          <select
+          <Select
             disabled={!canManage}
             value={String(form.large_unit_id)}
             onChange={(e) =>
@@ -346,7 +347,7 @@ export function CompanyItemSetupPage() {
                   {u.label}
                 </option>
               ))}
-          </select>
+          </Select>
         </label>
         {form.large_unit_id ? (
           <label>
@@ -368,14 +369,14 @@ export function CompanyItemSetupPage() {
         </p>
         <label>
           {t('desktop.item_type')}
-          <select
+          <Select
             disabled={!canManage}
             value={String(form.type)}
             onChange={(e) => setForm({ ...form, type: e.target.value })}
           >
             <option value="normal">{t('desktop.item_type_normal')}</option>
             <option value="digital">{t('desktop.item_type_digital')}</option>
-          </select>
+          </Select>
         </label>
         {form.type === 'digital' ? (
           <div className="item-digital-fields">
@@ -424,7 +425,7 @@ export function CompanyItemSetupPage() {
         </label>
         <label>
           دسته‌بندی
-          <select
+          <Select
             disabled={!canManage}
             value={String(form.category_id)}
             onChange={(e) => setForm({ ...form, category_id: e.target.value })}
@@ -435,7 +436,7 @@ export function CompanyItemSetupPage() {
                 {c.name}
               </option>
             ))}
-          </select>
+          </Select>
         </label>
         <label className="check-row">
           <input
@@ -468,7 +469,7 @@ export function CompanyItemSetupPage() {
             <legend>مواد اولیه (BOM)</legend>
             {bom.map((row, index) => (
               <div className="form-grid" key={index}>
-                <select
+                <Select
                   disabled={!canManage}
                   value={row.raw_material_item_id}
                   onChange={(e) =>
@@ -485,7 +486,7 @@ export function CompanyItemSetupPage() {
                       {m.name} ({m.code})
                     </option>
                   ))}
-                </select>
+                </Select>
                 <input
                   type="number"
                   min="0"

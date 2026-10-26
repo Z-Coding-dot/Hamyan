@@ -1,3 +1,4 @@
+import { Select } from '@/components/inputs/SearchableSelect'
 import { FormEvent, useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
@@ -303,7 +304,7 @@ function EasySaleEditLineModal({
         {showUnitPicker ? (
           <label>
             {t('desktop.measure_unit')}
-            <select
+            <Select
               value={unitScale}
               onChange={(e) => changeUnitScale(e.target.value as ItemUnitScale)}
               disabled={busy || processing}
@@ -314,7 +315,7 @@ function EasySaleEditLineModal({
                   {opt.factor > 1 ? ` (=${opt.factor})` : ''}
                 </option>
               ))}
-            </select>
+            </Select>
           </label>
         ) : null}
         <label>

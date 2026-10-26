@@ -1,14 +1,19 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { m, useReducedMotion } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 import { NavLink, useLocation } from 'react-router-dom'
 import { useShallow } from 'zustand/react/shallow'
 
 import { BrandLogo } from '@/components/BrandLogo'
+import { LanguageModal } from '@/components/LanguageModal'
+import { HeaderSearch } from '@/components/layout/HeaderSearch'
+import { PageRefresh } from '@/components/PageRefresh'
 import { useCachedAsset } from '@/hooks/useCachedAsset'
 import { useIsMobileSidebar } from '@/hooks/useMediaQuery'
 import { prefetchCachedAssets } from '@/lib/mediaCache'
 import { useAuthStore } from '@/store/useAuthStore'
 import { useSidebarStore } from '@/store/useSidebarStore'
+import { useLocaleStore } from '@/store/useLocaleStore'
 
 type SidebarTabProps = { to: string; icon: string; label: string; end?: boolean }
 
@@ -26,6 +31,9 @@ export function AppSidebar() {
   const { t, i18n } = useTranslation()
   const location = useLocation()
   const isMobile = useIsMobileSidebar()
+  const reduceMotion = useReducedMotion()
+  const [languageOpen, setLanguageOpen] = useState(false)
+  const language = useLocaleStore((s) => s.language)
   const isOpen = useSidebarStore((s) => s.isOpen)
   const toggle = useSidebarStore((s) => s.toggle)
   const close = useSidebarStore((s) => s.close)
@@ -54,12 +62,14 @@ export function AppSidebar() {
     const sidebar = sidebarRef.current
     sidebar?.querySelector<HTMLButtonElement>('button')?.focus()
     const onKeyDown = (event: KeyboardEvent) => {
+      if (event.target instanceof Node && !sidebar?.contains(event.target)) return
+      if (event.target instanceof Element && event.target.closest('.hy-search')) return
       if (event.key === 'Escape') {
         event.preventDefault()
         close()
       }
       if (event.key !== 'Tab' || !sidebar) return
-      const focusable = Array.from(sidebar.querySelectorAll<HTMLElement>('a[href], button:not(:disabled)'))
+      const focusable = Array.from(sidebar.querySelectorAll<HTMLElement>('a[href], button:not(:disabled), input:not(:disabled), select:not(:disabled), textarea:not(:disabled), [tabindex="0"]'))
       const first = focusable[0]
       const last = focusable[focusable.length - 1]
       if (event.shiftKey && document.activeElement === first) {
@@ -78,11 +88,12 @@ export function AppSidebar() {
   }, [isMobile, isOpen, close])
 
   return (
-    <aside ref={sidebarRef} id="app-sidebar" className="sidebar sidebar--desktop hy-sidebar"
+    <m.aside ref={sidebarRef} id="app-sidebar" className={`sidebar sidebar--desktop hy-sidebar${isMobile ? ' hy-profile-hub' : ''}`}
+      initial={false} animate={{ y: isMobile && !isOpen ? '105%' : 0 }} transition={reduceMotion ? { duration: 0 } : { type: 'spring', stiffness: 340, damping: 36 }}
       aria-label={t('desktop.hy_primary_navigation')} role={isMobile ? 'dialog' : undefined}
       aria-modal={isMobile && isOpen ? true : undefined} inert={isMobile && !isOpen}>
       <div className="hy-sidebar__head">
-        {!collapsed && (
+        {isMobile ? <h2>{t('desktop.hy_mobile_account_menu')}</h2> : !collapsed && (
           <div className="hy-sidebar__brand">
             <span aria-hidden="true"><BrandLogo size={36} /></span>
             <span><strong>{t('desktop.app_name')}</strong><small>{t('desktop.hy_personal_workspace')}</small></span>
@@ -93,7 +104,20 @@ export function AppSidebar() {
           <i className={`fa-solid ${toggleIcon}`} aria-hidden="true" />
         </button>
       </div>
-      <nav id="sidebar-navigation" className="hy-sidebar__nav" aria-label={t('desktop.hy_primary_navigation')}>
+      <nav id="sidebar-navigation" className="hy-sidebar__nav" aria-label={t('desktop.hy_primary_navigation')} onClick={(event) => { if (isMobile && (event.target as HTMLElement).closest('a[href]')) close() }}>
+        {isMobile && <>
+          <NavLink to="/profile" className="hy-profile-hub__identity">
+            <span className="hy-sidebar__avatar" aria-hidden="true">{profilePhotoUrl ? <img src={profilePhotoUrl} alt="" /> : Array.from(displayName.trim())[0]}</span>
+            <span><strong><bdi>{displayName}</bdi></strong><small>{t('desktop.sidebar_personal_account')}</small></span>
+            <i className={`fa-solid ${i18n.dir() === 'rtl' ? 'fa-chevron-left' : 'fa-chevron-right'}`} aria-hidden="true" />
+          </NavLink>
+          <div className="hy-sidebar__group hy-profile-hub__preferences">
+            <p className="hy-sidebar__caption">{t('desktop.hy_account_space')}</p>
+            <SidebarTab to="/notifications" icon="fa-bell" label={t('desktop.nav_notifications')} />
+            <button type="button" className="hy-side-link" onClick={() => setLanguageOpen(true)}><i className="fa-solid fa-language" aria-hidden="true" /><span>{t('desktop.language_title')}</span><small>{t(`desktop.language_${language}`)}</small></button>
+            <div className="hy-profile-hub__tool"><HeaderSearch /><PageRefresh inline showLabel /></div>
+          </div>
+        </>}
         <div className="hy-sidebar__group">
           <p className="hy-sidebar__caption"><span>{t('desktop.hy_overview')}</span></p>
           {!isMobile && <SidebarTab to="/dashboard" icon="fa-table-columns" label={t('desktop.nav_dashboard')} end />}
@@ -102,8 +126,8 @@ export function AppSidebar() {
         </div>
         <div className="hy-sidebar__group">
           <p className="hy-sidebar__caption"><span>{t('desktop.hy_finances')}</span></p>
-          {!isMobile && <SidebarTab to="/accounts" icon="fa-wallet" label={t('desktop.hy_accounts_title')} />}
-          <SidebarTab to="/incomes" icon="fa-arrow-down" label={t('desktop.hy_incomes_page')} />
+          <SidebarTab to="/accounts" icon="fa-wallet" label={t('desktop.hy_accounts_title')} />
+          {!isMobile && <SidebarTab to="/incomes" icon="fa-arrow-down" label={t('desktop.hy_incomes_page')} />}
           {!isMobile && <SidebarTab to="/expenses" icon="fa-receipt" label={t('desktop.expenses_page')} />}
           <SidebarTab to="/expense-analysis" icon="fa-chart-pie" label={t('desktop.expense_analysis')} />
         </div>
@@ -116,15 +140,11 @@ export function AppSidebar() {
         </div>
       </nav>
       <div className="hy-sidebar__footer">
-        {isMobile && <NavLink to="/profile" className={({ isActive }) => `hy-sidebar__account${isActive ? ' is-active' : ''}`} title={`${displayName} · ${t('desktop.sidebar_personal_account')}`}>
-          <span className="hy-sidebar__avatar" aria-hidden="true">{profilePhotoUrl ? <img src={profilePhotoUrl} alt="" /> : <span>{Array.from(displayName.trim())[0]}</span>}</span>
-          <span className="hy-side-label hy-sidebar__identity"><strong><bdi>{displayName}</bdi></strong><small>{t('desktop.sidebar_personal_account')}</small></span>
-          <i className={`fa-solid ${i18n.dir() === 'rtl' ? 'fa-chevron-left' : 'fa-chevron-right'} hy-sidebar__account-arrow`} aria-hidden="true" />
-        </NavLink>}
         <button type="button" className="hy-side-link hy-sidebar__logout" onClick={() => void logout()} disabled={isLoading} title={t('desktop.logout')}>
           <i className="fa-solid fa-arrow-right-from-bracket" aria-hidden="true" /><span className="hy-side-label">{t('desktop.logout')}</span>
         </button>
       </div>
-    </aside>
+      <LanguageModal open={languageOpen} onClose={() => setLanguageOpen(false)} />
+    </m.aside>
   )
 }

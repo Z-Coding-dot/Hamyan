@@ -1,3 +1,4 @@
+import { Select } from '@/components/inputs/SearchableSelect'
 import { FormEvent, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -91,7 +92,7 @@ export function TransferBetweenAccountsModal({ open, onClose, accounts, onSubmit
         <p className="muted">{t('desktop.transfer_same_currency_only')}</p>
         <label>
           {t('desktop.transfer_from_account')}
-          <select value={fromId} onChange={(e) => setFromId(e.target.value)} required>
+          <Select value={fromId} onChange={(e) => setFromId(e.target.value)} required>
             <option value="">{t('desktop.select')}</option>
             {active.map((acc) => (
               <option key={acc.id} value={acc.id}>
@@ -99,11 +100,11 @@ export function TransferBetweenAccountsModal({ open, onClose, accounts, onSubmit
                 {localizeCurrency(acc.currency, t)}
               </option>
             ))}
-          </select>
+          </Select>
         </label>
         <label>
           {t('desktop.transfer_to_account')}
-          <select value={toId} onChange={(e) => setToId(e.target.value)} required disabled={!fromId}>
+          <Select value={toId} onChange={(e) => setToId(e.target.value)} required disabled={!fromId}>
             <option value="">{t('desktop.select')}</option>
             {toOptions.map((acc) => (
               <option key={acc.id} value={acc.id}>
@@ -111,7 +112,7 @@ export function TransferBetweenAccountsModal({ open, onClose, accounts, onSubmit
                 {localizeCurrency(acc.currency, t)}
               </option>
             ))}
-          </select>
+          </Select>
         </label>
         {fromAccount ? (
           <p className="muted">

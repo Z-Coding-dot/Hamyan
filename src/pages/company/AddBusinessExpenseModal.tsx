@@ -1,3 +1,4 @@
+import { Select } from '@/components/inputs/SearchableSelect'
 import { FormEvent, useEffect, useState } from 'react'
 import { AxiosError } from 'axios'
 import { useTranslation } from 'react-i18next'
@@ -114,7 +115,7 @@ export function AddBusinessExpenseModal({ open, token, companyId, onClose, onSav
 
         <label>
           {t('desktop.select_account')}
-          <select
+          <Select
             value={form.company_account_id}
             onChange={(e) => setForm((p) => ({ ...p, company_account_id: e.target.value }))}
             required
@@ -125,7 +126,7 @@ export function AddBusinessExpenseModal({ open, token, companyId, onClose, onSav
                 {a.name} — {localizeCurrency(a.currency, t)}
               </option>
             ))}
-          </select>
+          </Select>
           {errors.company_account_id?.[0] ? (
             <span className="field-error">{errors.company_account_id[0]}</span>
           ) : null}
@@ -156,7 +157,7 @@ export function AddBusinessExpenseModal({ open, token, companyId, onClose, onSav
 
         <label>
           {t('desktop.account_name')}
-          <select
+          <Select
             value={form.field_id}
             onChange={(e) => setForm((p) => ({ ...p, field_id: e.target.value }))}
             required
@@ -167,13 +168,13 @@ export function AddBusinessExpenseModal({ open, token, companyId, onClose, onSav
                 {field.account_name} ({field.account_code})
               </option>
             ))}
-          </select>
+          </Select>
           {errors.field_id?.[0] ? <span className="field-error">{errors.field_id[0]}</span> : null}
         </label>
 
         <label>
           {t('desktop.spender')}
-          <select
+          <Select
             value={form.spender}
             onChange={(e) => setForm((p) => ({ ...p, spender: e.target.value }))}
             required
@@ -184,7 +185,7 @@ export function AddBusinessExpenseModal({ open, token, companyId, onClose, onSav
                 {staffFullName(member)}
               </option>
             ))}
-          </select>
+          </Select>
           {errors.spender?.[0] ? <span className="field-error">{errors.spender[0]}</span> : null}
         </label>
 

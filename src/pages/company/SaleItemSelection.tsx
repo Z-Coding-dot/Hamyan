@@ -1,3 +1,4 @@
+import { Select } from '@/components/inputs/SearchableSelect'
 import { FormEvent, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -394,7 +395,7 @@ export function SaleItemSelection({
         {hasExtraItemUnits(selectedItem) ? (
           <label>
             {t('desktop.measure_unit')}
-            <select
+            <Select
               disabled={busy}
               value={form.unit_scale}
               onChange={(e) => changeUnitScale(e.target.value as ItemUnitScale)}
@@ -405,7 +406,7 @@ export function SaleItemSelection({
                   {opt.factor > 1 ? ` (=${opt.factor})` : ''}
                 </option>
               ))}
-            </select>
+            </Select>
           </label>
         ) : null}
 

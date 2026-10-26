@@ -1,3 +1,4 @@
+import { Select } from '@/components/inputs/SearchableSelect'
 import { FormEvent, useCallback, useEffect, useMemo, useState } from 'react'
 import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
@@ -214,7 +215,7 @@ export function ResellerSellPage() {
 
           <div className="form-field" style={{ marginTop: 12 }}>
             <label htmlFor="reseller-sell-years">{t('desktop.reseller_sell_years')}</label>
-            <select
+            <Select
               id="reseller-sell-years"
               value={years}
               onChange={(e) => setYears(Number(e.target.value) || 1)}
@@ -224,7 +225,7 @@ export function ResellerSellPage() {
                   {t('desktop.reseller_sell_year_option', { count: y })}
                 </option>
               ))}
-            </select>
+            </Select>
           </div>
 
           <ul className="reseller-quote-list" style={{ marginTop: 12 }}>
